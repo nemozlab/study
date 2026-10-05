@@ -96,6 +96,8 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
 .bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:18px}
 .bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
 .grid{container-type:inline-size;display:flex;flex-wrap:nowrap;justify-content:center;gap:5px;margin:6px 0 18px}
+.grid.two{flex-wrap:wrap;row-gap:5px}
+.grid .brk{flex-basis:100%;height:0}
 .box{--w:min(66px,calc((100cqw - (var(--n) - 1) * 5px) / var(--n)));width:var(--w);flex:none;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line);border-radius:calc(var(--w)*.14);font-family:"Klee One","Hiragino Maru Gothic ProN","Yu Gothic",serif;font-size:calc(var(--w)*.62);font-weight:600;background:var(--bg)}
 .box{white-space:nowrap}
 .box.y{font-size:calc(var(--w)*.5);letter-spacing:-.14em;padding-right:.14em}
@@ -1128,11 +1130,16 @@ function next(){
   render();
 }
 
+function gridHtml(us,cls,label){
+  const n=us.length,two=n>=9,m=two?Math.ceil(n/2):n;
+  const cells=us.map((u,i)=>label(u,i)+(two&&i===m-1?'<span class="brk"></span>':'')).join('');
+  return `<div class="grid${two?' two':''} ${cls||''}" style="--n:${m}">${cells}</div>`;
+}
 function quizPrompt(w){
   return `<div class="qz"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>
-  <div class="grid" style="--n:${units(w.k).length}">${units(w.k).map(()=>'<div class="box">?</div>').join('')}</div>`;
+  ${gridHtml(units(w.k),'',()=>'<div class="box">?</div>')}`;
 }
-function boxes(w,cls){return `<div class="grid ${cls||''}" style="--n:${units(w.k).length}">${units(w.k).map(u=>`<div class="box${u.length>1?' y':''}">${u}</div>`).join('')}</div>`;}
+function boxes(w,cls){return gridHtml(units(w.k),cls,u=>`<div class="box${u.length>1?' y':''}">${u}</div>`);}
 
 /* ---- 한글 발음 표기 (외래어 표기법 일본어 기준: 어두/어중, 촉음 ㅅ, 발음 ㄴ, 장음 생략) ---- */
 const HG_BASE={'あ':'아','い':'이','う':'우','え':'에','お':'오','か':['가','카'],'き':['기','키'],'く':['구','쿠'],'け':['게','케'],'こ':['고','코'],'さ':'사','し':'시','す':'스','せ':'세','そ':'소','た':['다','타'],'ち':['지','치'],'つ':'쓰','て':['데','테'],'と':['도','토'],'な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호','ま':'마','み':'미','む':'무','め':'메','も':'모','や':'야','ゆ':'유','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','を':'오','が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고','ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조','だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도','ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보','ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포','ゔ':'부'};
