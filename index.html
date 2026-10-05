@@ -39,6 +39,7 @@ h1{font-size:17px;line-height:1.35;margin:0;font-weight:700}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .chip small{opacity:.7;margin-left:3px}
 .addrow{margin-bottom:10px}
+.opts .btn{margin-top:8px;font-weight:500;font-size:17px}
 .qz{text-align:center;margin-bottom:8px}
 .qz .mean{font-size:26px;margin:2px 0 12px}
 .qrow{display:flex;gap:8px;margin-top:10px}
@@ -104,13 +105,6 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
     <div class="score" id="score"></div>
   </header>
   <div class="emailrow"><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 입력 (기록 불러오기·저장)" aria-label="이메일"><button class="speak" data-act="email">적용</button></div>
-  <div class="addrow"><button class="speak" data-act="togglemine" id="mineBtn">＋ 내 단어 추가</button></div>
-  <div class="minepanel" id="mine" hidden>
-    <textarea id="mineText" rows="5" aria-label="내 단어 입력" placeholder="한 줄에 하나씩 입력해요&#10;いぬ, 개&#10;がっこう, 학교, 学校&#10;(히라가나, 한글 뜻, 한자는 선택)"></textarea>
-    <button class="btn primary" data-act="addmine">추가하기</button>
-    <p class="minemsg" id="mineMsg"></p>
-    <ul class="list" id="mineList"></ul>
-  </div>
   <div class="chips" id="chips" role="group" aria-label="글자 수 선택"></div>
   <main id="main"></main>
   <p class="tip" id="sync"></p>
@@ -852,7 +846,7 @@ const LESSON = `
 `;
 const LESSON_LABEL=new Map();
 LESSON.trim().split('\n').forEach(l=>{l=l.trim();if(!l)return;if(l.startsWith('#')){LESSON_LABEL._cur=l.slice(1).trim();return;}l.split(/\s+/).forEach(k=>{if(k)LESSON_LABEL.set(k,LESSON_LABEL._cur||'Lesson');});});
-const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],['6','6음+'],['nemoz','Nemoz'],['lesson','Lesson'],['quiz','Quiz'],['all','전체'],['wrong','오답'],['mine','내 단어']];
+const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],['6','6음+'],['nemoz','Nemoz'],['lesson','Lesson'],['quiz','Quiz'],['all','전체'],['wrong','오답']];
 
 /* ---- 저장 ---- */
 const EMAILKEY='hira-email';
@@ -878,12 +872,18 @@ const isMastered=w=>P.stats[w.k]&&P.stats[w.k].last===true;
 const inLevel=(w,l)=>l==='quiz'?(!w.kana&&!!w.m&&(LESSON_LABEL.has(w.k)||(P.stats[w.k]&&P.stats[w.k].ok>=1))):l==='lesson'?LESSON_LABEL.has(w.k):l==='all'?true:l==='wrong'?isWrong(w):l==='mine'?!!w.custom:l==='nemoz'?w.c==='네모즈':w.c==='네모즈'?false:l==='6'?w.n>=6:w.n===+l;
 const inCat=w=>P.cat==='전체'||w.c===P.cat;
 
-let level=P.level,queue=[],idx=0,results=[],phase='ask',msg='',heard='',verdict=null,resumed=false,heardNoConv=false;
+let level=P.level,queue=[],idx=0,results=[],phase='ask',msg='',heard='',verdict=null,resumed=false,heardNoConv=false,qmodes=[],qopts=[];
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 let rec=null,timer=null;
 
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function persistSession(){P.ts=Date.now();P.level=level;P.session={level,cat:P.cat,q:queue.map(w=>w.k),idx,res:results.map(v=>v===undefined?null:v)};savePrg();}
+function genQuiz(){
+  if(level!=='quiz'){qmodes=[];qopts=[];return;}
+  const mpool=[...new Set(W.filter(x=>!x.kana&&x.m).map(x=>x.m))];
+  qmodes=queue.map(()=>Math.random()<0.5?'k2j':'j2k');
+  qopts=queue.map((w,i)=>qmodes[i]==='j2k'?shuffle([w.m,...shuffle(mpool.filter(m=>m!==w.m)).slice(0,3)]):null);
+}
+function persistSession(){P.ts=Date.now();P.level=level;P.session={level,cat:P.cat,q:queue.map(w=>w.k),idx,res:results.map(v=>v===undefined?null:v),modes:qmodes,opts:qopts};savePrg();}
 function start(l){
   level=l;stopRec();resumed=false;
   const pool=W.filter(w=>inLevel(w,l)&&inCat(w));
@@ -892,6 +892,7 @@ function start(l){
   const rest=shuffle(pool.filter(w=>P.stats[w.k]&&!isWrong(w)));
   queue=shuffle([...unseen,...wr,...rest].slice(0,10));
   idx=0;results=[];phase=queue.length?'ask':'empty';msg='';heard='';verdict=null;
+  genQuiz();
   persistSession();render();
 }
 function restore(){
@@ -901,6 +902,7 @@ function restore(){
   const q=s.q.map(k=>map.get(k)).filter(Boolean);
   if(q.length!==s.q.length)return false;
   level=s.level;P.cat='전체';queue=q;idx=s.idx;
+  if(level==='quiz'&&Array.isArray(s.modes)&&s.modes.length===q.length&&Array.isArray(s.opts)&&s.opts.length===q.length){qmodes=s.modes;qopts=s.opts;}else genQuiz();
   results=(s.res||[]).map(v=>v===null?undefined:v);
   phase='ask';resumed=idx>0;return true;
 }
@@ -961,6 +963,10 @@ function listen(){
   }catch(e){phase='nomic';msg='마이크를 시작할 수 없어요. 직접 판정을 사용하세요.';render();}
 }
 
+function chooseOpt(i){
+  const w=queue[idx];const pick=(qopts[idx]||[])[i];if(pick===undefined)return;
+  const ok=pick===w.m;heard=pick;heardNoConv=false;verdict=ok;record(w,ok);phase='result';render();speakW(w);
+}
 function record(w,ok){
   if(results[idx]===undefined){
     results[idx]=ok;
@@ -1032,10 +1038,15 @@ function render(){
   }
   const w=queue[idx];
   const okCnt=results.filter(r=>r===true).length;
-  const head=`<div class="meta"><span>${idx+1} / ${queue.length} · 정답 ${okCnt}</span><span>${w.n}음${level==='lesson'&&LESSON_LABEL.get(w.k)?' · '+LESSON_LABEL.get(w.k):''}</span></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
+  const head=`<div class="meta"><span>${idx+1} / ${queue.length} · 정답 ${okCnt}</span><span>${w.n}음${level==='lesson'&&LESSON_LABEL.get(w.k)?' · '+LESSON_LABEL.get(w.k):''}${level==='quiz'?(qmodes[idx]==='j2k'?' · 뜻 고르기':' · 말하기'):''}</span></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
   let body='';
   const Q=level==='quiz';
-  if(Q&&(phase==='ask'||phase==='nomic')){
+  const J=Q&&qmodes[idx]==='j2k';
+  if(J&&phase==='ask'){
+    body=`${boxes(w)}<div class="status" id="status">뜻을 골라주세요</div>
+      <div class="opts">${(qopts[idx]||[]).map((o,i)=>`<button class="btn ghost" data-act="opt" data-i="${i}">${o}</button>`).join('')}</div>
+      <div style="text-align:center;margin-top:12px"><button class="speak" data-act="speak">🔊 발음 듣기</button></div>`;
+  }else if(Q&&(phase==='ask'||phase==='nomic')){
     body=`${quizPrompt(w)}<div class="status" id="status">${msg||'뜻을 보고 일본어로 말해보세요'}</div>
       ${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 말하기</button>`:''}
       <button class="btn ghost" data-act="reveal">정답 보기</button>`;
@@ -1054,7 +1065,7 @@ function render(){
       <p class="verdict ${verdict?'ok':'ng'}">${verdict?'정답 ⭕':'오답 ✖'}</p>
       <div class="heard">${heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 히라가나로 바꿀 수 없는 결과로 인식됐어요`:'')}</div>
       ${answer(w)}
-      <div class="row">${SR?`<button class="btn ghost" data-act="listen">${Q?'다시 말하기':'다시 읽기'}</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
+      <div class="row">${SR&&!J?`<button class="btn ghost" data-act="listen">${Q?'다시 말하기':'다시 읽기'}</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
   }
   m.innerHTML=`<div class="card">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${body}</div>`;
 }
@@ -1076,6 +1087,7 @@ document.addEventListener('click',e=>{
   else if(act==='speak')speakW(w);
   else if(act==='again')start(level);
   else if(act==='email')applyEmail();
+  else if(act==='opt')chooseOpt(+a.dataset.i);
   else if(act==='togglemine'){const el=document.getElementById('mine');el.hidden=!el.hidden;a.textContent=el.hidden?'＋ 내 단어 추가':'− 내 단어 닫기';}
   else if(act==='addmine')addCustom();
   else if(act==='delmine')delCustom(a.dataset.k);
