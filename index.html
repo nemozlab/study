@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kaito's Japanese Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F6;--card:#FFFFFF;--ink:#17203A;--sub:#5B6580;--line:#C9D0E0;
+  --accent:#2B4BD6;--accent-ink:#FFFFFF;--ok:#14895B;--okbg:#E2F5EC;--ng:#C8303F;--ngbg:#FCE7EA;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1424;--card:#171E36;--ink:#EEF1FA;--sub:#9AA4C2;--line:#34406A;
+    --accent:#7E95FF;--accent-ink:#0F1424;--ok:#4AD79A;--okbg:#12362B;--ng:#FF7A87;--ngbg:#3D1B22;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1424;--card:#171E36;--ink:#EEF1FA;--sub:#9AA4C2;--line:#34406A;
+  --accent:#7E95FF;--accent-ink:#0F1424;--ok:#4AD79A;--okbg:#12362B;--ng:#FF7A87;--ngbg:#3D1B22;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.5}
+.app{max-width:480px;width:100%;margin:0 auto;padding:16px 16px 40px;overflow-x:hidden}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.en{margin:2px 0 0;font-size:13px;font-weight:500;line-height:1.35}
+.sub{margin:2px 0 0;font:600 13px "Klee One","Yu Gothic",serif;color:var(--sub)}
+h1{font-size:17px;line-height:1.35;margin:0;font-weight:700}
+.score{font-size:13px;color:var(--sub);text-align:right;flex:none;max-width:38%}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:2px 0 12px}
+.chip{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;font:500 14px "Noto Sans KR",sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip small{opacity:.7;margin-left:3px}
+.emailrow{display:flex;gap:8px;margin-bottom:10px}
+.emailrow input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 12px;font:400 14px "Noto Sans KR",sans-serif}
+select{width:100%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;font:500 14px "Noto Sans KR",sans-serif}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px 16px 18px;margin-top:4px}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);margin-bottom:14px}
+.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.grid{container-type:inline-size;display:flex;flex-wrap:nowrap;justify-content:center;gap:5px;margin:6px 0 18px}
+.box{--w:min(66px,calc((100cqw - (var(--n) - 1) * 5px) / var(--n)));width:var(--w);flex:none;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line);border-radius:calc(var(--w)*.14);font-family:"Klee One","Hiragino Maru Gothic ProN","Yu Gothic",serif;font-size:calc(var(--w)*.62);font-weight:600;background:var(--bg)}
+.box{white-space:nowrap}
+.box.y{font-size:calc(var(--w)*.5);letter-spacing:-.14em;padding-right:.14em}
+.grid.ok .box{border-color:var(--ok);background:var(--okbg)}
+.grid.ng .box{border-color:var(--ng);background:var(--ngbg)}
+.status{min-height:24px;text-align:center;font-size:14px;color:var(--sub);margin-bottom:12px}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font:700 16px "Noto Sans KR",sans-serif;cursor:pointer;margin-top:10px}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);font-weight:500}
+.btn.okb{background:var(--okbg);color:var(--ok);border:1.5px solid var(--ok)}
+.btn.ngb{background:var(--ngbg);color:var(--ng);border:1.5px solid var(--ng)}
+.row{display:flex;gap:10px}
+.row .btn{margin-top:10px}
+.btn:focus-visible,.chip:focus-visible,select:focus-visible,.speak:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.live{animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 50%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+@media (prefers-reduced-motion:reduce){.btn.live{animation:none}.bar i{transition:none}}
+.verdict{text-align:center;font-weight:700;font-size:20px;margin:0 0 4px}
+.verdict.ok{color:var(--ok)}.verdict.ng{color:var(--ng)}
+.heard{text-align:center;font-size:14px;color:var(--sub);margin-bottom:14px;min-height:21px}
+.heard b{font-family:"Klee One","Yu Gothic",serif;font-size:18px;color:var(--ink);font-weight:600}
+.answer{border-top:1.5px dashed var(--line);margin-top:6px;padding-top:12px;text-align:center}
+.pic{font-size:72px;line-height:1.15}
+.mean{font-size:20px;font-weight:700;margin:2px 0 10px}
+.forms{display:flex;flex-direction:column;gap:8px;width:fit-content;max-width:100%;margin:0 auto 12px;text-align:left}
+.forms div{display:flex;flex-direction:row;align-items:baseline;gap:14px}
+.forms dt{flex:none;width:62px;font-size:13px;color:var(--sub)}
+.forms dd{letter-spacing:-.06em;margin:0;line-height:1.3;font-family:"Klee One","Yu Gothic",serif;font-size:clamp(20px,6.2vw,24px);font-weight:600;min-width:0}
+.speak{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;font:500 14px "Noto Sans KR",sans-serif;cursor:pointer}
+.list{margin:14px 0 0;padding:0;list-style:none;text-align:left}
+.list li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.list .e{font-size:26px;margin-right:8px}
+.list .k{font-family:"Klee One",serif;font-size:20px;font-weight:600}
+.list .m{font-size:13px;color:var(--sub)}
+.big{font-size:44px;font-weight:700;text-align:center;margin:6px 0}
+.tip{font-size:12px;color:var(--sub);text-align:center;margin-top:16px}
+.jp-ex{font-family:"Klee One","Yu Gothic",serif;font-size:18px;font-weight:600;color:var(--ink)}
+.resume{font-size:12px;color:var(--sub);text-align:center;margin:0 0 8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div><h1>海人先生の日本語レッスン #ひらがな読み</h1><p class="en">Teacher Kaito's Japanese Lesson #Hiragana Reading</p><p class="sub">Produced by 松下 海人</p></div>
+    <div class="score" id="score"></div>
+  </header>
+  <div class="emailrow"><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 입력 (기록 불러오기·저장)" aria-label="이메일"><button class="speak" data-act="email">적용</button></div>
+  <div class="chips" id="chips" role="group" aria-label="글자 수 선택"></div>
+  <main id="main"></main>
+  <p class="tip" id="sync"></p>
+  <p class="tip">음성 인식은 Chrome · iPhone Safari에서 동작하며, 정답 소리는 기기 음성(TTS)입니다. 카타카나는 히라가나를 기계적으로 바꾼 표기예요.</p>
+</div>
+
+<script>
+const RAW = `# 동물
+いぬ|犬|개|🐶
+ねこ|猫|고양이|🐱
+とり|鳥|새|🐦
+さかな|魚|물고기|🐟
+うさぎ|兎|토끼|🐰
+くま|熊|곰|🐻
+さる|猿|원숭이|🐒
+ぶた|豚|돼지|🐷
+うし|牛|소|🐮
+うま|馬|말|🐴
+ひつじ|羊|양|🐑
+やぎ|山羊|염소|🐐
+にわとり|鶏|닭|🐔
+ひよこ|雛|병아리|🐤
+かえる|蛙|개구리|🐸
+へび|蛇|뱀|🐍
+かめ|亀|거북이|🐢
+ぞう|象|코끼리|🐘
+きりん|麒麟|기린|🦒
+らいおん||사자|🦁
+とら|虎|호랑이|🐯
+ねずみ|鼠|쥐|🐭
+りす|栗鼠|다람쥐|🐿️
+こうもり|蝙蝠|박쥐|🦇
+くじら|鯨|고래|🐳
+いるか|海豚|돌고래|🐬
+たこ|蛸|문어|🐙
+いか|烏賊|오징어|🦑
+かに|蟹|게|🦀
+えび|海老|새우|🦐
+さめ|鮫|상어|🦈
+むし|虫|벌레|🐛
+ちょうちょう|蝶々/蝶/ちょうちょ|나비|🦋
+はち|蜂|벌|🐝
+あり|蟻|개미|🐜
+かぶとむし|兜虫|장수풍뎅이|🪲
+てんとうむし|天道虫|무당벌레|🐞
+かたつむり|蝸牛|달팽이|🐌
+ふくろう|梟|부엉이|🦉
+はと|鳩|비둘기|🕊️
+あひる|家鴨|오리|🦆
+ぺんぎん||펭귄|🐧
+わに|鰐|악어|🐊
+かば|河馬|하마|🦛
+さい|犀|코뿔소|🦏
+らくだ|駱駝|낙타|🐪
+きつね|狐|여우|🦊
+たぬき|狸|너구리|🦝
+おおかみ|狼|늑대|🐺
+しか|鹿|사슴|🦌
+こあら||코알라|🐨
+ぱんだ||판다|🐼
+かんがるー||캥거루|🦘
+ごりら||고릴라|🦍
+はりねずみ|針鼠|고슴도치|🦔
+# 음식
+ごはん|ご飯|밥|🍚
+ぱん||빵|🍞
+おちゃ|お茶|차|🍵
+ぎゅうにゅう|牛乳|우유|🥛
+たまご|卵|달걀|🥚
+りんご|林檎|사과|🍎
+みかん|蜜柑|귤|🍊
+ばなな||바나나|🍌
+ぶどう|葡萄|포도|🍇
+いちご|苺|딸기|🍓
+すいか|西瓜|수박|🍉
+もも|桃|복숭아|🍑
+なし|梨|배(과일)|🍐
+なす|茄子|가지|🍆
+とまと||토마토|🍅
+にんじん|人参|당근|🥕
+じゃがいも|じゃが芋|감자|🥔
+たまねぎ|玉葱/玉ねぎ|양파|🧅
+きゅうり|胡瓜|오이|🥒
+とうもろこし|玉蜀黍|옥수수|🌽
+おにぎり|お握り|주먹밥|🍙
+すし|寿司|초밥|🍣
+らーめん||라면|🍜
+うどん|饂飩|우동|🍜
+そば|蕎麦|메밀국수|🍜
+かれー||카레|🍛
+ぴざ||피자|🍕
+はんばーがー||햄버거|🍔
+ぽてと||감자튀김|🍟
+けーき||케이크|🍰
+あいす||아이스크림|🍦
+くっきー||쿠키|🍪
+ちょこれーと||초콜릿|🍫
+おかし|お菓子|과자|🍘
+しお|塩|소금|🧂
+みそしる|味噌汁|된장국|🍲
+にく|肉|고기|🥩
+とりにく|鶏肉|닭고기|🍗
+やさい|野菜|채소|🥦
+くだもの|果物|과일|🍎
+たべもの|食べ物|음식|🍽️
+のみもの|飲み物|마실 것|🥤
+こーひー||커피|☕
+じゅーす||주스|🧃
+れもん||레몬|🍋
+めろん||멜론|🍈
+ぱいなっぷる||파인애플|🍍
+さくらんぼ|桜桃|체리|🍒
+くり|栗|밤|🌰
+おべんとう|お弁当|도시락|🍱
+はし|箸|젓가락|🥢
+おさら|お皿|접시|🍽️
+ふぉーく||포크|🍴
+すぷーん||숟가락|🥄
+おなべ|お鍋|냄비|🍲
+ちーず||치즈|🧀
+ぷりん||푸딩|🍮
+どーなつ||도넛|🍩
+おやつ|お八つ|간식|🍪
+# 몸
+みみ|耳|귀|👂
+くち|口|입|👄
+あし|足/脚|발 · 다리|🦶
+ゆび|指|손가락|☝️
+うで|腕|팔|💪
+あたま|頭|머리|👤
+かみ|髪|머리카락|💇
+かお|顔|얼굴|😊
+からだ|体/身体|몸|🧍
+ほね|骨|뼈|🦴
+つめ|爪|손톱|💅
+した|舌|혀|👅
+ひげ|髭|수염|🧔
+こころ|心|마음|❤️
+# 가족·사람
+おとうさん|お父さん|아버지|👨
+おかあさん|お母さん|어머니|👩
+おにいさん|お兄さん|형 · 오빠|👦
+おねえさん|お姉さん|누나 · 언니|👧
+おじいさん|お爺さん|할아버지|👴
+おばあさん|お婆さん|할머니|👵
+おとうと|弟|남동생|👦
+いもうと|妹|여동생|👧
+あかちゃん|赤ちゃん|아기|👶
+こども|子供/子ども|아이|🧒
+かぞく|家族|가족|👪
+ともだち|友達/友だち|친구|👫
+せんせい|先生|선생님|👩‍🏫
+おとこ|男|남자|🚹
+おんな|女|여자|🚺
+ひと|人|사람|🧍
+わたし|私|나|🙋
+みんな|皆|모두|👥
+おまわりさん|お巡りさん|경찰관|👮
+いしゃ|医者|의사|🩺
+おうさま|王様|왕|🤴
+ひめ|姫|공주|👸
+# 학교·물건
+がっこう|学校|학교|🏫
+えんぴつ|鉛筆|연필|✏️
+けしごむ|消しゴム|지우개|🧽
+ほん|本|책|📖
+のーと||공책|📓
+かばん|鞄|가방|🎒
+いす|椅子|의자|🪑
+とけい|時計|시계|⏰
+はさみ|鋏|가위|✂️
+じょうぎ|定規|자|📏
+くれよん||크레용|🖍️
+でんわ|電話|전화|☎️
+てれび||텔레비전|📺
+ぱそこん||컴퓨터|💻
+かさ|傘|우산|☂️
+くつ|靴|신발|👟
+ぼうし|帽子|모자|🧢
+ふく|服|옷|👕
+めがね|眼鏡|안경|👓
+さいふ|財布|지갑|👛
+かぎ|鍵|열쇠|🔑
+てがみ|手紙|편지|✉️
+しんぶん|新聞|신문|📰
+ざっし|雑誌|잡지|📖
+えほん|絵本|그림책|📚
+おもちゃ|玩具|장난감|🧸
+ぼーる||공|⚽
+ぎたー||기타|🎸
+ぴあの||피아노|🎹
+たいこ|太鼓|북|🥁
+かめら||카메라|📷
+ふうせん|風船|풍선|🎈
+ぷれぜんと||선물|🎁
+ろうそく|蝋燭|초|🕯️
+でんち|電池|건전지|🔋
+ほうき|箒|빗자루|🧹
+ふとん|布団|이불|🛏️
+べっど||침대|🛏️
+まど|窓|창문|🪟
+どあ||문|🚪
+いえ|家|집|🏠
+おふろ|お風呂|목욕|🛁
+といれ||화장실|🚽
+せっけん|石鹸|비누|🧼
+はぶらし|歯ブラシ|칫솔|🪥
+くすり|薬|약|💊
+ひらがな|平仮名|히라가나|🔤
+にほんご|日本語|일본어|🇯🇵
+れいぞうこ|冷蔵庫|냉장고|🧊
+せんたくき|洗濯機|세탁기|🧺
+だいどころ|台所|부엌|🍳
+じどうはんばいき|自動販売機|자판기|🥤
+# 자연
+そら|空|하늘|🌤️
+やま|山|산|⛰️
+かわ|川/河|강|🏞️
+うみ|海|바다|🌊
+みず|水|물|💧
+つき|月|달|🌙
+ほし|星|별|⭐
+たいよう|太陽|태양|☀️
+くも|雲/蜘蛛|구름 · 거미|☁️
+あめ|雨/飴|비 · 사탕|☔
+ゆき|雪|눈(雪)|❄️
+かぜ|風|바람|💨
+かみなり|雷|천둥|⚡
+にじ|虹|무지개|🌈
+はな|花/鼻|꽃 · 코|🌷
+さくら|桜|벚꽃|🌸
+くさ|草|풀|🌿
+はっぱ|葉っぱ|잎|🍃
+もり|森|숲|🌲
+たね|種|씨앗|🌱
+すな|砂|모래|🏖️
+ひまわり|向日葵|해바라기|🌻
+ちゅーりっぷ||튤립|🌷
+ばら|薔薇|장미|🌹
+たけ|竹|대나무|🎋
+あさ|朝|아침|🌅
+ひる|昼|낮|🌞
+よる|夜|밤|🌃
+はる|春|봄|🌸
+なつ|夏|여름|🏖️
+あき|秋|가을|🍂
+ふゆ|冬|겨울|⛄
+# 탈것·장소
+くるま|車|자동차|🚗
+でんしゃ|電車|전철|🚃
+ばす||버스|🚌
+ひこうき|飛行機|비행기|✈️
+ふね|船|배(선박)|🚢
+じてんしゃ|自転車|자전거|🚲
+たくしー||택시|🚕
+しんかんせん|新幹線|신칸센|🚄
+ろけっと||로켓|🚀
+へりこぷたー||헬리콥터|🚁
+えき|駅|역|🚉
+みち|道|길|🛣️
+こうえん|公園|공원|🌳
+ようちえん|幼稚園|유치원|🏫
+しょうがっこう|小学校|초등학교|🏫
+ちゅうがっこう|中学校|중학교|🏫
+びょういん|病院|병원|🏥
+ゆうびんきょく|郵便局|우체국|📮
+ぎんこう|銀行|은행|🏦
+みせ|店|가게|🏪
+すーぱー||슈퍼마켓|🛒
+としょかん|図書館|도서관|📚
+はくぶつかん|博物館|박물관|🏛️
+どうぶつえん|動物園|동물원|🦁
+ゆうえんち|遊園地|놀이공원|🎡
+くうこう|空港|공항|🛫
+かいさつぐち|改札口|개찰구|🚉
+ちゅうしゃじょう|駐車場|주차장|🅿️
+とうきょう|東京|도쿄|🗼
+ふじさん|富士山|후지산|🗻
+にほん|日本|일본|🗾
+かんこく|韓国|한국|🇰🇷
+ほてる||호텔|🏨
+じんじゃ|神社|신사|⛩️
+おしろ|お城|성|🏯
+# 색·숫자
+あか|赤|빨강|🔴
+あお|青|파랑|🔵
+きいろ|黄色|노랑|🟡
+みどり|緑|초록|🟢
+しろ|白|하양|⚪
+くろ|黒|검정|⚫
+むらさき|紫|보라|🟣
+おれんじ||주황|🟠
+ぴんく||분홍|💗
+ちゃいろ|茶色|갈색|🟤
+いち|一/1|1 (일)|1️⃣
+さん|三/3|3 (삼)|3️⃣
+よん|四/4|4 (사)|4️⃣
+ろく|六/6|6 (육)|6️⃣
+なな|七/7|7 (칠)|7️⃣
+きゅう|九/9|9 (구)|9️⃣
+じゅう|十/10|10 (십)|🔟
+ひとつ|一つ/1つ|하나|1️⃣
+ふたつ|二つ/2つ|둘|2️⃣
+みっつ|三つ/3つ|셋|3️⃣
+よっつ|四つ/4つ|넷|4️⃣
+いつつ|五つ/5つ|다섯|5️⃣
+むっつ|六つ/6つ|여섯|6️⃣
+ななつ|七つ/7つ|일곱|7️⃣
+やっつ|八つ/8つ|여덟|8️⃣
+ここのつ|九つ/9つ|아홉|9️⃣
+とお|十|열|🔟
+# 인사·생활
+おはよう|お早う|좋은 아침|🌅
+こんにちは|今日は/こんにちわ|안녕하세요(낮)|👋
+こんばんは|今晩は/今夜は/こんばんわ|안녕하세요(저녁)|🌙
+ありがとう|有難う|고마워요|🙏
+ごめんなさい|御免なさい|미안해요|🙇
+すみません|済みません|실례합니다|🙇
+さようなら|左様なら/さよなら|안녕히 가세요|👋
+おやすみ|お休み|잘 자요|😴
+いただきます|頂きます|잘 먹겠습니다|🍽️
+ごちそうさま|ご馳走様/御馳走様|잘 먹었습니다|🙏
+いってきます|行ってきます|다녀오겠습니다|🚪
+ただいま|只今|다녀왔습니다|🏠
+おかえり|お帰り|어서 와|🏠
+はい||네|🙆
+いいえ||아니요|🙅
+おめでとう|お目出度う|축하해요|🎉
+おめでとうございます|お目出度うございます|축하드립니다|🎊
+たんじょうび|誕生日|생일|🎂
+うんどうかい|運動会|운동회|🏃
+えんそく|遠足|소풍|🎒
+おまつり|お祭り|축제|🏮
+はなび|花火|불꽃놀이|🎆
+なつやすみ|夏休み|여름방학|🏖️
+しゅくだい|宿題|숙제|📝
+べんきょう|勉強|공부|📚
+かいもの|買い物|쇼핑|🛍️
+さんぽ|散歩|산책|🚶
+りょこう|旅行|여행|🧳
+えいが|映画|영화|🎬
+おんがく|音楽|음악|🎵
+うた|歌|노래|🎵
+ゆめ|夢|꿈|💭
+# 형용사·동사
+おいしい|美味しい|맛있다|😋
+たのしい|楽しい|즐겁다|😆
+うれしい|嬉しい|기쁘다|😊
+かなしい|悲しい|슬프다|😢
+かわいい|可愛い|귀엽다|🥰
+おおきい|大きい|크다|🐘
+ちいさい|小さい|작다|🐜
+あつい|暑い/熱い|덥다 · 뜨겁다|🥵
+さむい|寒い|춥다|🥶
+つめたい|冷たい|차갑다|🧊
+あたらしい|新しい|새롭다|🆕
+はやい|早い/速い|빠르다|💨
+すき|好き|좋아하다|❤️
+たべる|食べる|먹다|🍴
+のむ|飲む|마시다|🥤
+みる|見る|보다|👀
+きく|聞く|듣다|👂
+はしる|走る|달리다|🏃
+あるく|歩く|걷다|🚶
+ねる|寝る|자다|😴
+およぐ|泳ぐ|수영하다|🏊
+あそぶ|遊ぶ|놀다|🎮
+うたう|歌う|노래하다|🎤
+かく|書く|쓰다|✍️
+よむ|読む|읽다|📖
+はなす|話す|말하다|🗣️
+すわる|座る|앉다|🪑`;
+
+const RAWK = `# 청음
+あ|아|あり|개미|🐜
+い|이|いぬ|개|🐶
+う|우|うし|소|🐮
+え|에|えび|새우|🦐
+お|오|おにぎり|주먹밥|🍙
+か|카|かめ|거북이|🐢
+き|키|きつね|여우|🦊
+く|쿠|くま|곰|🐻
+け|케|けーき|케이크|🍰
+こ|코|こあら|코알라|🐨
+さ|사|さかな|물고기|🐟
+し|시|しか|사슴|🦌
+す|스|すいか|수박|🍉
+せ|세|せっけん|비누|🧼
+そ|소|そら|하늘|🌤️
+た|타|たまご|달걀|🥚
+ち|치|ちーず|치즈|🧀
+つ|츠|つき|달|🌙
+て|테|てれび|텔레비전|📺
+と|토|とり|새|🐦
+な|나|なす|가지|🍆
+に|니|にんじん|당근|🥕
+ぬ|누|ぬいぐるみ|인형|🧸
+ね|네|ねこ|고양이|🐱
+の|노|のーと|공책|📓
+は|하|はな|꽃|🌷
+ひ|히|ひよこ|병아리|🐤
+ふ|후|ふね|배(선박)|🚢
+へ|헤|へび|뱀|🐍
+ほ|호|ほし|별|⭐
+ま|마|まど|창문|🪟
+み|미|みかん|귤|🍊
+む|무|むし|벌레|🐛
+め|메|めがね|안경|👓
+も|모|もも|복숭아|🍑
+や|야|やま|산|⛰️
+ゆ|유|ゆき|눈(雪)|❄️
+よ|요|よる|밤|🌃
+ら|라|らいおん|사자|🦁
+り|리|りんご|사과|🍎
+る|루|るびー|루비|💎
+れ|레|れもん|레몬|🍋
+ろ|로|ろけっと|로켓|🚀
+わ|와|わに|악어|🐊
+を|오|ほんを よむ|책을 읽다|📖
+ん|응|みかん|귤|🍊
+# 탁음·반탁음
+が|가|がっこう|학교|🏫
+ぎ|기|ぎゅうにゅう|우유|🥛
+ぐ|구|ぐろーぶ|글러브|🥊
+げ|게|げーむ|게임|🎮
+ご|고|ごりら|고릴라|🦍
+ざ|자|ざっし|잡지|📖
+じ|지|じてんしゃ|자전거|🚲
+ず|즈|ずぼん|바지|👖
+ぜ|제|ぜろ|영(0)|0️⃣
+ぞ|조|ぞう|코끼리|🐘
+だ|다|だんご|경단|🍡
+ぢ|지|はなぢ|코피|🩸
+づ|즈|みかづき|초승달|🌙
+で|데|でんしゃ|전철|🚃
+ど|도|どあ|문|🚪
+ば|바|ばなな|바나나|🍌
+び|비|びる|빌딩|🏢
+ぶ|부|ぶた|돼지|🐷
+べ|베|べっど|침대|🛏️
+ぼ|보|ぼうし|모자|🧢
+ぱ|파|ぱん|빵|🍞
+ぴ|피|ぴあの|피아노|🎹
+ぷ|푸|ぷりん|푸딩|🍮
+ぺ|페|ぺんぎん|펭귄|🐧
+ぽ|포|ぽてと|감자튀김|🍟
+# 요음
+きゃ|캬|きゃべつ|양배추|🥬
+きゅ|큐|きゅうり|오이|🥒
+きょ|쿄|きょうりゅう|공룡|🦖
+ぎゃ|갸|ぎゃく|반대|🔄
+ぎゅ|규|ぎゅうにゅう|우유|🥛
+ぎょ|교|ぎょうざ|만두|🥟
+しゃ|샤|しゃしん|사진|📷
+しゅ|슈|しゅくだい|숙제|📝
+しょ|쇼|しょうぼうしゃ|소방차|🚒
+じゃ|자|じゃがいも|감자|🥔
+じゅ|주|じゅーす|주스|🧃
+じょ|조|じょうぎ|자(尺)|📏
+ちゃ|챠|ちゃいろ|갈색|🟤
+ちゅ|츄|ちゅーりっぷ|튤립|🌷
+ちょ|쵸|ちょこれーと|초콜릿|🍫
+にゃ|냐|にゃんこ|야옹이|🐱
+にゅ|뉴|にゅーす|뉴스|📰
+にょ|뇨|にょろにょろ|꿈틀꿈틀|🐍
+ひゃ|햐|ひゃく|100|💯
+ひゅ|휴|ひゅーひゅー|휘휘(바람 소리)|💨
+ひょ|효|ひょう|표범|🐆
+びゃ|뱌|さんびゃく|300|💯
+びゅ|뷰|びゅーてぃー|뷰티|💄
+びょ|뵤|びょういん|병원|🏥
+ぴゃ|퍄|ろっぴゃく|600|💯
+ぴゅ|퓨|ぴゅあ|순수(퓨어)|✨
+ぴょ|표|ぴょんぴょん|깡충깡충|🐇
+みゃ|먀|みゃく|맥박|💓
+みゅ|뮤|みゅーじっく|음악|🎵
+みょ|묘|みょうじ|성(姓)|📛
+りゃ|랴|りゃく|생략|✂️
+りゅ|류|りゅう|용|🐉
+りょ|료|りょこう|여행|🧳`;
+const KALT={'を':['お'],'ぢ':['じ'],'づ':['ず']};
+
+const SMALL='ゃゅょぁぃぅぇぉ';
+function units(s){const u=[];for(const ch of s){if(SMALL.includes(ch)&&u.length)u[u.length-1]+=ch;else u.push(ch);}return u;}
+const hasKanji=s=>/[\u4e00-\u9fff々]/.test(s);
+const norm=s=>s.normalize('NFKC').replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[\s、。，．,.!?！？・ー〜～…「」『』]/g,'');
+const toKata=s=>s.replace(/[ぁ-ゖ]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));
+
+const CATS=[],W=[],SEEN=new Set(),KANAMAP=new Map();
+let curCat='';
+RAWK.trim().split('\n').forEach(l=>{
+  if(l.startsWith('#')){curCat=l.slice(1).trim();if(!CATS.includes(curCat))CATS.push(curCat);return;}
+  const [k,h,x,xm,e]=l.split('|');
+  if(SEEN.has(k))return;SEEN.add(k);
+  W.push({k,alts:KALT[k]||[],m:h,e,c:curCat,n:1,kana:true,x,xm});
+});
+RAW.trim().split('\n').forEach(l=>{
+  if(l.startsWith('#')){curCat=l.slice(1).trim();if(!CATS.includes(curCat))CATS.push(curCat);return;}
+  const [k0,a,m,e]=l.split('|');
+  const k=k0;
+  if(SEEN.has(k)||!k)return;SEEN.add(k);
+  W.push({k,alts:a?a.split('/'):[],m,e,c:curCat,n:units(k).length});
+});
+W.forEach(w=>{[w.k,...w.alts].forEach(s=>{const n=norm(s);if(!KANAMAP.has(n))KANAMAP.set(n,w.k);});});
+const KJ=[...KANAMAP.entries()].filter(([k])=>hasKanji(k)).sort((a,b)=>b[0].length-a[0].length);
+const DIG={0:'れい',1:'いち',2:'に',3:'さん',4:'よん',5:'ご',6:'ろく',7:'なな',8:'はち',9:'きゅう'};
+const RJ={a:'あ',i:'い',u:'う',e:'え',o:'お',ka:'か',ki:'き',ku:'く',ke:'け',ko:'こ',sa:'さ',shi:'し',si:'し',su:'す',se:'せ',so:'そ',ta:'た',chi:'ち',ti:'ち',tsu:'つ',tu:'つ',te:'て',to:'と',na:'な',ni:'に',nu:'ぬ',ne:'ね',no:'の',ha:'は',hi:'ひ',fu:'ふ',hu:'ふ',he:'へ',ho:'ほ',ma:'ま',mi:'み',mu:'む',me:'め',mo:'も',ya:'や',yu:'ゆ',yo:'よ',ra:'ら',ri:'り',ru:'る',re:'れ',ro:'ろ',wa:'わ',wo:'を',ga:'が',gi:'ぎ',gu:'ぐ',ge:'げ',go:'ご',za:'ざ',ji:'じ',zi:'じ',zu:'ず',ze:'ぜ',zo:'ぞ',da:'だ',di:'ぢ',du:'づ',de:'で',do:'ど',ba:'ば',bi:'び',bu:'ぶ',be:'べ',bo:'ぼ',pa:'ぱ',pi:'ぴ',pu:'ぷ',pe:'ぺ',po:'ぽ',kya:'きゃ',kyu:'きゅ',kyo:'きょ',sha:'しゃ',shu:'しゅ',sho:'しょ',cha:'ちゃ',chu:'ちゅ',cho:'ちょ',nya:'にゃ',nyu:'にゅ',nyo:'にょ',hya:'ひゃ',hyu:'ひゅ',hyo:'ひょ',mya:'みゃ',myu:'みゅ',myo:'みょ',rya:'りゃ',ryu:'りゅ',ryo:'りょ',gya:'ぎゃ',gyu:'ぎゅ',gyo:'ぎょ',ja:'じゃ',ju:'じゅ',jo:'じょ',bya:'びゃ',byu:'びゅ',byo:'びょ',pya:'ぴゃ',pyu:'ぴゅ',pyo:'ぴょ'};
+function romajiToKana(t){
+  let s=t.toLowerCase().replace(/c(?!h)/g,'k').replace(/l/g,'r').replace(/v/g,'b').replace(/q/g,'k').replace(/x/g,'ks');
+  let out='';
+  for(let i=0;i<s.length;){
+    let hit=null;
+    for(const n of [3,2,1]){const k=s.substr(i,n);if(k.length===n&&RJ[k]){hit=[RJ[k],n];break;}}
+    if(hit){out+=hit[0];i+=hit[1];continue;}
+    const c=s[i];
+    if(c==='n'){out+='ん';i+=(s[i+1]==='n'&&!/[aiueoy]/.test(s[i+2]||''))?2:1;continue;}
+    if(s[i+1]===c&&'kstcpgbdfhjmrwyz'.includes(c)){out+='っ';i++;continue;}
+    i++;
+  }
+  return out;
+}
+function toKanaText(t){
+  let r=norm(t||'');
+  for(const [k,v] of KJ){if(r.includes(k))r=r.split(k).join(v);}
+  r=r.replace(/(^|[^0-9])10(?![0-9])/g,'$1じゅう').replace(/[0-9]/g,d=>DIG[d]);
+  r=r.replace(/[a-zA-Z]+/g,m=>romajiToKana(m));
+  return r;
+}
+const accepted=w=>new Set([w.k,...w.alts].map(norm));
+
+const $=s=>document.querySelector(s);
+const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],['6','6음+'],['all','전체'],['wrong','오답']];
+
+/* ---- 저장 ---- */
+const EMAILKEY='hira-email';
+const emailKey=e=>{e=(e||'').trim().toLowerCase();return(/^[a-z0-9_.+\-~:]+@[a-z0-9.\-]+\.[a-z]{2,}$/.test(e)&&e.length<=150)?e:null;};
+let cloudEmail='';try{localStorage.removeItem(EMAILKEY);}catch(e){}
+const BASEKEY='hira-progress-v2';
+const progKey=()=>BASEKEY+(cloudEmail?':'+cloudEmail:'');
+const freshP=()=>({stats:{},session:null,level:'2',cat:'전체'});
+function loadLocal(){
+  let P2=freshP();
+  if(!cloudEmail)return P2;
+  try{
+    let raw=localStorage.getItem(progKey());
+    if(raw)P2=Object.assign(P2,JSON.parse(raw));
+  }catch(e){}
+  return P2;
+}
+let P=loadLocal();
+const savePrgLocal=()=>{if(!cloudEmail)return;try{localStorage.setItem(progKey(),JSON.stringify(P));}catch(e){}};
+const savePrg=()=>{savePrgLocal();scheduleCloud();};
+const isWrong=w=>P.stats[w.k]&&P.stats[w.k].last===false;
+const isMastered=w=>P.stats[w.k]&&P.stats[w.k].last===true;
+const inLevel=(w,l)=>l==='all'?true:l==='wrong'?isWrong(w):l==='6'?w.n>=6:w.n===+l;
+const inCat=w=>P.cat==='전체'||w.c===P.cat;
+
+let level=P.level,queue=[],idx=0,results=[],phase='ask',msg='',heard='',verdict=null,resumed=false;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null,timer=null;
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function persistSession(){P.ts=Date.now();P.level=level;P.session={level,cat:P.cat,q:queue.map(w=>w.k),idx,res:results.map(v=>v===undefined?null:v)};savePrg();}
+function start(l){
+  level=l;stopRec();resumed=false;
+  const pool=W.filter(w=>inLevel(w,l)&&inCat(w));
+  const unseen=shuffle(pool.filter(w=>!P.stats[w.k]));
+  const wr=shuffle(pool.filter(isWrong));
+  const rest=shuffle(pool.filter(w=>P.stats[w.k]&&!isWrong(w)));
+  queue=shuffle([...unseen,...wr,...rest].slice(0,10));
+  idx=0;results=[];phase=queue.length?'ask':'empty';msg='';heard='';verdict=null;
+  persistSession();render();
+}
+function restore(){
+  const s=P.session;
+  if(!s||!s.q||s.idx>=s.q.length)return false;
+  const map=new Map(W.map(w=>[w.k,w]));
+  const q=s.q.map(k=>map.get(k)).filter(Boolean);
+  if(q.length!==s.q.length)return false;
+  level=s.level;P.cat='전체';queue=q;idx=s.idx;
+  results=(s.res||[]).map(v=>v===null?undefined:v);
+  phase='ask';resumed=idx>0;return true;
+}
+function stopRec(){endListen=null;clearTimeout(timer);if(rec){rec.onend=rec.onerror=rec.onresult=null;try{rec.abort();}catch(e){}rec=null;}}
+
+function speak(t){
+  if(!('speechSynthesis' in window))return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=.85;
+    const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith('ja'));
+    if(v)u.voice=v;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+const speakW=w=>speak(w.kana?`${w.k}。${w.x}`:w.k);
+let endListen=null;
+const silenceFor=w=>w.n<=2?1500:w.n===3?2000:w.n===4?2500:3000;
+function listen(){
+  if(!SR){phase='nomic';msg='이 브라우저는 음성 인식을 지원하지 않아요. 직접 판정으로 진행하세요.';render();return;}
+  stopRec();heard='';
+  rec=new SR();rec.lang='ja-JP';rec.interimResults=true;rec.maxAlternatives=5;rec.continuous=true;
+  const me=rec;let done=false,segs=[],silence=null;
+  const SILENCE_MS=silenceFor(queue[idx]),MAX_MS=25000;
+  const end=()=>{
+    if(done||rec!==me){clearTimeout(silence);return;}done=true;
+    clearTimeout(timer);clearTimeout(silence);endListen=null;
+    try{rec&&rec.stop();}catch(e){}
+    const text=segs.map(r=>r[0]).join('');
+    if(!norm(text)){phase='ask';msg='소리가 안 들렸어요. 다시 눌러 읽어보세요.';render();return;}
+    const prefix=segs.slice(0,-1).map(r=>r[0]).join('');
+    const alts=segs[segs.length-1].map(a=>prefix+a);
+    finish(alts);
+  };
+  endListen=end;
+  rec.onresult=e=>{
+    segs=[];
+    for(let i=0;i<e.results.length;i++){segs.push([...e.results[i]].map(a=>a.transcript));}
+    const sh=segs.map(r=>r[0]).join('');
+    const el=document.getElementById('status');if(el){const kt=toKanaText(sh);el.textContent='듣는 중… '+kt+(hasKanji(kt)?' (한자 변환 불가)':'');}
+    clearTimeout(silence);silence=setTimeout(end,SILENCE_MS);
+  };
+  rec.onerror=e=>{
+    if(done)return;
+    if(e.error==='no-speech'&&segs.length){end();return;}
+    done=true;clearTimeout(timer);clearTimeout(silence);endListen=null;
+    if(e.error==='not-allowed'||e.error==='service-not-allowed'){phase='nomic';msg='마이크 권한이 없어요. 아래 직접 판정을 사용하세요.';}
+    else if(e.error==='no-speech'){phase='ask';msg='소리가 안 들렸어요. 다시 눌러 읽어보세요.';}
+    else if(e.error==='aborted'){return;}
+    else{phase='ask';msg='인식 오류('+e.error+'). 다시 시도하세요.';}
+    render();
+  };
+  rec.onend=()=>{if(!done)end();};
+  try{
+    rec.start();phase='listening';msg='';render();
+    timer=setTimeout(end,MAX_MS);
+  }catch(e){phase='nomic';msg='마이크를 시작할 수 없어요. 직접 판정을 사용하세요.';render();}
+}
+
+function record(w,ok){
+  if(results[idx]===undefined){
+    results[idx]=ok;
+    const st=P.stats[w.k]||{ok:0,ng:0};
+    if(ok)st.ok++;else st.ng++;
+    st.last=ok;st.t=Date.now();P.stats[w.k]=st;
+    persistSession();
+  }
+}
+function showHeard(alts){const t=toKanaText(alts[0]||'');return hasKanji(t)?`${t} (일부 한자 변환 불가)`:t;}
+function finish(alts){
+  const w=queue[idx];const acc=accepted(w);
+  const ok=alts.flatMap(a=>[a,toKanaText(a)]).some(a=>{const n=norm(a);return n.length>0&&[...acc].some(x=>x.length>0&&n.split(x).join('')==='');});
+  heard=ok?w.k:showHeard(alts);verdict=ok;record(w,ok);phase='result';render();speak(w.k);
+}
+function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='result';render();}
+function next(){
+  stopRec();idx++;msg='';heard='';verdict=null;resumed=false;
+  if(idx>=queue.length){phase='done';P.session=null;P.ts=Date.now();savePrg();}
+  else{phase='ask';persistSession();}
+  render();
+}
+
+function boxes(w,cls){return `<div class="grid ${cls||''}" style="--n:${units(w.k).length}">${units(w.k).map(u=>`<div class="box${u.length>1?' y':''}">${u}</div>`).join('')}</div>`;}
+function answer(w){
+  if(w.kana){
+    return `<div class="answer"><div class="pic" aria-hidden="true">${w.e||''}</div><div class="mean">${w.m}</div>
+    <dl class="forms"><div><dt>히라가나</dt><dd>${w.k}</dd></div><div><dt>카타카나</dt><dd>${toKata(w.k)}</dd></div></dl>
+    <p class="status" style="margin:0 0 10px">예) <span class="jp-ex">${w.x}</span> (${w.xm})</p>
+    <button class="speak" data-act="speak">🔊 발음 듣기</button></div>`;
+  }
+  const kanji=w.alts.find(hasKanji);
+  return `<div class="answer"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div>
+    <dl class="forms"><div><dt>히라가나</dt><dd>${w.k}</dd></div><div><dt>카타카나</dt><dd>${toKata(w.k)}</dd></div>${kanji?`<div><dt>한자</dt><dd>${kanji}</dd></div>`:''}</dl>
+    <button class="speak" data-act="speak">🔊 발음 듣기</button></div>`;
+}
+
+function renderChips(){
+  $('#chips').innerHTML=LEVELS.map(([v,l])=>{
+    const n=W.filter(w=>inLevel(w,v)&&inCat(w)).length;
+    if(v==='wrong'&&!n)return '';
+    return `<button class="chip" data-level="${v}" aria-pressed="${level===v}">${l}<small>${n}</small></button>`;
+  }).join('');
+}
+function renderScore(){
+  const m=W.filter(isMastered).length;
+  $('#score').textContent=`익힌 항목 ${m} / ${W.length}`;
+}
+
+function render(){
+  renderChips();renderScore();
+  const m=$('#main');
+  if(phase==='empty'){m.innerHTML=`<div class="card"><p class="status">이 범위에 단어가 없어요. 다른 글자 수나 분류를 골라보세요.</p></div>`;return;}
+  if(phase==='done'){
+    const total=queue.length,ok=results.filter(Boolean).length;
+    const bad=queue.filter((w,i)=>!results[i]);
+    m.innerHTML=`<div class="card"><div class="meta"><span>라운드 완료</span></div>
+      <div class="big">${ok} / ${total}</div>
+      <p class="status">${bad.length?'틀린 단어를 다시 확인해보세요':'모두 정답!'}</p>
+      ${bad.length?`<ul class="list">${bad.map(w=>`<li><span style="display:flex;align-items:center"><span class="e">${w.e}</span><span><span class="k">${w.k}</span> <span class="k">${toKata(w.k)}</span><br><span class="m">${w.kana?'':(w.alts.find(hasKanji)||'')} ${w.m}</span></span></span><button class="speak" data-speak="${w.k}" aria-label="발음 듣기">🔊</button></li>`).join('')}</ul>`:''}
+      <button class="btn primary" data-act="again">새 라운드</button>
+      ${W.some(isWrong)?`<button class="btn ghost" data-level="wrong">오답 단어만 풀기</button>`:''}</div>`;
+    return;
+  }
+  const w=queue[idx];
+  const okCnt=results.filter(r=>r===true).length;
+  const head=`<div class="meta"><span>${idx+1} / ${queue.length} · 정답 ${okCnt}</span><span>${w.n}음</span></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
+  let body='';
+  if(phase==='ask'||phase==='nomic'){
+    body=`${boxes(w)}<div class="status" id="status">${msg||(w.kana?`같은 글자를 3번 이어서 읽어보세요 (${w.k} ${w.k} ${w.k})`:w.n===2?`2번 이어서 읽어보세요 (${w.k} ${w.k})`:'소리 내어 읽어보세요')}</div>
+      ${w.kana&&phase==='ask'?`<button class="btn primary" data-act="reveal">정답 보고 직접 판정</button><button class="btn ghost" data-act="listen">🎤 3번 이어서 읽기 (음성 인식)</button>`:`${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 읽기</button>`:''}
+      <button class="btn ${phase==='nomic'?'primary':'ghost'}" data-act="reveal">정답 보고 직접 판정</button>`}`;
+  }else if(phase==='listening'){
+    body=`${boxes(w)}<div class="status" id="status">천천히 읽어도 돼요. ${silenceFor(w)/1000}초간 조용하면 자동으로 판정해요</div>
+      <button class="btn primary live" data-act="stop">🎤 다 읽었으면 탭하세요</button>`;
+  }else if(phase==='reveal'){
+    body=`${boxes(w)}${answer(w)}<p class="status" style="margin-top:12px">맞게 읽었나요?</p>
+      <div class="row"><button class="btn okb" data-act="mok">맞았어요</button><button class="btn ngb" data-act="mng">틀렸어요</button></div>`;
+  }else if(phase==='result'){
+    body=`${boxes(w,verdict?'ok':'ng')}
+      <p class="verdict ${verdict?'ok':'ng'}">${verdict?'정답 ⭕':'오답 ✖'}</p>
+      <div class="heard">${heard?`내가 읽은 소리: <b>${heard}</b>`:''}</div>
+      ${answer(w)}
+      <div class="row">${SR?`<button class="btn ghost" data-act="listen">다시 읽기</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
+  }
+  m.innerHTML=`<div class="card">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${body}</div>`;
+}
+
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-level]');
+  if(c){start(c.dataset.level);return;}
+  const sp=e.target.closest('[data-speak]');
+  if(sp){speak(sp.dataset.speak);return;}
+  const a=e.target.closest('[data-act]');
+  if(!a)return;
+  const act=a.dataset.act,w=queue[idx];
+  if(act==='listen')listen();
+  else if(act==='stop'){if(endListen)endListen();}
+  else if(act==='reveal'){phase='reveal';render();speakW(w);}
+  else if(act==='mok')manual(true);
+  else if(act==='mng')manual(false);
+  else if(act==='next')next();
+  else if(act==='speak')speakW(w);
+  else if(act==='again')start(level);
+  else if(act==='email')applyEmail();
+});
+
+
+/* ---- 계정(로그인) 기준 저장: claude.ai 로그인 계정에 비공개로 저장 ---- */
+let cloudRef=null,cloudTimer=null,cloudBusy=false,cloudPending=false;
+function setSync(t){try{const el=document.getElementById('sync');if(el)el.textContent=t;}catch(e){}}
+function scheduleCloud(){if(!cloudRef)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(pushCloud,1500);}
+async function pushCloud(){
+  if(!cloudRef)return;
+  if(cloudBusy){cloudPending=true;return;}
+  cloudBusy=true;
+  try{
+    await cloudRef.set({stats:P.stats,session:P.session||null,level:P.level,ts:P.ts||Date.now()});
+    syncOn();
+  }catch(e){
+    cloudRef=null;
+    setSync('계정 저장에 실패해서 이 기기·브라우저에만 저장돼요'+(e&&e.code?' ('+e.code+')':''));
+  }
+  cloudBusy=false;
+  if(cloudPending&&cloudRef){cloudPending=false;scheduleCloud();}
+}
+function mergeCloud(c){
+  if(!c)return;
+  const cs=c.stats||{};
+  for(const k of Object.keys(cs)){const a=P.stats[k],b=cs[k];if(!a||((b&&b.t)||0)>(a.t||0))P.stats[k]=b;}
+  const fresh=phase==='ask'&&idx===0&&results.every(r=>r===undefined);
+  if(fresh&&c.session&&c.session.q&&c.session.idx<c.session.q.length&&(c.ts||0)>(P.ts||0)){
+    P.session=c.session;P.level=c.level||P.level;P.ts=c.ts;
+    restore();
+  }
+  savePrgLocal();
+  render();
+}
+let cloudDb=null,cloudUid=null;
+function pickRef(){
+  if(!cloudDb)return null;
+  return cloudEmail?cloudDb.doc('progress/'+cloudEmail):null;
+}
+const HINT='이메일을 입력하면 그 이메일 기준으로 기록이 저장돼요';
+function syncOn(){setSync(cloudEmail?`☁️ ${cloudEmail} 기준으로 자동 저장 중`:HINT);}
+async function applyEmail(){
+  const inp=document.getElementById('email');const raw=((inp&&inp.value)||'').trim();
+  let em='';
+  if(raw){em=emailKey(raw);if(!em){setSync('이메일 형식을 확인해주세요');return;}}
+  if(em===cloudEmail){if(inp)inp.value=em;return;}
+  stopRec();
+  savePrgLocal();
+  if(cloudRef){clearTimeout(cloudTimer);try{await pushCloud();}catch(e){}}
+  cloudEmail=em;
+  if(inp)inp.value=em;
+  P=loadLocal();
+  cloudRef=pickRef();
+  let existed=false;
+  if(cloudRef){
+    try{
+      const snap=await cloudRef.get();
+      if(snap.exists){
+        existed=true;const c=snap.data()||{},cs=c.stats||{};
+        for(const k of Object.keys(cs)){const x=P.stats[k],y=cs[k];if(!x||((y&&y.t)||0)>(x.t||0))P.stats[k]=y;}
+        if(c.session&&c.session.q&&c.session.idx<c.session.q.length&&(c.ts||0)>(P.ts||0)){P.session=c.session;P.level=c.level||P.level;P.ts=c.ts;}
+      }
+    }catch(e){cloudRef=null;setSync('이메일 기록을 불러오지 못했어요'+(e&&e.code?' ('+e.code+')':''));}
+  }
+  savePrgLocal();
+  level=P.level||'2';
+  if(!restore())start(level);else render();
+  if(cloudRef){setSync(existed?`☁️ ${em} 기록을 불러왔어요`:`☁️ ${em} 새 기록으로 시작해요`);scheduleCloud();}
+  else if(!cloudDb)setSync(em?`${em} 기준으로 이 기기·브라우저에 저장돼요`:HINT);
+  else if(!em)setSync(HINT);
+}
+async function initCloud(){
+  try{
+    const inp=document.getElementById('email');
+    if(inp)inp.value='';
+    if(!window.claude||!window.claude.use){setSync(cloudEmail?'이 기기·브라우저에만 저장돼요 (claude.ai 링크로 열면 이메일 기준으로 어디서든 이어져요)':HINT);return;}
+    const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
+    cloudDb=db;cloudUid=(db&&user)?await user.id():null;
+    cloudRef=pickRef();
+    if(!cloudRef){setSync(cloudEmail?'로그인 정보를 확인할 수 없어 이 기기·브라우저에만 저장돼요':HINT);return;}
+    const snap=await cloudRef.get();
+    if(snap.exists)mergeCloud(snap.data());
+    syncOn();scheduleCloud();
+  }catch(e){setSync('진행 기록은 이 기기·브라우저에만 저장돼요');}
+}
+document.addEventListener('keydown',e=>{if(e.target&&e.target.id==='email'&&e.key==='Enter')applyEmail();});
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='email')applyEmail();});
+document.addEventListener('input',e=>{
+  if(e.target&&e.target.id==='email'){
+    const v=emailKey(e.target.value);
+    if(v&&v!==cloudEmail)setSync('Enter 또는 \'적용\'을 누르면 이 이메일의 새 기록이 시작돼요');
+  }
+});
+if('speechSynthesis' in window){speechSynthesis.getVoices();}
+if(!restore())start(level);else render();
+initCloud();
+</script>
+</body>
+</html>
