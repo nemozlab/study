@@ -118,6 +118,34 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
 .row .btn.wide{flex:2.4;gap:8px;font-size:15px;font-weight:500;white-space:nowrap}
 .row .btn.wide .ic{width:20px;height:20px}
 .btn:disabled{opacity:.4;cursor:default}
+.jbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.jb-menu{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 10px 8px 12px;font:700 14px "Noto Sans KR",sans-serif;cursor:pointer;white-space:nowrap}
+.jb-menu .ic{width:18px;height:18px}
+.jb-menu .chev .ic{width:16px;height:16px;transition:transform .15s}
+.jb-menu[aria-expanded="true"]{background:var(--m1bg);color:var(--m1);border-color:var(--m1)}
+.jb-menu[aria-expanded="true"] .chev .ic{transform:rotate(180deg)}
+.jbar .jb-group{display:flex;align-items:center;gap:0;flex:none;margin:0;border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:2px}
+.jbar .jb-input{width:96px;padding:6px 8px 6px 6px}
+.jbar .jb-go{border-radius:8px;padding:7px 14px}
+.jbar .jb-group:focus-within{border-color:var(--accent)}
+.jb-menu:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.jumpbar{display:flex;align-items:center;gap:4px;margin:0 0 8px;padding:3px;border:1.5px solid var(--line);border-radius:999px;background:var(--card)}
+.jb-toc{flex:none;width:92px;border:0;background:transparent;color:var(--ink);font:700 14px "Noto Sans KR",sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;text-align:center}
+.jb-toc[aria-pressed="true"]{background:var(--m1bg);color:var(--m1)}
+.jumpbar .jb-toc{display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;width:132px;flex:none;padding:8px 12px 8px 16px}
+.jumpbar .jb-toc>span:not(.chev){flex:1;text-align:left}
+.jumpbar .jb-toc .ic{width:18px;height:18px}
+.jumpbar .jb-toc .chev .ic{width:16px;height:16px;transition:transform .15s}
+.jumpbar .jb-toc[aria-expanded="true"] .chev .ic{transform:rotate(180deg)}
+.jb-div{width:1px;height:20px;background:var(--line);flex:none}
+.jb-group{display:flex;align-items:center;gap:2px;flex:none;margin-left:auto}
+.jb-input{width:104px;min-width:0;border:0;background:transparent;color:var(--ink);font:500 14px "Noto Sans KR",sans-serif;padding:7px 6px 7px 4px;outline:none;text-align:right}
+.jb-input::-webkit-inner-spin-button,.jb-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.jb-input{-moz-appearance:textfield;appearance:textfield}
+.jb-input::placeholder{color:var(--sub)}
+.jb-go{border:0;background:var(--accent);color:var(--accent-ink);font:700 14px "Noto Sans KR",sans-serif;padding:7px 18px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.jb-toc:focus-visible,.jb-go:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.jumpbar:focus-within{border-color:var(--accent)}
 .seqbar{display:flex;align-items:center;gap:8px;margin:0 0 8px}
 .seqjump{margin-left:auto;display:flex;gap:6px;align-items:center}
 .seqjump input{width:104px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:5px 8px;font:500 13px "Noto Sans KR",sans-serif}
@@ -1170,7 +1198,9 @@ const ICONS={
   prev:'<path d="m15 5-7 7 7 7"/>',
   next:'<path d="m9 5 7 7-7 7"/>',
   refresh:'<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
-  check:'<path d="m5 12.5 4.5 4.5L19 7"/>'
+  check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
+  list:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  down:'<path d="m6 9 6 6 6-6"/>'
 };
 function ic(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICONS[n]+'</svg></span>';}
 function answer(w){
@@ -1262,7 +1292,7 @@ function render(){
   let seqbar='';
   if(w.seqNo){
     const total=w.seqTotal;
-    seqbar=`<div class="seqbar"><button class="tab" data-act="toc" aria-pressed="${tocOpen}">목차</button><span class="seqjump"><input id="jn" type="number" inputmode="numeric" min="1" max="${total}" placeholder="번호 (1~${total})" aria-label="이동할 번호"><button class="tab" data-act="jump">이동</button></span></div>`;
+    seqbar=`<div class="jumpbar"><button class="jb-toc" data-act="toc" aria-haspopup="true" aria-expanded="${tocOpen}" aria-pressed="${tocOpen}">${ic('list')}<span>목차</span><span class="chev">${ic('down')}</span></button><span class="jb-div" aria-hidden="true"></span><span class="jb-group"><input class="jb-input" id="jn" type="number" inputmode="numeric" min="1" max="${total}" placeholder="번호 (1~${total})" aria-label="이동할 번호"><button class="jb-go" data-act="jump">이동</button></span></div>`;
     if(tocOpen){
       const qs=P.qstats||{};
       seqbar+=`<ul class="toc">${seqItems(level).map(it=>{
