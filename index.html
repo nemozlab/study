@@ -38,6 +38,17 @@ h1{font-size:17px;line-height:1.35;margin:0;font-weight:700}
 .chip{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;font:500 14px "Noto Sans KR",sans-serif;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .chip small{opacity:.7;margin-left:3px}
+.addrow{margin-bottom:10px}
+.qz{text-align:center;margin-bottom:8px}
+.qz .mean{font-size:26px;margin:2px 0 12px}
+.qrow{display:flex;gap:8px;margin-top:10px}
+.qrow input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px;font:500 18px "Klee One","Noto Sans KR",sans-serif}
+.minepanel{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.minepanel[hidden]{display:none}
+.minepanel textarea{width:100%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font:400 15px/1.5 "Noto Sans KR",sans-serif;resize:vertical}
+.minemsg{font-size:13px;color:var(--sub);margin:8px 0 0;white-space:pre-line}
+.minepanel .list li .k{font-size:18px}
+.delbtn{border:0;background:transparent;color:var(--ng);font:700 16px sans-serif;cursor:pointer;padding:4px 8px}
 .emailrow{display:flex;gap:8px;margin-bottom:10px}
 .emailrow input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 12px;font:400 14px "Noto Sans KR",sans-serif}
 select{width:100%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;font:500 14px "Noto Sans KR",sans-serif}
@@ -93,6 +104,13 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
     <div class="score" id="score"></div>
   </header>
   <div class="emailrow"><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 입력 (기록 불러오기·저장)" aria-label="이메일"><button class="speak" data-act="email">적용</button></div>
+  <div class="addrow"><button class="speak" data-act="togglemine" id="mineBtn">＋ 내 단어 추가</button></div>
+  <div class="minepanel" id="mine" hidden>
+    <textarea id="mineText" rows="5" aria-label="내 단어 입력" placeholder="한 줄에 하나씩 입력해요&#10;いぬ, 개&#10;がっこう, 학교, 学校&#10;(히라가나, 한글 뜻, 한자는 선택)"></textarea>
+    <button class="btn primary" data-act="addmine">추가하기</button>
+    <p class="minemsg" id="mineMsg"></p>
+    <ul class="list" id="mineList"></ul>
+  </div>
   <div class="chips" id="chips" role="group" aria-label="글자 수 선택"></div>
   <main id="main"></main>
   <p class="tip" id="sync"></p>
@@ -100,6 +118,13 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
 </div>
 
 <script>
+/* ===== 단어 추가 방법 =====
+   아래 목록 맨 끝의 "# 네모즈" 밑에 한 줄에 하나씩 추가하세요.
+   형식:  ひらがな|한자|한글 뜻|이모지
+   - 한자가 없으면 비워 두세요 (예: ぱん||빵|🍞). 한자가 여러 개면 / 로 구분 (예: あめ|雨/飴|비 · 사탕|☔)
+   - 이모지를 생략하면 📝 로 표시돼요. 글자 수(1~6음+)는 자동으로 나뉩니다.
+   - 이미 있는 히라가나와 같은 단어는 먼저 나온 것만 사용돼요.
+   ======================== */
 const RAW = `# 동물
 いぬ|犬|개|🐶
 ねこ|猫|고양이|🐱
@@ -464,7 +489,190 @@ const RAW = `# 동물
 かく|書く|쓰다|✍️
 よむ|読む|읽다|📖
 はなす|話す|말하다|🗣️
-すわる|座る|앉다|🪑`;
+すわる|座る|앉다|🪑
+# 네모즈
+ねもず||네모즈 (회사·앱 이름)|💿
+ねもずらぼ||네모즈랩|🧪
+あるばむ||앨범|💿
+ぷらっとふぉーむ||플랫폼|📱
+ぷらっとふぉーむあるばむ||플랫폼 앨범|💿
+ふぁん||팬|🙌
+ふぁんだむ||팬덤|👥
+すーぱーふぁん|スーパーファン|슈퍼팬|🌟
+あーてぃすと||아티스트|🎤
+えんたーていんめんと||엔터테인먼트|🎬
+げいのうじむしょ|芸能事務所|연예기획사|🏢
+じむしょ|事務所|사무소·기획사|🏢
+おおて|大手|대형(큰 업체)|🏢
+しじょう|市場|시장(마켓)|📈
+せかい|世界|세계|🌏
+ぜんせかい|全世界|전 세계|🌍
+えいぞう|映像|영상|🎞️
+おんげん|音源|음원|🎧
+おんしつ|音質|음질|🔊
+がしつ|画質|화질|🖼️
+こうがしつ|高画質|고화질|📺
+がぞう|画像|이미지|🖼️
+かし|歌詞|가사|📝
+しゅうろく|収録|수록|🎙️
+むせいげん|無制限|무제한|♾️
+せいひん|製品|제품|📦
+せいさく|製作/制作|제작|🛠️
+みつもり|見積もり/見積り|견적|🧾
+けいやく|契約|계약|✍️
+けいやくしょ|契約書|계약서|📄
+のうき|納期|납기|📅
+のうひん|納品|납품|🚚
+はつばい|発売|발매|🛍️
+はんばい|販売|판매|🛒
+うりあげ|売上|매출|💰
+えいぎょうりえき|営業利益|영업이익|📊
+りえき|利益|이익|💰
+しゅうえき|収益|수익|💰
+くろじ|黒字|흑자|📈
+くろじてんかん|黒字転換|흑자 전환|📈
+せいちょう|成長|성장|🌱
+しきんちょうたつ|資金調達|자금 조달|💴
+じょうじょう|上場|상장|🔔
+とうし|投資|투자|💹
+じぎょう|事業|사업|🏭
+かいがい|海外|해외|✈️
+げんち|現地|현지|📍
+げんちか|現地化|현지화|📍
+てんかい|展開|전개·확장|🚀
+しんしゅつ|進出|진출|🚀
+かくだい|拡大|확대|🔍
+かくちょう|拡張|확장|🔍
+ていけい|提携|제휴|🤝
+じっせき|実績|실적|🏆
+せいか|成果|성과|🏅
+せつりつ|設立|설립|🏛️
+そうぎょう|創業|창업|🏁
+だいひょう|代表|대표|👔
+ししゃちょう|支社長|지사장|👔
+せんもんか|専門家|전문가|🎓
+けいけん|経験|경험|📚
+たいけん|体験|체험|🎮
+にんしょう|認証|인증|✅
+にんしょうりつ|認証率|인증률|✅
+あぷり|アプリ|앱|📲
+こうにゅう|購入|구매|🛒
+さいこうにゅう|再購入|재구매|🔁
+さんか|参加|참가|🙋
+さいんかい|サイン会|팬사인회|🖊️
+らいぶ|ライブ|라이브|🎤
+ぐっず|グッズ|굿즈|🧸
+ちけっと|チケット|티켓|🎫
+これくしょん|コレクション|컬렉션|🗂️
+りせーる|リセール|리셀|🔄
+こみゅにてぃ|コミュニティ|커뮤니티|👥
+すまほ|スマホ|스마트폰|📱
+たっち|タッチ|터치|👆
+かんしょう|鑑賞|감상|🎧
+さいせい|再生|재생|▶️
+たげんご|多言語|다국어|🌐
+じまく|字幕|자막|💬
+ほんやく|翻訳|번역|🌐
+かーど|カード|카드|💳
+ふぉとかーど|フォトカード|포토카드|📸
+きーほるだー|キーホルダー|키링|🔑
+みにじゅえる|ミニジュエル|미니 쥬얼|💿
+けーす|ケース|케이스|📦
+すりーぶ|スリーブ|슬리브|🗂️
+ほるだー|ホルダー|홀더|📎
+すてっかー|ステッカー|스티커|🏷️
+ぎんがみ|銀紙|은박지|📄
+せつめいしょ|説明書|설명서|📄
+そざい|素材|소재|🧵
+とうめい|透明|투명|💧
+かんきょう|環境|환경|🌿
+ばいおぷらすちっく||바이오 플라스틱|♻️
+ぶつりゅう|物流|물류|🚚
+さくげん|削減|감축|📉
+たんそ|炭素|탄소|🏭
+だつたんそ|脱炭素|탈탄소|🌱
+じゅうりょう|重量|중량|⚖️
+たいせき|体積|부피|📦
+かかく|価格|가격|🏷️
+わりびき|割引|할인|🏷️
+ひよう|費用|비용|💸
+ついかひよう|追加費用|추가 비용|💸
+むりょう|無料|무료|🆓
+いじかんりひ|維持管理費|유지관리비|🔧
+ちょさくけん|著作権|저작권|©️
+ちょさくけんしようりょう|著作権使用料|저작권 사용료|©️
+けんりほご|権利保護|권리 보호|🔒
+はっちゅう|発注|발주|📋
+すうりょう|数量|수량|🔢
+かながた|金型|금형|⚙️
+ひょうじゅん|標準|표준|📏
+せいきゅうしょ|請求書|청구서|🧾
+りょうしゅうしょう|領収証|영수증|🧾
+けっさい|決済|결제|💳
+そうりょう|送料|배송비|📦
+かんぜい|関税|관세|🛃
+しょうひぜい|消費税|소비세|🧾
+めんぜい|免税|면세|🛃
+べっと|別途|별도|➕
+そうだん|相談|상담|💬
+りょうさん|量産|양산|🏭
+しざい|資材|자재|🧱
+ひんしつ|品質|품질|✔️
+かこう|加工|가공|⚙️
+さんぷる|サンプル|샘플|🧪
+さいしゅうかくにん|最終確認|최종 확인|🔍
+かくにん|確認|확인|✔️
+はっそう|発送|발송|📮
+ぶんせき|分析|분석|📊
+しひょう|指標|지표|📊
+あんてい|安定|안정|⚖️
+きょうごう|競合|경쟁(경쟁사)|⚔️
+さべつか|差別化|차별화|⭐
+どくじ|独自|독자적·자체|✨
+ぎじゅつ|技術|기술|🔬
+さいてきか|最適化|최적화|🎯
+りんじょうかん|臨場感|현장감|🎭
+ねっきょう|熱狂|열광|🔥
+かんばい|完売|완판|🈵
+さいはん|再販|재판매(재발매)|🔁
+るいけい|累計|누계|🧮
+げっかん|月間|월간|📆
+りようしゃ|利用者|이용자|🙋
+みかいたく|未開拓|미개척|🗺️
+せんこう|先行|선행|🏃
+せんりゃくてき|戦略的|전략적|♟️
+せいふ|政府|정부|🏛️
+ほしょう|保証|보증|🛡️
+けっか|結果|결과|🏁
+きょうそう|競争|경쟁|🏃
+きょてん|拠点|거점|📍
+かくほ|確保|확보|✅
+たいせい|体制|체제|🧱
+こうちく|構築|구축|🏗️
+かいせつ|開設|개설|🏢
+しゅんかん|瞬間|순간|⏱️
+いみ|意味|의미|💡
+じつぶつ|実物|실물|📦
+かんどう|感動|감동|😭
+きろく|記録|기록|📝
+しゅうしゅう|収集|수집|🗃️
+じゃんる|ジャンル|장르|🎼
+にちじょうてき|日常的|일상적|📅
+けいたい|携帯|휴대|👜
+げんてい|限定|한정|🔒
+こうひんしつ|高品質|고품질|💎
+しゅよう|主要|주요|⭐
+せいこう|成功/精巧|성공 · 정교|🏆
+ちょくせつ|直接|직접|👉
+まん|万|만(10,000)|🔟
+おく|億|억(100,000,000)|💯
+えん|円|엔(엔화)|💴
+ありがとうございました|有難うございました|감사했습니다|🙇
+# Lesson
+あい|愛/藍|사랑|❤️
+うえ|上/植え|위|⬆️
+あう|会う/合う/遭う|만나다|🤝
+ありがとうございます|有難うございます|감사합니다|🙏`;
 
 const RAWK = `# 청음
 あ|아|あり|개미|🐜
@@ -576,7 +784,7 @@ const RAWK = `# 청음
 const KALT={'を':['お'],'ぢ':['じ'],'づ':['ず']};
 
 const SMALL='ゃゅょぁぃぅぇぉ';
-function units(s){const u=[];for(const ch of s){if(SMALL.includes(ch)&&u.length)u[u.length-1]+=ch;else u.push(ch);}return u;}
+function units(s){const u=[];for(const ch of s){if((SMALL.includes(ch)||ch==='っ')&&u.length)u[u.length-1]+=ch;else u.push(ch);}return u;}
 const hasKanji=s=>/[\u4e00-\u9fff々]/.test(s);
 const norm=s=>s.normalize('NFKC').replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[\s、。，．,.!?！？・ー〜～…「」『』]/g,'');
 const toKata=s=>s.replace(/[ぁ-ゖ]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));
@@ -591,13 +799,21 @@ RAWK.trim().split('\n').forEach(l=>{
 });
 RAW.trim().split('\n').forEach(l=>{
   if(l.startsWith('#')){curCat=l.slice(1).trim();if(!CATS.includes(curCat))CATS.push(curCat);return;}
-  const [k0,a,m,e]=l.split('|');
-  const k=k0;
+  const parts=l.split('|').map(x=>x.trim());
+  const k=parts[0];
   if(SEEN.has(k)||!k)return;SEEN.add(k);
-  W.push({k,alts:a?a.split('/'):[],m,e,c:curCat,n:units(k).length});
+  const rest=parts.slice(1);
+  const isEmoji=x=>/\u20e3|\p{Extended_Pictographic}|\p{Regional_Indicator}/u.test(x);
+  const kjf=rest.find(x=>x&&hasKanji(x)&&!/[가-힣]/.test(x))||'';
+  const m=rest.find(x=>x&&/[가-힣]/.test(x))||'';
+  const e=rest.find(x=>x&&isEmoji(x)&&!/[가-힣]/.test(x))||'📝';
+  W.push({k,alts:kjf?kjf.split('/').filter(Boolean):[],m,e,c:curCat,n:units(k).length});
 });
+const HOMO={'かみ':['紙','神','上'],'はな':['華'],'はし':['橋','端'],'なし':['無し'],'あし':['葦'],'かわ':['皮'],'もも':['腿'],'ふく':['福','吹く'],'しお':['潮'],'うた':['唄'],'えき':['液'],'うみ':['膿'],'かさ':['笠'],'くま':['隈'],'かめ':['瓶'],'つき':['付き'],'した':['下'],'ゆき':['行き'],'よる':['寄る'],'あき':['飽き'],'はる':['張る'],'みち':['未知'],'ひと':['一'],'いす':['意酢'],'きた':['来た'],'あさ':['麻'],'ひる':['蛭'],'くも':['雲'],'いぬ':['去ぬ'],'ほん':['本'],'いえ':['言え'],'くち':['朽ち'],'て':['手'],'きく':['菊','効く','利く'],'みる':['診る','観る'],'かく':['描く','掻く','角'],'はやい':['速い']};
+W.forEach(w=>{(HOMO[w.k]||[]).forEach(h=>{if(!w.alts.includes(h))w.alts.push(h);});});
 W.forEach(w=>{[w.k,...w.alts].forEach(s=>{const n=norm(s);if(!KANAMAP.has(n))KANAMAP.set(n,w.k);});});
-const KJ=[...KANAMAP.entries()].filter(([k])=>hasKanji(k)).sort((a,b)=>b[0].length-a[0].length);
+const KJ_BASE=[...KANAMAP.entries()].filter(([k])=>hasKanji(k));
+let KJ=KJ_BASE.slice().sort((a,b)=>b[0].length-a[0].length);
 const DIG={0:'れい',1:'いち',2:'に',3:'さん',4:'よん',5:'ご',6:'ろく',7:'なな',8:'はち',9:'きゅう'};
 const RJ={a:'あ',i:'い',u:'う',e:'え',o:'お',ka:'か',ki:'き',ku:'く',ke:'け',ko:'こ',sa:'さ',shi:'し',si:'し',su:'す',se:'せ',so:'そ',ta:'た',chi:'ち',ti:'ち',tsu:'つ',tu:'つ',te:'て',to:'と',na:'な',ni:'に',nu:'ぬ',ne:'ね',no:'の',ha:'は',hi:'ひ',fu:'ふ',hu:'ふ',he:'へ',ho:'ほ',ma:'ま',mi:'み',mu:'む',me:'め',mo:'も',ya:'や',yu:'ゆ',yo:'よ',ra:'ら',ri:'り',ru:'る',re:'れ',ro:'ろ',wa:'わ',wo:'を',ga:'が',gi:'ぎ',gu:'ぐ',ge:'げ',go:'ご',za:'ざ',ji:'じ',zi:'じ',zu:'ず',ze:'ぜ',zo:'ぞ',da:'だ',di:'ぢ',du:'づ',de:'で',do:'ど',ba:'ば',bi:'び',bu:'ぶ',be:'べ',bo:'ぼ',pa:'ぱ',pi:'ぴ',pu:'ぷ',pe:'ぺ',po:'ぽ',kya:'きゃ',kyu:'きゅ',kyo:'きょ',sha:'しゃ',shu:'しゅ',sho:'しょ',cha:'ちゃ',chu:'ちゅ',cho:'ちょ',nya:'にゃ',nyu:'にゅ',nyo:'にょ',hya:'ひゃ',hyu:'ひゅ',hyo:'ひょ',mya:'みゃ',myu:'みゅ',myo:'みょ',rya:'りゃ',ryu:'りゅ',ryo:'りょ',gya:'ぎゃ',gyu:'ぎゅ',gyo:'ぎょ',ja:'じゃ',ju:'じゅ',jo:'じょ',bya:'びゃ',byu:'びゅ',byo:'びょ',pya:'ぴゃ',pyu:'ぴゅ',pyo:'ぴょ'};
 function romajiToKana(t){
@@ -624,7 +840,19 @@ function toKanaText(t){
 const accepted=w=>new Set([w.k,...w.alts].map(norm));
 
 const $=s=>document.querySelector(s);
-const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],['6','6음+'],['all','전체'],['wrong','오답']];
+
+/* ===== Lesson 탭: 카이토 수업에서 배운 단어 (수업마다 아래에 이어서 추가하세요) =====
+   - "# 이름" 줄은 수업 이름, 그 아래에 히라가나를 띄어쓰기로 구분해서 적습니다.
+   - 이미 있는 단어는 히라가나만 적으면 되고, 없는 단어는 위 RAW 목록 맨 끝 "# Lesson" 아래에 한 줄 추가하세요.
+   ================================================================================ */
+const LESSON = `
+# Lesson 1
+あい うえ あお いえ あう
+こんにちは ありがとうございます はい いいえ
+`;
+const LESSON_LABEL=new Map();
+LESSON.trim().split('\n').forEach(l=>{l=l.trim();if(!l)return;if(l.startsWith('#')){LESSON_LABEL._cur=l.slice(1).trim();return;}l.split(/\s+/).forEach(k=>{if(k)LESSON_LABEL.set(k,LESSON_LABEL._cur||'Lesson');});});
+const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],['6','6음+'],['nemoz','Nemoz'],['lesson','Lesson'],['quiz','Quiz'],['all','전체'],['wrong','오답'],['mine','내 단어']];
 
 /* ---- 저장 ---- */
 const EMAILKEY='hira-email';
@@ -632,7 +860,7 @@ const emailKey=e=>{e=(e||'').trim().toLowerCase();return(/^[a-z0-9_.+\-~:]+@[a-z
 let cloudEmail='';try{localStorage.removeItem(EMAILKEY);}catch(e){}
 const BASEKEY='hira-progress-v2';
 const progKey=()=>BASEKEY+(cloudEmail?':'+cloudEmail:'');
-const freshP=()=>({stats:{},session:null,level:'2',cat:'전체'});
+const freshP=()=>({stats:{},session:null,level:'2',cat:'전체',custom:[]});
 function loadLocal(){
   let P2=freshP();
   if(!cloudEmail)return P2;
@@ -647,10 +875,10 @@ const savePrgLocal=()=>{if(!cloudEmail)return;try{localStorage.setItem(progKey()
 const savePrg=()=>{savePrgLocal();scheduleCloud();};
 const isWrong=w=>P.stats[w.k]&&P.stats[w.k].last===false;
 const isMastered=w=>P.stats[w.k]&&P.stats[w.k].last===true;
-const inLevel=(w,l)=>l==='all'?true:l==='wrong'?isWrong(w):l==='6'?w.n>=6:w.n===+l;
+const inLevel=(w,l)=>l==='quiz'?(!w.kana&&!!w.m&&(LESSON_LABEL.has(w.k)||(P.stats[w.k]&&P.stats[w.k].ok>=1))):l==='lesson'?LESSON_LABEL.has(w.k):l==='all'?true:l==='wrong'?isWrong(w):l==='mine'?!!w.custom:l==='nemoz'?w.c==='네모즈':w.c==='네모즈'?false:l==='6'?w.n>=6:w.n===+l;
 const inCat=w=>P.cat==='전체'||w.c===P.cat;
 
-let level=P.level,queue=[],idx=0,results=[],phase='ask',msg='',heard='',verdict=null,resumed=false;
+let level=P.level,queue=[],idx=0,results=[],phase='ask',msg='',heard='',verdict=null,resumed=false,heardNoConv=false;
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 let rec=null,timer=null;
 
@@ -691,7 +919,7 @@ function speak(t){
 
 const speakW=w=>speak(w.kana?`${w.k}。${w.x}`:w.k);
 let endListen=null;
-const silenceFor=w=>w.n<=2?1500:w.n===3?2000:w.n===4?2500:3000;
+const silenceFor=w=>w.n<=3?2000:w.n===4?2500:3000;
 function listen(){
   if(!SR){phase='nomic';msg='이 브라우저는 음성 인식을 지원하지 않아요. 직접 판정으로 진행하세요.';render();return;}
   stopRec();heard='';
@@ -713,7 +941,7 @@ function listen(){
     segs=[];
     for(let i=0;i<e.results.length;i++){segs.push([...e.results[i]].map(a=>a.transcript));}
     const sh=segs.map(r=>r[0]).join('');
-    const el=document.getElementById('status');if(el){const kt=toKanaText(sh);el.textContent='듣는 중… '+kt+(hasKanji(kt)?' (한자 변환 불가)':'');}
+    const el=document.getElementById('status');if(el){const kt=toKanaText(sh).replace(/[\u4e00-\u9fff々]+/g,'…');el.textContent='듣는 중… '+kt;}
     clearTimeout(silence);silence=setTimeout(end,SILENCE_MS);
   };
   rec.onerror=e=>{
@@ -742,11 +970,12 @@ function record(w,ok){
     persistSession();
   }
 }
-function showHeard(alts){const t=toKanaText(alts[0]||'');return hasKanji(t)?`${t} (일부 한자 변환 불가)`:t;}
-function finish(alts){
-  const w=queue[idx];const acc=accepted(w);
+function showHeard(alts){for(const a of alts){const t=toKanaText(a);if(t&&!hasKanji(t))return t;}return '';}
+function finish(alts,typed){
+  const w=queue[idx];
+  const acc=level==='quiz'?new Set(W.filter(x=>x===w||(!x.kana&&w.m&&x.m===w.m)).flatMap(x=>[...accepted(x)])):accepted(w);
   const ok=alts.flatMap(a=>[a,toKanaText(a)]).some(a=>{const n=norm(a);return n.length>0&&[...acc].some(x=>x.length>0&&n.split(x).join('')==='');});
-  heard=ok?w.k:showHeard(alts);verdict=ok;record(w,ok);phase='result';render();speak(w.k);
+  heard=ok?w.k:showHeard(alts);if(typed&&!heard)heard=String(alts[0]||'');heardNoConv=!ok&&!heard;verdict=ok;record(w,ok);phase='result';render();speakW(w);
 }
 function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='result';render();}
 function next(){
@@ -756,6 +985,10 @@ function next(){
   render();
 }
 
+function quizPrompt(w){
+  return `<div class="qz"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>
+  <div class="grid" style="--n:${units(w.k).length}">${units(w.k).map(()=>'<div class="box">?</div>').join('')}</div>`;
+}
 function boxes(w,cls){return `<div class="grid ${cls||''}" style="--n:${units(w.k).length}">${units(w.k).map(u=>`<div class="box${u.length>1?' y':''}">${u}</div>`).join('')}</div>`;}
 function answer(w){
   if(w.kana){
@@ -773,7 +1006,7 @@ function answer(w){
 function renderChips(){
   $('#chips').innerHTML=LEVELS.map(([v,l])=>{
     const n=W.filter(w=>inLevel(w,v)&&inCat(w)).length;
-    if(v==='wrong'&&!n)return '';
+    if((v==='wrong'||v==='mine')&&!n)return '';
     return `<button class="chip" data-level="${v}" aria-pressed="${level===v}">${l}<small>${n}</small></button>`;
   }).join('');
 }
@@ -799,24 +1032,29 @@ function render(){
   }
   const w=queue[idx];
   const okCnt=results.filter(r=>r===true).length;
-  const head=`<div class="meta"><span>${idx+1} / ${queue.length} · 정답 ${okCnt}</span><span>${w.n}음</span></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
+  const head=`<div class="meta"><span>${idx+1} / ${queue.length} · 정답 ${okCnt}</span><span>${w.n}음${level==='lesson'&&LESSON_LABEL.get(w.k)?' · '+LESSON_LABEL.get(w.k):''}</span></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
   let body='';
-  if(phase==='ask'||phase==='nomic'){
+  const Q=level==='quiz';
+  if(Q&&(phase==='ask'||phase==='nomic')){
+    body=`${quizPrompt(w)}<div class="status" id="status">${msg||'뜻을 보고 일본어로 말해보세요'}</div>
+      ${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 말하기</button>`:''}
+      <button class="btn ghost" data-act="reveal">정답 보기</button>`;
+  }else if(phase==='ask'||phase==='nomic'){
     body=`${boxes(w)}<div class="status" id="status">${msg||(w.kana?`같은 글자를 3번 이어서 읽어보세요 (${w.k} ${w.k} ${w.k})`:w.n===2?`2번 이어서 읽어보세요 (${w.k} ${w.k})`:'소리 내어 읽어보세요')}</div>
-      ${w.kana&&phase==='ask'?`<button class="btn primary" data-act="reveal">정답 보고 직접 판정</button><button class="btn ghost" data-act="listen">🎤 3번 이어서 읽기 (음성 인식)</button>`:`${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 읽기</button>`:''}
-      <button class="btn ${phase==='nomic'?'primary':'ghost'}" data-act="reveal">정답 보고 직접 판정</button>`}`;
+      ${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 읽기</button>`:''}
+      <button class="btn ${phase==='nomic'?'primary':'ghost'}" data-act="reveal">정답 보기</button>`;
   }else if(phase==='listening'){
-    body=`${boxes(w)}<div class="status" id="status">천천히 읽어도 돼요. ${silenceFor(w)/1000}초간 조용하면 자동으로 판정해요</div>
+    body=`${Q?quizPrompt(w):boxes(w)}<div class="status" id="status">천천히 읽어도 돼요. ${silenceFor(w)/1000}초간 조용하면 자동으로 판정해요</div>
       <button class="btn primary live" data-act="stop">🎤 다 읽었으면 탭하세요</button>`;
   }else if(phase==='reveal'){
-    body=`${boxes(w)}${answer(w)}<p class="status" style="margin-top:12px">맞게 읽었나요?</p>
+    body=`${boxes(w)}${answer(w)}<p class="status" style="margin-top:12px">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</p>
       <div class="row"><button class="btn okb" data-act="mok">맞았어요</button><button class="btn ngb" data-act="mng">틀렸어요</button></div>`;
   }else if(phase==='result'){
     body=`${boxes(w,verdict?'ok':'ng')}
       <p class="verdict ${verdict?'ok':'ng'}">${verdict?'정답 ⭕':'오답 ✖'}</p>
-      <div class="heard">${heard?`내가 읽은 소리: <b>${heard}</b>`:''}</div>
+      <div class="heard">${heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 히라가나로 바꿀 수 없는 결과로 인식됐어요`:'')}</div>
       ${answer(w)}
-      <div class="row">${SR?`<button class="btn ghost" data-act="listen">다시 읽기</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
+      <div class="row">${SR?`<button class="btn ghost" data-act="listen">${Q?'다시 말하기':'다시 읽기'}</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
   }
   m.innerHTML=`<div class="card">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${body}</div>`;
 }
@@ -838,6 +1076,9 @@ document.addEventListener('click',e=>{
   else if(act==='speak')speakW(w);
   else if(act==='again')start(level);
   else if(act==='email')applyEmail();
+  else if(act==='togglemine'){const el=document.getElementById('mine');el.hidden=!el.hidden;a.textContent=el.hidden?'＋ 내 단어 추가':'− 내 단어 닫기';}
+  else if(act==='addmine')addCustom();
+  else if(act==='delmine')delCustom(a.dataset.k);
 });
 
 
@@ -850,7 +1091,7 @@ async function pushCloud(){
   if(cloudBusy){cloudPending=true;return;}
   cloudBusy=true;
   try{
-    await cloudRef.set({stats:P.stats,session:P.session||null,level:P.level,ts:P.ts||Date.now()});
+    await cloudRef.set({stats:P.stats,session:P.session||null,level:P.level,ts:P.ts||Date.now(),custom:P.custom||[]});
     syncOn();
   }catch(e){
     cloudRef=null;
@@ -863,13 +1104,78 @@ function mergeCloud(c){
   if(!c)return;
   const cs=c.stats||{};
   for(const k of Object.keys(cs)){const a=P.stats[k],b=cs[k];if(!a||((b&&b.t)||0)>(a.t||0))P.stats[k]=b;}
+  mergeCustom(c.custom);
   const fresh=phase==='ask'&&idx===0&&results.every(r=>r===undefined);
   if(fresh&&c.session&&c.session.q&&c.session.idx<c.session.q.length&&(c.ts||0)>(P.ts||0)){
     P.session=c.session;P.level=c.level||P.level;P.ts=c.ts;
     restore();
   }
   savePrgLocal();
+  applyCustom();
   render();
+}
+
+/* ---- 내 단어 ---- */
+const toHira=t=>(t||'').normalize('NFKC').replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/\s+/g,'');
+function applyCustom(){
+  for(let i=W.length-1;i>=0;i--){if(W[i].custom)W.splice(i,1);}
+  const have=new Set(W.map(w=>w.k));
+  const ckj=[];
+  for(const c of (P.custom||[])){
+    if(!c||!c.k||have.has(c.k))continue;
+    have.add(c.k);
+    const alts=c.kj?[c.kj]:[];
+    W.push({k:c.k,alts,m:c.m||'',e:c.e||'📝',c:'내 단어',n:units(c.k).length,custom:true});
+    if(c.kj&&hasKanji(c.kj))ckj.push([norm(c.kj),c.k]);
+  }
+  KJ=[...KJ_BASE,...ckj].sort((a,b)=>b[0].length-a[0].length);
+  renderMine();
+}
+function mergeCustom(list){
+  if(!Array.isArray(list))return;
+  P.custom=P.custom||[];
+  for(const c of list){if(c&&c.k&&!P.custom.some(x=>x.k===c.k))P.custom.push(c);}
+}
+function setMineMsg(t){const el=document.getElementById('mineMsg');if(el)el.textContent=t;}
+function renderMine(){
+  const ul=document.getElementById('mineList');if(!ul)return;
+  const list=P.custom||[];
+  ul.innerHTML=list.map(c=>`<li><span><span class="k">${c.k}</span> <span class="m">${c.kj||''} ${c.m||''}</span></span><button class="delbtn" data-act="delmine" data-k="${c.k}" aria-label="${c.k} 삭제">✕</button></li>`).join('');
+}
+function addCustom(){
+  const ta=document.getElementById('mineText');const text=(ta&&ta.value)||'';
+  P.custom=P.custom||[];
+  const added=[],dup=[],bad=[];
+  text.split('\n').forEach(line=>{
+    line=line.trim();if(!line)return;
+    let parts;
+    if(/[,，\t]|\s-\s/.test(line))parts=line.split(/[,，\t]|\s+-\s+/).map(x=>x.trim());
+    else{const m=line.match(/^(\S+)\s+(.+)$/);parts=m?[m[1],m[2]]:[line];}
+    const k=toHira(parts[0]);
+    if(!/^[ぁ-ゖー]+$/.test(k)||k.length>20){bad.push(parts[0]);return;}
+    if(W.some(w=>w.k===k)){dup.push(k);return;}
+    const kj=parts.slice(1).find(x=>x&&hasKanji(x)&&!/[가-힣]/.test(x))||'';
+    const m=(parts[1]&&parts[1]!==kj)?parts[1]:(parts[2]&&parts[2]!==kj?parts[2]:'');
+    const em=parts.slice(1).find(x=>x&&/\p{Extended_Pictographic}/u.test(x))||'';
+    const c={k,m:em&&m===em?'':m,kj,e:em||'📝'};
+    P.custom.push(c);W.push({k,alts:kj?[kj]:[],m:c.m,e:c.e,c:'내 단어',n:units(k).length,custom:true});
+    added.push(k);
+  });
+  if(P.custom.length>400){P.custom.length=400;}
+  applyCustom();
+  if(added.length){if(ta)ta.value='';savePrg();}
+  const by={};added.forEach(k=>{const n=units(k).length;const key=n>=6?'6음+':n+'음';by[key]=(by[key]||0)+1;});
+  let msg=added.length?`${added.length}개 추가했어요 (${Object.entries(by).map(([a,b])=>a+' '+b+'개').join(', ')})`:'추가된 단어가 없어요';
+  if(dup.length)msg+=`\n이미 있는 단어라 건너뜀: ${dup.join(', ')}`;
+  if(bad.length)msg+=`\n히라가나(카타카나)가 아니라 건너뜀: ${bad.join(', ')}`;
+  if(added.length&&!cloudEmail)msg+='\n이메일을 입력해야 새로고침해도 단어가 남아요';
+  setMineMsg(msg);
+  render();
+}
+function delCustom(k){
+  P.custom=(P.custom||[]).filter(c=>c.k!==k);
+  applyCustom();savePrg();
+  if(queue.some(w=>w.k===k))start(level);else render();
 }
 let cloudDb=null,cloudUid=null;
 function pickRef(){
@@ -897,11 +1203,13 @@ async function applyEmail(){
       if(snap.exists){
         existed=true;const c=snap.data()||{},cs=c.stats||{};
         for(const k of Object.keys(cs)){const x=P.stats[k],y=cs[k];if(!x||((y&&y.t)||0)>(x.t||0))P.stats[k]=y;}
+        mergeCustom(c.custom);
         if(c.session&&c.session.q&&c.session.idx<c.session.q.length&&(c.ts||0)>(P.ts||0)){P.session=c.session;P.level=c.level||P.level;P.ts=c.ts;}
       }
     }catch(e){cloudRef=null;setSync('이메일 기록을 불러오지 못했어요'+(e&&e.code?' ('+e.code+')':''));}
   }
   savePrgLocal();
+  applyCustom();
   level=P.level||'2';
   if(!restore())start(level);else render();
   if(cloudRef){setSync(existed?`☁️ ${em} 기록을 불러왔어요`:`☁️ ${em} 새 기록으로 시작해요`);scheduleCloud();}
@@ -922,7 +1230,8 @@ async function initCloud(){
     syncOn();scheduleCloud();
   }catch(e){setSync('진행 기록은 이 기기·브라우저에만 저장돼요');}
 }
-document.addEventListener('keydown',e=>{if(e.target&&e.target.id==='email'&&e.key==='Enter')applyEmail();});
+document.addEventListener('keydown',e=>{
+  if(e.target&&e.target.id==='email'&&e.key==='Enter')applyEmail();});
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='email')applyEmail();});
 document.addEventListener('input',e=>{
   if(e.target&&e.target.id==='email'){
@@ -931,6 +1240,7 @@ document.addEventListener('input',e=>{
   }
 });
 if('speechSynthesis' in window){speechSynthesis.getVoices();}
+applyCustom();
 if(!restore())start(level);else render();
 initCloud();
 </script>
