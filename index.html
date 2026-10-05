@@ -97,7 +97,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-
 .acct-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .acct input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:400 14px "Noto Sans KR",sans-serif;padding:7px 0;outline:none}
 .acct input::placeholder{color:var(--sub)}
-.acct input:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--card) inset;-webkit-text-fill-color:var(--ink);caret-color:var(--ink)}
+.acct{--field:var(--card)}
+.acct.on{--field:var(--m1bg)}
+.acct input:-webkit-autofill,.acct input:-webkit-autofill:hover,.acct input:-webkit-autofill:focus,.acct input:-webkit-autofill:active{-webkit-box-shadow:0 0 0 100px var(--field) inset!important;box-shadow:0 0 0 100px var(--field) inset!important;-webkit-text-fill-color:var(--ink);caret-color:var(--ink);transition:background-color 99999s}
 .acct-go{flex:none;border:0;background:color-mix(in srgb,var(--ink) 8%,var(--card));color:var(--ink);font:700 13px "Noto Sans KR",sans-serif;padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap}
 .acct-main{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
 .acct-lab{display:none;font-size:11px;font-weight:700;line-height:1.2;color:var(--m1);margin-bottom:1px}
