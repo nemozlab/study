@@ -109,6 +109,12 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
 .btn.ngb{background:var(--ngbg);color:var(--ng);border:1.5px solid var(--ng)}
 .row{display:flex;gap:10px}
 .row .btn{margin-top:10px}
+.ic{display:inline-flex;width:26px;height:26px;flex:none}
+.ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn.iconbtn{display:flex;align-items:center;justify-content:center;padding:13px}
+.row .btn{flex:1;width:auto}
+.row .btn.wide{flex:2.4;gap:8px;font-size:15px;font-weight:500;white-space:nowrap}
+.row .btn.wide .ic{width:20px;height:20px}
 .btn:disabled{opacity:.4;cursor:default}
 .seqbar{display:flex;align-items:center;gap:8px;margin:0 0 8px}
 .seqjump{margin-left:auto;display:flex;gap:6px;align-items:center}
@@ -1153,6 +1159,13 @@ function toHangul(k){
   }
   return out.join('');
 }
+const ICONS={
+  prev:'<path d="m15 5-7 7 7 7"/>',
+  next:'<path d="m9 5 7 7-7 7"/>',
+  refresh:'<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7"/>'
+};
+function ic(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICONS[n]+'</svg></span>';}
 function answer(w){
   if(w.kana){
     return `<div class="answer"><div class="pic" aria-hidden="true">${w.e||''}</div><div class="mean">${w.m}</div>
@@ -1233,10 +1246,10 @@ function render(){
       <p class="verdict ${verdict?'ok':'ng'}">${verdict?'정답 ⭕':'오답 ✖'}</p>
       <div class="heard">${heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 히라가나로 바꿀 수 없는 결과로 인식됐어요`:'')}</div>
       ${answer(w)}
-      <div class="row">${w.seqNo&&idx>0?`<button class="btn ghost" data-act="prev">◀ 이전</button>`:''}${SR&&(!J||JS)?`<button class="btn ghost" data-act="listen">${Q?'다시 말하기':'다시 읽기'}</button>`:''}<button class="btn primary" data-act="next">${idx+1>=queue.length?'결과 보기':'다음'}</button></div>`;
+      <div class="row"><button class="btn ghost iconbtn" data-act="prev"${idx===0?' disabled':''} aria-label="이전" title="이전">${ic('prev')}</button>${SR&&(!J||JS)?`<button class="btn ghost iconbtn wide" data-act="listen" aria-label="${Q?'다시 말하기':'다시 읽기'}" title="${Q?'다시 말하기':'다시 읽기'}">${ic('refresh')}<span>${Q?'다시 말하기':'다시 읽기'}</span></button>`:''}<button class="btn primary iconbtn" data-act="next" aria-label="${idx+1>=queue.length?'결과 보기':'다음'}" title="${idx+1>=queue.length?'결과 보기':'다음'}">${ic(idx+1>=queue.length?'check':'next')}</button></div>`;
   }
   const banner=Q?(J?`<div class="modebanner j2k">${JS?'🗣️ 뜻 말하기':'👆 뜻 고르기'} <small>일본어 → 한글(${JS?'말하기':'고르기'})</small></div>`:`<div class="modebanner k2j">🎤 말하기 <small>한글 → 일본어</small></div>`):'';
-  if(w.seqNo&&(phase==='ask'||phase==='nomic'||phase==='reveal')){
+  if(phase==='ask'||phase==='nomic'||phase==='reveal'){
     body+=`<div class="row navrow"><button class="btn ghost" data-act="prev"${idx===0?' disabled':''}>◀ 이전</button><button class="btn ghost" data-act="skip">다음 ▶</button></div>`;
   }
   let seqbar='';
