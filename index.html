@@ -77,7 +77,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-
 .mode small{font-size:11.5px;font-weight:400;opacity:.85;white-space:nowrap}
 .mode[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .mode:focus-visible{outline:3px solid var(--accent);outline-offset:-3px;border-radius:6px}
-.topbar #score{display:block;margin-top:6px;font-size:12px;color:var(--sub);text-align:right;white-space:nowrap}
+.topbar #score{display:block;font-size:12px;color:var(--sub);text-align:right;white-space:nowrap}
+.scorerow{display:flex;justify-content:flex-end;margin-top:8px}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .chip small{opacity:.7;margin-left:3px}
 .addrow{margin-bottom:10px}
@@ -224,7 +225,7 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
   </header>
   <div class="acct" id="acct"><span class="acct-ic" id="acctIc" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4 7.5 8 6 8-6"/></svg></span><span class="acct-main"><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 입력" aria-label="이메일"></span><button class="acct-go" id="acctBtn" data-act="email">입력</button></div>
   <p class="acct-msg" id="sync" role="status" hidden></p>
-  <div class="topbar"><div class="modes" id="modes" role="group" aria-label="출제 방식"></div><span id="score"></span></div>
+  <div class="topbar"><div class="modes" id="modes" role="group" aria-label="출제 방식"></div><div class="scorerow"><span id="score"></span></div></div>
   <div class="chips" id="chips" role="group" aria-label="글자 수 선택"></div>
   <div class="tabs" id="tabs" role="group" aria-label="수업 · 퀴즈"></div>
   <main id="main"></main>
@@ -932,7 +933,9 @@ RAW.trim().split('\n').forEach(l=>{
   const e=rest.find(x=>x&&isEmoji(x)&&!/[가-힣]/.test(x))||'📝';
   W.push({k,alts:kjf?kjf.split('/').filter(Boolean):[],m,e,c:curCat,n:units(k).length});
 });
+const HOMO_EXTRA={'せん':['先','戦','専','栓','宣','船','仙'],'いし':['意思','意志','医師'],'くに':['邦'],'みち':['未知'],'あさ':['麻','浅'],'のり':['乗り','法'],'とうし':['闘志','透視'],'きかく':['規格'],'にほん':['二本'],'つき':['突き'],'えき':['益']};
 const HOMO={'かみ':['紙','神','上'],'はな':['華'],'はし':['橋','端'],'なし':['無し'],'あし':['葦'],'かわ':['皮'],'もも':['腿'],'ふく':['福','吹く'],'しお':['潮'],'うた':['唄'],'えき':['液'],'うみ':['膿'],'かさ':['笠'],'くま':['隈'],'かめ':['瓶'],'つき':['付き'],'した':['下'],'ゆき':['行き'],'よる':['寄る'],'あき':['飽き'],'はる':['張る'],'みち':['未知'],'ひと':['一'],'いす':['意酢'],'きた':['来た'],'あさ':['麻'],'ひる':['蛭'],'くも':['雲'],'いぬ':['去ぬ'],'ほん':['本'],'いえ':['言え'],'くち':['朽ち'],'て':['手'],'きく':['菊','効く','利く'],'みる':['診る','観る'],'かく':['描く','掻く','角'],'はやい':['速い']};
+Object.keys(HOMO_EXTRA).forEach(k=>{HOMO[k]=[...new Set([...(HOMO[k]||[]),...HOMO_EXTRA[k]])];});
 W.forEach(w=>{(HOMO[w.k]||[]).forEach(h=>{if(!w.alts.includes(h))w.alts.push(h);});});
 W.forEach(w=>{[w.k,...w.alts].forEach(s=>{const n=norm(s);if(!KANAMAP.has(n))KANAMAP.set(n,w.k);});});
 const KJ_BASE=[...KANAMAP.entries()].filter(([k])=>hasKanji(k));
@@ -1085,7 +1088,7 @@ function jumpTo(n){
   else{P.seq=P.seq||{};P.seq[level]=n-1;savePrg();start(level);}
 }
 function start(l){
-  level=l;stopRec();resumed=false;tocOpen=false;lsnOpen=false;
+  level=l;stopRec();resumed=false;tocOpen=false;lsnOpen=false;noSound={i:-1,c:0};
   if(isLessonLevel(l)||isQuizLevel(l))P.lessonLevel=l;else if(CHIP_LEVEL.test(l)&&l!=='wrong')P.chipLevel=l;
   const pool=W.filter(w=>inLevel(w,l)&&inCat(w));
   const isQ=isQuizLevel(l),isL=isLessonLevel(l);
@@ -1122,7 +1125,7 @@ function start(l){
     const unseen=shuffle(pool.filter(w=>!P.stats[w.k]));
     const wr=shuffle(pool.filter(isWrong));
     const rest=shuffle(pool.filter(w=>P.stats[w.k]&&!isWrong(w)));
-    queue=shuffle([...unseen,...wr,...rest].slice(0,10));
+    queue=shuffle([...unseen,...wr,...rest]);   // 혼자 복습: 선택한 칩의 단어 전부
   }
   idx=0;results=[];phase=queue.length?'ask':'empty';msg='';heard='';verdict=null;
   genQuiz();
@@ -1167,6 +1170,9 @@ function speak(t){
 
 const speakW=w=>speak(w.kana?`${w.k}。${w.x}`:w.k);
 let endListen=null;
+let noSound={i:-1,c:0};
+const NO_SOUND_MSG=()=>noSound.c>=2?'이 단어는 음성 인식이 잘 안 될 수 있어요. 「정답 보기」로 직접 확인해도 돼요.':'소리가 안 들렸어요. 마이크가 켜진 뒤에 또박또박 읽어보세요.';
+const bumpNoSound=()=>{noSound=noSound.i===idx?{i:idx,c:noSound.c+1}:{i:idx,c:1};};
 const silenceFor=w=>w.n<=3?2000:w.n===4?2500:3000;
 function listen(){
   if(!SR){phase='nomic';msg='이 브라우저는 음성 인식을 지원하지 않아요. 직접 판정으로 진행하세요.';render();return;}
@@ -1179,7 +1185,7 @@ function listen(){
     clearTimeout(timer);clearTimeout(silence);endListen=null;
     try{rec&&rec.stop();}catch(e){}
     const text=segs.map(r=>r[0]).join('');
-    if(!norm(text)){phase='ask';msg='소리가 안 들렸어요. 다시 눌러 읽어보세요.';render();return;}
+    if(!norm(text)){bumpNoSound();phase='ask';msg=NO_SOUND_MSG();render();return;}
     const prefix=segs.slice(0,-1).map(r=>r[0]).join('');
     const alts=segs[segs.length-1].map(a=>prefix+a);
     if(KO)finishKo(alts);else finish(alts);
@@ -1197,11 +1203,12 @@ function listen(){
     if(e.error==='no-speech'&&segs.length){end();return;}
     done=true;clearTimeout(timer);clearTimeout(silence);endListen=null;
     if(e.error==='not-allowed'||e.error==='service-not-allowed'){phase='nomic';msg='마이크 권한이 없어요. 아래 직접 판정을 사용하세요.';}
-    else if(e.error==='no-speech'){phase='ask';msg='소리가 안 들렸어요. 다시 눌러 읽어보세요.';}
+    else if(e.error==='no-speech'){bumpNoSound();phase='ask';msg=NO_SOUND_MSG();}
     else if(e.error==='aborted'){return;}
     else{phase='ask';msg='인식 오류('+e.error+'). 다시 시도하세요.';}
     render();
   };
+  rec.onaudiostart=()=>{if(done||rec!==me)return;const el=document.getElementById('status');if(el&&!segs.length)el.textContent=KO?'지금 한국어로 뜻을 말해주세요':`지금 말해주세요 · ${SILENCE_MS/1000}초간 조용하면 자동으로 판정해요`;};
   rec.onend=()=>{if(!done)end();};
   try{
     rec.start();phase='listening';msg='';render();
@@ -1378,11 +1385,11 @@ function render(){
       ${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 말하기</button>`:''}
       <button class="btn ghost" data-act="reveal">정답 보기</button>`;
   }else if(phase==='ask'||phase==='nomic'){
-    body=`${boxes(w)}<div class="status" id="status">${msg||(w.kana?`같은 글자를 3번 이어서 읽어보세요 (${w.k} ${w.k} ${w.k})`:w.n===2?`2번 이어서 읽어보세요 (${w.k} ${w.k})`:'소리 내어 읽어보세요')}</div>
+    body=`${boxes(w)}<div class="status" id="status">${msg||(w.kana?`같은 글자를 3번 이어서 읽어보세요 (${w.k} ${w.k} ${w.k})`:w.n<=2?`3번 이어서 읽어보세요 (${w.k} ${w.k} ${w.k})`:w.n===3?`2번 이어서 읽어보세요 (${w.k} ${w.k})`:'소리 내어 읽어보세요')}</div>
       ${phase==='ask'?`<button class="btn primary" data-act="listen">🎤 읽기</button>`:''}
-      <button class="btn ${phase==='nomic'?'primary':'ghost'}" data-act="reveal">정답 보기</button>`;
+      <button class="btn ${(phase==='nomic'||(noSound.i===idx&&noSound.c>=2))?'primary':'ghost'}" data-act="reveal">정답 보기</button>`;
   }else if(phase==='listening'){
-    body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">${JS?'한국어로 뜻을 말해주세요. 2초간 조용하면 자동으로 판정해요':`천천히 읽어도 돼요. ${silenceFor(w)/1000}초간 조용하면 자동으로 판정해요`}</div>
+    body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>
       <button class="btn primary live" data-act="stop">🎤 다 말했으면 탭하세요</button>`;
   }else if(phase==='reveal'){
     body=`${boxes(w)}${answer(w)}<p class="status" style="margin-top:12px">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</p>
