@@ -1723,16 +1723,20 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.add
 (function(){var sp=document.getElementById('splash');if(!sp||!document.documentElement.classList.contains('splash-on'))return;var done=false;
 function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){document.documentElement.classList.remove('splash-on');},500);}
 sp.addEventListener('pointerdown',hide);setTimeout(hide,2300);
-/* 시스템이 먼저 보여주는 아이콘 동그라미 속 얼굴 → 같은 자리에서 시작 화면 전체로 커짐 (값은 폰에서 보며 미세조정) */
+/* 시스템이 먼저 보여주는 아이콘(남색 바탕 위 얼굴 원) → 같은 자리·같은 크기에서 시작 화면 전체로 펼쳐짐.
+   아이콘의 얼굴 원은 이 시작 화면 그림에서 그대로 오려 만들어서 위치가 정확히 겹침. 폰에서 어긋나면 DX·DY(px)·K만 조정. */
 try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 var img=sp.querySelector('.sp-img');if(!img||!img.animate)return;
+var DX=0,DY=0,K=1;                                  /* 미세조정: 가로·세로 이동(px), 크기 배율 */
 var W=innerWidth,H=innerHeight,IW=853,IH=1844,sc=Math.max(W/IW,H/IH),ox=(W-IW*sc)/2,oy=(H-IH*sc)/2;
-var Fx=ox+537*sc,Fy=oy+880*sc,headS=380*sc;            /* 시작 화면 그림 속 얼굴 중심·머리 폭 */
-var cx=W/2,cy=H/2,tFx=cx-3.7,tFy=cy-24,headI=127,R=80;  /* 아이콘 동그라미(지름 160) 안 얼굴 중심·머리 폭 */
-var s0=headI/headS,tx=tFx-Fx,ty=tFy-Fy,px=Fx+(cx-Fx-tx)/s0,py=Fy+(cy-Fy-ty)/s0,r0=R/s0,big=Math.hypot(W,H)*1.2;
-img.style.transformOrigin=Fx+'px '+Fy+'px';
-img.animate([{transform:'translate('+tx+'px,'+ty+'px) scale('+s0+')',clipPath:'circle('+r0+'px at '+px+'px '+py+'px)'},
-             {transform:'translate(0px,0px) scale(1)',clipPath:'circle('+big+'px at '+px+'px '+py+'px)'}],
+var SX=535,SY=845,SR=267;                           /* 그림 속 얼굴 원: 중심(535,845), 반지름 267 (아이콘 가운데 지름 160dp 원이 보여주는 범위) */
+var Ox=ox+SX*sc,Oy=oy+SY*sc,r0=SR*sc;               /* 화면에서의 그 원 */
+var rdp=80*K;                                       /* 시스템 시작 화면의 동그라미 반지름(dp≈px): 지름 160 */
+var s0=rdp/r0,tx=W/2+DX-Ox,ty=H/2+DY-Oy,big=Math.hypot(W,H)*1.2;
+img.style.transformOrigin=Ox+'px '+Oy+'px';
+img.animate([{offset:0,opacity:0,transform:'translate('+tx+'px,'+ty+'px) scale('+s0+')',clipPath:'circle('+r0+'px at '+Ox+'px '+Oy+'px)'},
+             {offset:.12,opacity:1},
+             {offset:1,opacity:1,transform:'translate(0px,0px) scale(1)',clipPath:'circle('+big+'px at '+Ox+'px '+Oy+'px)'}],
             {duration:900,easing:'cubic-bezier(.5,0,.25,1)',fill:'both'});
 }catch(e){}
 })();
