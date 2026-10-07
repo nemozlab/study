@@ -963,8 +963,34 @@ function toKanaText(t){
   r=r.replace(/[a-zA-Z]+/g,m=>romajiToKana(m));
   return r;
 }
-const accepted=w=>new Set([w.k,...w.alts].map(norm));
+const LONGV=[['あかがさざただなはばぱまやらわゃぁ','あ'],['いきぎしじちぢにひびぴみり','い'],['くぐすずつづぬふぶぷむゆるゅぅうゔ','う'],['えけげせぜてでねへべぺめれぇ','いえ'],['おこごそぞとどのほぼぽもよろをょぉ','うお']];
+const longForms=k=>{const c=k.slice(-1);const r=LONGV.find(x=>x[0].includes(c));return r?[...r[1]].map(v=>k+v):[];};
+const accepted=w=>new Set([w.k,...w.alts,...(w.kana?longForms(w.k):[])].map(norm));
 
+/* 느슨한 판정: 외국인 학습자용 — 장음·っ·탁음/반탁음 차이는 무시, 긴 단어는 약간의 오차 허용 */
+const VOW={a:'あかがさざただなはばぱまやらわゃぁ',i:'いきぎしじちぢにひびぴみり',u:'うくぐすずつづぬふぶぷむゆるゅぅゔ',e:'えけげせぜてでねへべぺめれぇ',o:'おこごそぞとどのほぼぽもよろをょぉ'};
+const vowOf=c=>{for(const k in VOW)if(VOW[k].includes(c))return k;return '';};
+function sk(str){
+  let t=norm(str).replace(/っ/g,'').normalize('NFD').replace(/[\u3099\u309A]/g,'').normalize('NFC');
+  let o='',pv='';
+  for(const c of t){
+    const ext=(c==='あ'&&pv==='a')||(c==='い'&&(pv==='i'||pv==='e'))||(c==='う'&&(pv==='u'||pv==='o'))||(c==='え'&&pv==='e')||(c==='お'&&pv==='o');
+    if(ext)continue;
+    o+=c;pv=vowOf(c);
+  }
+  return o;
+}
+function lev(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const q=[i];for(let j=1;j<=n;j++)q[j]=Math.min(p[j]+1,q[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q;}return p[n];}
+function looseHit(a,acc){
+  const n=sk(a);if(!n)return false;
+  return [...acc].some(x=>{
+    const y=sk(x);if(!y)return false;
+    if(n.split(y).join('')==='')return true;
+    const t=Math.floor(y.length/4);if(!t)return false;
+    for(let r=1;r<=4;r++)if(lev(n,y.repeat(r))<=t*r)return true;
+    return false;
+  });
+}
 const $=s=>document.querySelector(s);
 
 /* ===== Lesson 탭: 카이토 수업에서 배운 단어 (수업마다 아래에 이어서 추가하세요) =====
@@ -1240,7 +1266,7 @@ function showHeard(alts){for(const a of alts){const t=toKanaText(a);if(t&&!hasKa
 function finish(alts,typed){
   const w=queue[idx];
   const acc=isQuizLevel(level)?new Set(W.filter(x=>x===w||(!x.kana&&w.m&&x.m===w.m)).flatMap(x=>[...accepted(x)])):accepted(w);
-  const ok=alts.flatMap(a=>[a,toKanaText(a)]).some(a=>{const n=norm(a);return n.length>0&&[...acc].some(x=>x.length>0&&n.split(x).join('')==='');});
+  const ok=alts.flatMap(a=>[a,toKanaText(a)]).some(a=>looseHit(a,acc));
   heard=ok?w.k:showHeard(alts);if(typed&&!heard)heard=String(alts[0]||'');heardNoConv=!ok&&!heard;verdict=ok;record(w,ok);phase='result';render();speakW(w);
 }
 function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='result';render();}
