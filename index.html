@@ -1031,7 +1031,8 @@ function softUnits(str){   /* 히라가나 문자열 → [자음,모음] 목록.
   }
   return out;
 }
-const SOFT_VOWEL=(a,b)=>(a===2&&b===4)||(a===4&&b===2)||(a===1&&b===3)||(a===3&&b===1);   /* う↔お, い↔え */
+const SOFT_VOWEL=(a,b,c)=>(a===2&&b===4)||(a===4&&b===2)||(a===1&&b===3)||(a===3&&b===1)   /* う↔お, い↔え */
+  ||(((a===1&&b===2)||(a===2&&b===1))&&(c==='t'||c==='s'||c==='h'));                          /* つ↔ち, す↔し, ふ↔ひ */
 const SOFT_CONS=(a,b,v)=>a===b||(a==='r'&&b==='t')||(a==='t'&&b==='r')||(a==='m'&&b==='n')||(a==='n'&&b==='m')
   ||(v===1&&((a==='s'&&b==='h')||(a==='h'&&b==='s')))                       /* し↔ひ */
   ||((v===1||v===2)&&((a==='t'&&b==='s')||(a==='s'&&b==='t')));            /* ち↔し, つ↔す */
@@ -1039,7 +1040,7 @@ const softAllow=n=>n<=3?0.5:n<=5?1.0:n<=8?1.5:2.0;   /* 한 번 읽을 때 봐�
 function softSub(x,y){
   if(x[0]===y[0]&&x[1]===y[1])return 0;
   if(x[1]<0||y[1]<0)return 1;
-  if(x[0]===y[0]&&SOFT_VOWEL(x[1],y[1]))return 0.4;
+  if(x[0]===y[0]&&SOFT_VOWEL(x[1],y[1],x[0]))return 0.4;
   if(x[1]===y[1]&&SOFT_CONS(x[0],y[0],x[1]))return 0.45;
   return 1;
 }
@@ -1049,6 +1050,17 @@ function softDist(a,b,hardOnly){   /* hardOnly: 비슷한 소리는 0으로 치�
   return p[n];
 }
 const hardAllow=n=>n<=3?0:n<=8?1:2;   /* 비슷하지 않은 글자를 틀려도 되는 개수(단어 전체, 반복해도 늘지 않음) */
+/* 대부분 맞게 들렸으면 정답: 들린 소리 안에 정답(비슷한 소리 포함)이 반복돼 있고 그 비율이 75% 이상이면 통과.
+   한 번만 읽은 경우는 앞뒤에 군더더기가 1글자까지만 허용(엔진이 せん→せんせい 처럼 덧붙여 들을 때). */
+function coverHit(hu,tu){
+  const L=tu.length,m=hu.length;if(!L||!m)return false;
+  const allow=softAllow(L);let i=0,matched=0,occ=0;
+  while(i+L<=m){let c=0;for(let j=0;j<L;j++)c+=softSub(hu[i+j],tu[j]);
+    if(c<=allow){matched+=L;occ++;i+=L;}else i++;}
+  if(!occ)return false;
+  if(matched/m>=0.75)return true;
+  return L>=2&&occ===1&&m-matched<=1;
+}
 function looseHit(a,acc){
   const n=sk(a);if(!n)return false;
   return [...acc].some(x=>{
@@ -1059,6 +1071,7 @@ function looseHit(a,acc){
     if(t)for(let r=1;r<=4;r++)if(lev(n,y.repeat(r))<=t*r)return true;
     /* 비슷한 소리(う↔お, い↔え, ら↔だ, ま↔な)는 반 글자 틀린 것으로 봐서, 한 번 읽을 때마다 1글자까지는 봐줌 */
     const hu=softUnits(n),tu=softUnits(y);
+    if(hu&&tu&&tu.length&&coverHit(hu,tu))return true;
     if(hu&&tu&&tu.length){const al=softAllow(tu.length);for(let r=1;r<=4;r++){const rep=softUnits(sk(String(x).repeat(r)));if(!rep||!rep.length||Math.abs(hu.length-rep.length)>(tu.length>=4?2:1))continue;
       if(softDist(hu,rep,true)<=hardAllow(tu.length)&&softDist(hu,rep)<=al*(rep.length/tu.length))return true;}}
     return false;
