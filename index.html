@@ -1739,10 +1739,10 @@ function sq(a,at){var pts=[],M=96,e=2/N;for(var i=0;i<M;i++){var t=i/M*2*Math.PI
   return 'polygon('+pts.join(',')+')';}
 var a0=(SQ/2)/s0,a1=Math.hypot(W,H)*1.6,t0=Math.min(a0,(SY-TXB)*sc);   /* 시작할 때 위쪽만 살짝 낮춰 글씨가 안 비치게 */
 img.style.transformOrigin=Ox+'px '+Oy+'px';
-img.animate([{offset:0,opacity:0,transform:'translate('+tx+'px,'+ty+'px) scale('+s0+')',clipPath:sq(a0,t0)},
-             {offset:.12,opacity:1},
-             {offset:1,opacity:1,transform:'translate(0px,0px) scale(1)',clipPath:sq(a1,a1)}],
-            {duration:900,easing:'cubic-bezier(.5,0,.25,1)',fill:'both'});
+/* 시스템 시작 화면이 사라지는 동안(약 0.5초)은 출발 모양(시스템 화면과 같은 그림)을 그대로 보여주고, 그 뒤에 펼침 시작 */
+img.animate([{offset:0,transform:'translate('+tx+'px,'+ty+'px) scale('+s0+')',clipPath:sq(a0,t0)},
+             {offset:1,transform:'translate(0px,0px) scale(1)',clipPath:sq(a1,a1)}],
+            {duration:800,delay:500,easing:'cubic-bezier(.5,0,.25,1)',fill:'both'});
 }catch(e){}
 })();
 </script>
