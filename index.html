@@ -1015,13 +1015,52 @@ function sk(str){
   return o;
 }
 function lev(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const q=[i];for(let j=1;j<=n;j++)q[j]=Math.min(p[j]+1,q[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q;}return p[n];}
+/* ===== 비슷한 소리 판정 ===== */
+const SOFT_ROWS=[['',['あ','い','う','え','お']],['k',['か','き','く','け','こ']],['s',['さ','し','す','せ','そ']],['t',['た','ち','つ','て','と']],
+  ['n',['な','に','ぬ','ね','の']],['h',['は','ひ','ふ','へ','ほ']],['m',['ま','み','む','め','も']],['r',['ら','り','る','れ','ろ']],
+  ['y',['や','','ゆ','','よ']],['w',['わ','','','','を']]];
+const SOFT_MAP=(()=>{const m={};SOFT_ROWS.forEach(([c,vs])=>vs.forEach((ch,i)=>{if(ch)m[ch]=[c,i];}));return m;})();
+const SMALL_V={'ゃ':[2,0],'ゅ':[2,2],'ょ':[2,4],'ぁ':[1,0],'ぃ':[1,1],'ぅ':[1,2],'ぇ':[1,3],'ぉ':[1,4]};
+function softUnits(str){   /* 히라가나 문자열 → [자음,모음] 목록. 모르는 글자가 있으면 null */
+  const out=[];const us=units(str);
+  for(const u of us){
+    const base=u[0],sm=u.length>1?SMALL_V[u[1]]:null,b=SOFT_MAP[base];
+    if(base==='ん'){out.push(['N',-1]);continue;}
+    if(!b)return null;
+    if(sm)out.push([b[0]+(sm[0]===2?'y':'w'),sm[1]]);else out.push([b[0],b[1]]);
+  }
+  return out;
+}
+const SOFT_VOWEL=(a,b)=>(a===2&&b===4)||(a===4&&b===2)||(a===1&&b===3)||(a===3&&b===1);   /* う↔お, い↔え */
+const SOFT_CONS=(a,b,v)=>a===b||(a==='r'&&b==='t')||(a==='t'&&b==='r')||(a==='m'&&b==='n')||(a==='n'&&b==='m')
+  ||(v===1&&((a==='s'&&b==='h')||(a==='h'&&b==='s')))                       /* し↔ひ */
+  ||((v===1||v===2)&&((a==='t'&&b==='s')||(a==='s'&&b==='t')));            /* ち↔し, つ↔す */
+const softAllow=n=>n<=3?0.5:n<=5?1.0:n<=8?1.5:2.0;   /* 한 번 읽을 때 봐주는 오차(글자 1개 틀림=1, 비슷한 소리=약 0.4) */
+function softSub(x,y){
+  if(x[0]===y[0]&&x[1]===y[1])return 0;
+  if(x[1]<0||y[1]<0)return 1;
+  if(x[0]===y[0]&&SOFT_VOWEL(x[1],y[1]))return 0.4;
+  if(x[1]===y[1]&&SOFT_CONS(x[0],y[0],x[1]))return 0.45;
+  return 1;
+}
+function softDist(a,b,hardOnly){   /* hardOnly: 비슷한 소리는 0으로 치고, 완전히 다른 글자·빠짐·끼어듦만 셈 */
+  const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){const q=[i];for(let j=1;j<=n;j++){let c=softSub(a[i-1],b[j-1]);if(hardOnly)c=c<1?0:1;q[j]=Math.min(p[j]+1,q[j-1]+1,p[j-1]+c);}p=q;}
+  return p[n];
+}
+const hardAllow=n=>n<=3?0:n<=8?1:2;   /* 비슷하지 않은 글자를 틀려도 되는 개수(단어 전체, 반복해도 늘지 않음) */
 function looseHit(a,acc){
   const n=sk(a);if(!n)return false;
   return [...acc].some(x=>{
     const y=sk(x);if(!y)return false;
     if(n.split(y).join('')==='')return true;
-    const t=Math.floor(y.length/4);if(!t)return false;
-    for(let r=1;r<=4;r++)if(lev(n,y.repeat(r))<=t*r)return true;
+    for(let r=2;r<=4;r++)if(n===sk(String(x).repeat(r)))return true;
+    const t=Math.floor(y.length/4);
+    if(t)for(let r=1;r<=4;r++)if(lev(n,y.repeat(r))<=t*r)return true;
+    /* 비슷한 소리(う↔お, い↔え, ら↔だ, ま↔な)는 반 글자 틀린 것으로 봐서, 한 번 읽을 때마다 1글자까지는 봐줌 */
+    const hu=softUnits(n),tu=softUnits(y);
+    if(hu&&tu&&tu.length){const al=softAllow(tu.length);for(let r=1;r<=4;r++){const rep=softUnits(sk(String(x).repeat(r)));if(!rep||!rep.length||Math.abs(hu.length-rep.length)>(tu.length>=4?2:1))continue;
+      if(softDist(hu,rep,true)<=hardAllow(tu.length)&&softDist(hu,rep)<=al*(rep.length/tu.length))return true;}}
     return false;
   });
 }
@@ -1258,7 +1297,9 @@ function listen(){
     if(!norm(text)){bumpNoSound();phase='ask';msg=NO_SOUND_MSG();render();return;}
     const prefix=segs.slice(0,-1).map(r=>r[0]).join('');
     const alts=segs[segs.length-1].map(a=>prefix+a);
-    if(KO)finishKo(alts);else finish(alts);
+    const every=segs.flatMap(r=>r).filter(Boolean);   /* 덩어리마다·후보마다 따로도 판정: 세 번 읽다가 한 번만 맞게 들려도 정답 */
+    const all=[...new Set([...alts,...every])];
+    if(KO)finishKo(alts);else finish(all);
   };
   endListen=end;
   rec.onresult=e=>{
