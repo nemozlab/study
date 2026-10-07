@@ -122,6 +122,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-
 .emailrow{display:flex;gap:8px;margin-bottom:10px}
 .emailrow input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 12px;font:400 14px "Noto Sans KR",sans-serif}
 select{width:100%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;font:500 14px "Noto Sans KR",sans-serif}
+#main{min-height:100vh;min-height:100svh}
 .card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:20px 16px 18px;margin-top:4px}
 .meta{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);margin-bottom:14px}
 .bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:18px}
@@ -197,7 +198,7 @@ select{width:100%;border:1.5px solid var(--line);background:var(--card);color:va
 .heard{text-align:center;font-size:14px;color:var(--sub);margin-bottom:14px;min-height:21px}
 .heard b{font-family:"Klee One","Yu Gothic",serif;font-size:18px;color:var(--ink);font-weight:600}
 .answer{border-top:1.5px dashed var(--line);margin-top:6px;padding-top:12px;text-align:center}
-.pic{font-size:72px;line-height:1.15}
+.pic{font-size:56px;line-height:1.15}
 .mean{font-size:20px;font-weight:700;margin:2px 0 10px}
 .forms{display:flex;flex-direction:column;gap:8px;width:fit-content;max-width:100%;margin:0 auto 12px;text-align:left}
 .forms div{display:flex;flex-direction:row;align-items:baseline;gap:14px}
@@ -1364,6 +1365,20 @@ function renderScore(){
   $('#score').textContent=`익힌 항목 ${m} / ${W.length}`;
 }
 
+/* 사용자가 한 번이라도 누른 뒤에는, 문제·결과 카드가 화면에 한눈에 들어오도록 카드 위치를 맞춤 */
+let userActed=false,lastAct='';
+document.addEventListener('pointerdown',e=>{userActed=true;const a=e.target.closest&&e.target.closest('[data-act]');lastAct=a?a.dataset.act:'';},true);
+function fitCard(){
+  if(!userActed)return;
+  const mv=['next','prev','skip','again'].includes(lastAct);
+  if(phase==='ask'&&!mv)return;
+  requestAnimationFrame(()=>{
+    const c=document.querySelector('#main .card');if(!c)return;
+    const r=c.getBoundingClientRect();
+    if(Math.abs(r.top-8)<4)return;
+    window.scrollTo({top:Math.max(0,window.scrollY+r.top-8),behavior:'smooth'});
+  });
+}
 function render(){
   renderChips();renderScore();
   const m=$('#main');
@@ -1444,6 +1459,7 @@ function render(){
     }
   }
   m.innerHTML=`${seqbar}<div class="card${Q?((J||PR||KC)?' j2k':' k2j'):''}">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${banner}${body}</div>`;
+  fitCard();
 }
 
 document.addEventListener('change',e=>{
