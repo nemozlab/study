@@ -434,6 +434,27 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .arows .vc{display:flex;flex-wrap:wrap;align-items:baseline;align-content:center;column-gap:10px;min-width:0;padding:8px 0 9px}
 .arows .v{font-family:"Noto Sans JP",sans-serif;font-weight:500;color:var(--ink)}
 .arows .sm{font:500 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+
+/* 예문 판: 단어 줄 아래에 예문 1개 + 작은 듣기 버튼 */
+.expanel{margin-top:14px;display:flex;align-items:center;gap:8px;padding:12px 8px 12px 16px;border-radius:18px;background:var(--tile)}
+.exmain{flex:1;min-width:0}
+.exja{font:400 20px/1.9 "Noto Sans JP",sans-serif;color:var(--ink)}
+.exja rt{font-size:10px;font-weight:500;color:var(--sub)}
+.expanel .hl{color:inherit;border-bottom:2px solid var(--gold-ink)}
+.exko{margin-top:2px;font:400 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.exbtn{flex:none;width:40px;height:40px;margin:0;padding:0;border:0;border-radius:50%;background:var(--card);color:var(--ctl);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 2px rgba(20,33,74,.08)}
+.exbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* 예문 판이 들어가도 정답 확인·결과가 한 화면에 들어오도록 간격을 조금 줄임 */
+.expanel{margin-top:12px;padding:8px 8px 8px 14px}
+.exja{font-size:19px;line-height:1.75}
+.exko{margin-top:0}
+.ask-grade{margin-top:12px}
+.gpair{margin-top:8px}
+.picrow{height:50px}
+.answer .pic{font-size:46px}
+.arows{margin-top:12px}
+.card .answer{margin-top:10px}
 </style>
 </head>
 <body>
@@ -1759,6 +1780,14 @@ const ICONS={
   down:'<path d="m6 9 6 6 6-6"/>'
 };
 function ic(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICONS[n]+'</svg></span>';}
+function exPanel(w){
+  const ex=!w.kana&&typeof AUD_EX!=='undefined'?AUD_EX[w.k]:null;if(!ex)return '';
+  return `<div class="expanel"><div class="exmain"><div class="exja">${audRuby(ex[0],[...(w.alts||[]),w.k],true)}</div><div class="exko">${ex[1]}</div></div><button class="exbtn" data-act="exspeak" aria-label="예문 듣기">${ui('volume',22)}</button></div>`;
+}
+function speakEx(w){
+  const ex=AUD_EX[w.k];if(!ex||!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(audPlain(ex[0]));u.lang='ja-JP';u.rate=0.9;const v=audVoiceFor('ja-JP');if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}
+}
 function answer(w){
   const kanji=w.kana?'':w.alts.find(hasKanji);
   const hg=w.kana?w.m:toHangul(w.k,true);
@@ -2281,10 +2310,10 @@ function render(){
   }else if(phase==='listening'){
     body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>${rowA(`<button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button>`)}<div class="mic-cap">다 말했으면 탭하세요</div>${rowB(eyeB)}`;
   }else if(phase==='reveal'){
-    body=`${answer(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
+    body=`${answer(w)}${exPanel(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }else if(phase==='result'){
     const hd=heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 「${String(heardRaw||'').replace(/[<>&]/g,'')}」(으)로 인식됐어요. 히라가나로 바꿀 수 없는 글자예요`:'');
-    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
+    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${exPanel(w)}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }
   let seqbar='';
   if(w.seqNo&&!isLessonLevel(level)&&!isSpeakLevel(level)&&!isMeaningLevel(level)){
@@ -2322,6 +2351,7 @@ document.addEventListener('click',e=>{
   if(act==='listen')listen();
   else if(act==='stop'){if(endListen)endListen();}
   else if(act==='reveal'){if(isChoiceNow()){giveUp();}else{phase='reveal';render();speakW(w);}}
+  else if(act==='exspeak'){speakEx(w);}
   else if(act==='retryq'){stopRec();msg='';heard='';heardNoConv=false;heardRaw='';verdict=null;phase='ask';render();}
   else if(act==='mok')manual(true);
   else if(act==='mng')manual(false);
