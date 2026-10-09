@@ -283,7 +283,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .ap-sko{margin-top:18px;font-size:17px;line-height:1.4;color:#B4BFDD}
 .aud-player rt{color:#B4BFDD}
 .ap-prog{position:relative;display:flex;justify-content:space-between;font-size:13px;color:#8D9AC0;flex:none}
-.ap-toast{position:absolute;left:50%;bottom:-5px;transform:translate(-50%,4px);height:28px;max-width:92%;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;border-radius:14px;background:#1D2C62;border:1px solid rgba(255,255,255,.14);color:#fff;font:500 13.5px "Noto Sans KR",sans-serif;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.30);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:3}
+.ap-toast{position:absolute;left:50%;bottom:5px;transform:translate(-50%,4px);height:28px;max-width:92%;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;border-radius:14px;background:#1D2C62;border:0;color:#fff;font:500 13.5px "Noto Sans KR",sans-serif;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.30);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:3}
 .ap-toast.show{opacity:1;transform:translate(-50%,0)}
 .ap-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.14);margin-top:8px;flex:none}.ap-bar i{display:block;height:5px;border-radius:3px;background:#F0B429;width:0;transition:width .3s}
 .ap-ctls{flex:none;width:344px;margin:0 auto;zoom:var(--k,1)}
@@ -312,9 +312,9 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 @media (max-height:700px){.ap-ctl{margin-top:12px}.ap-opts{margin-top:12px}}
 
 /* ===== 학습 화면 새 디자인 ===== */
-:root{--tile:#F5F7FB;--soft:#F0F3F8;--soft2:#E9EDF4;--ctl:#5C6A8E;--rail:#E8ECF3;--navy:#20306F;--gold-bg:rgba(240,180,41,.22);--gold-ink:#9A6700;--sep:rgba(20,33,74,.09);--shadow:0 1px 2px rgba(20,33,74,.05),0 14px 36px rgba(20,33,74,.07);--cap:rgba(32,48,111,.06)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--tile:#212C5A;--soft:#222E5E;--soft2:#1D2754;--ctl:#B4BFDD;--rail:#2A3668;--navy:#3B4DA3;--gold-bg:rgba(240,180,41,.20);--gold-ink:#F0B429;--sep:rgba(255,255,255,.09);--shadow:0 1px 0 rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.35);--cap:rgba(255,255,255,.06)}}
-:root[data-theme="dark"]{--tile:#212C5A;--soft:#222E5E;--soft2:#1D2754;--ctl:#B4BFDD;--rail:#2A3668;--navy:#3B4DA3;--gold-bg:rgba(240,180,41,.20);--gold-ink:#F0B429;--sep:rgba(255,255,255,.09);--shadow:0 1px 0 rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.35);--cap:rgba(255,255,255,.06)}
+:root{--tile:#F5F7FB;--soft:#F0F3F8;--soft2:#E9EDF4;--ctl:#5C6A8E;--rail:#E8ECF3;--navy:#20306F;--gold-bg:rgba(90,79,207,.14);--gold-ink:#4A3FB8;--retry:#2A2175;--sep:rgba(20,33,74,.09);--shadow:0 1px 2px rgba(20,33,74,.05),0 14px 36px rgba(20,33,74,.07);--cap:rgba(32,48,111,.06)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--tile:#212C5A;--soft:#222E5E;--soft2:#1D2754;--ctl:#B4BFDD;--rail:#2A3668;--navy:#3B4DA3;--gold-bg:rgba(150,140,255,.22);--gold-ink:#C3BDFF;--retry:#5B4EC2;--sep:rgba(255,255,255,.09);--shadow:0 1px 0 rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.35);--cap:rgba(255,255,255,.06)}}
+:root[data-theme="dark"]{--tile:#212C5A;--soft:#222E5E;--soft2:#1D2754;--ctl:#B4BFDD;--rail:#2A3668;--navy:#3B4DA3;--gold-bg:rgba(150,140,255,.22);--gold-ink:#C3BDFF;--retry:#5B4EC2;--sep:rgba(255,255,255,.09);--shadow:0 1px 0 rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.35);--cap:rgba(255,255,255,.06)}
 /* 위쪽: 회차 + 오디오(한 몸 캡슐), 아이콘 스위치 */
 .lsn-row{display:flex;align-items:stretch;height:52px;background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;gap:0}
 .lsn-row .lsn-pick{flex:1;min-width:0}
@@ -396,6 +396,35 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .opts .opt .sp{flex:none;width:26px}
 .opts.ja .opt .t{font-family:"Noto Sans JP",sans-serif;font-size:22px;font-weight:500}
 .opts .opt:focus-visible,.hb:focus-visible,.gb:focus-visible,.nextc:focus-visible,.mic:focus-visible,.ch-arrow:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.acct-score,.acct.on .acct-score,.topbar #score{display:none!important}
+
+/* ===== 학습 화면 최종: 버튼 체계 · 머리 아이콘 · 정답 행 ===== */
+.ch-icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:var(--sub);cursor:pointer}
+.ch-icon svg{width:22px;height:22px}
+.ch-icon:focus-visible,.nb:focus-visible,.sb:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.rowa{display:flex;justify-content:center;margin-top:24px}
+.rowb{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:18px}
+.nb{width:56px;height:56px;flex:none;margin:0;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.nb:disabled{opacity:.35;cursor:default}
+.nb .ic{width:22px;height:22px}
+.sb{width:56px;height:56px;flex:none;margin:0;padding:0;border:0;border-radius:50%;background:var(--soft);color:var(--ctl);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sb.ok{background:var(--okbg);color:var(--ok)}
+.sb.ng{background:var(--ngbg);color:var(--ng)}
+.sb.hot{background:var(--gold-bg);color:var(--gold-ink)}
+.gpair{display:flex;justify-content:center;gap:28px;margin-top:10px}
+.mic.rt{background:var(--retry);box-shadow:0 10px 22px rgba(42,33,117,.38)}
+.mic-cap{margin-top:10px;text-align:center;font-size:12.5px;color:var(--sub)}
+.ask-grade{margin-top:16px;text-align:center;font-size:14px;color:var(--sub)}
+.verdrow{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px}
+.heardin{font-size:14px;color:var(--sub)}
+.heardin b{font-family:"Noto Sans JP",sans-serif;font-size:17px;font-weight:500;color:var(--ink)}
+.picrow{display:flex;align-items:center;justify-content:center;height:56px}
+.card .answer{margin-top:12px}
+.answer .pic{font-size:52px;line-height:1}
+.arow{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;column-gap:10px;padding:8px 58px 9px}
+.arow .v{font-family:"Noto Sans JP",sans-serif;font-weight:500;color:var(--ink)}
+.arow .sm{font:500 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.opts .opt{font-weight:500}
 </style>
 </head>
 <body>
@@ -1631,6 +1660,8 @@ function finish(alts,typed){
   const ok=cand.some(a=>looseHit(a,acc));
   heard=ok?w.k:showHeard(alts);heardRaw=String(alts[0]||'').trim();if(typed&&!heard)heard=String(alts[0]||'');heardNoConv=!ok&&!heard;verdict=ok;record(w,ok);phase='result';render();speakW(w);
 }
+function isChoiceNow(){const Q=isQuizLevel(level);if(!Q)return false;const qm=qmodes[idx],J=qm==='j2k',JS=J&&qsub[idx]==='speak';return (J&&!JS)||qm==='pron'||qm==='k2jc';}
+function giveUp(){const w=queue[idx];heard='';heardNoConv=false;verdict=false;record(w,false);phase='result';render();speakW(w);}
 function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='result';render();}
 function next(){
   stopRec();idx++;msg='';heard='';verdict=null;resumed=false;
@@ -1691,15 +1722,16 @@ const HG_ROWS={a:'あかがさざただなはばぱまやらわぁゃ',i:'いき
 const HG_V={};Object.keys(HG_ROWS).forEach(v=>[...HG_ROWS[v]].forEach(c=>HG_V[c]=v));
 const HG_SPECIAL={'こんにちは':'곤니치와','こんばんは':'곤반와'};
 function hgJong(syl,j){const c=syl.charCodeAt(0)-0xAC00;return(c>=0&&c<11172&&c%28===0)?String.fromCharCode(0xAC00+c+j):syl;}
-function toHangul(k){
+function hgJong2(syl,j){const m=/ー$/.test(syl);const r=hgJong(m?syl.slice(0,-1):syl,j);return m?r+'ー':r;}
+function toHangul(k,mark){
   if(HG_SPECIAL[k])return HG_SPECIAL[k];
   const ch=[...k],out=[];let lastV='';
   for(let i=0;i<ch.length;i++){
     const c=ch[i],n=ch[i+1]||'';
     if(c==='ー')continue;
-    if(c==='っ'){if(out.length)out[out.length-1]=hgJong(out[out.length-1],19);lastV='';continue;}
-    if(c==='ん'){if(out.length)out[out.length-1]=hgJong(out[out.length-1],4);lastV='';continue;}
-    if(out.length&&((c==='う'&&(lastV==='o'||lastV==='u'))||(c==='お'&&lastV==='o')||(c==='あ'&&lastV==='a')||(c==='い'&&(lastV==='e'||lastV==='i'))||(c==='え'&&lastV==='e')))continue;
+    if(c==='っ'){if(out.length)out[out.length-1]=hgJong2(out[out.length-1],19);lastV='';continue;}
+    if(c==='ん'){if(out.length)out[out.length-1]=hgJong2(out[out.length-1],4);lastV='';continue;}
+    if(out.length&&((c==='う'&&(lastV==='o'||lastV==='u'))||(c==='お'&&lastV==='o')||(c==='あ'&&lastV==='a')||(c==='い'&&(lastV==='e'||lastV==='i'))||(c==='え'&&lastV==='e'))){if(mark&&out.length&&!/ー$/.test(out[out.length-1]))out[out.length-1]+='ー';continue;}
     let syl,v;
     if(HG_COMBO[c+n]){syl=HG_COMBO[c+n];v=HG_V[n];i++;}
     else if(HG_BASE[c]){syl=HG_BASE[c];v=HG_V[c];}
@@ -1720,9 +1752,14 @@ const ICONS={
 function ic(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICONS[n]+'</svg></span>';}
 function answer(w){
   const kanji=w.kana?'':w.alts.find(hasKanji);
-  const rows=(kanji?[['한자',kanji,'']]:[]).concat([['히라가나',w.k,''],['카타카나',toKata(w.k),''],['뜻',w.m,'ko']]);
+  const hg=w.kana?w.m:toHangul(w.k,true);
+  const rows=[];
+  if(kanji)rows.push(['한자',kanji,w.m]);
+  rows.push(['히라가나',w.k,w.kana?hg:(kanji?hg:`${hg} · ${w.m}`)]);
+  rows.push(['카타카나',toKata(w.k),'']);
+  const fs=v=>Math.max(15,Math.min(27,Math.floor((CARDW-116)/[...v].length)));
   const ex=w.kana?`<p class="status" style="margin:10px 0 0">예) <span class="jp-ex">${w.x}</span> (${w.xm})</p>`:'';
-  return `<div class="answer"><div class="pic" aria-hidden="true">${w.e||''}</div><div class="arows">${rows.map(([l,v,c])=>`<div class="arow"><span class="lb">${l}</span><span class="v${c?' '+c:''}" style="font-size:${Math.max(15,Math.min(27,Math.floor((CARDW-120)/[...v].length)))}px">${v}</span></div>`).join('')}</div>${ex}</div>`;
+  return `<div class="answer"><div class="picrow"><span class="pic" aria-hidden="true">${w.e||''}</span></div><div class="arows">${rows.map(([l,v,sm])=>`<div class="arow"><span class="lb">${l}</span><span class="v" style="font-size:${fs(v)}px">${v}</span>${sm?`<span class="sm">${sm}</span>`:''}</div>`).join('')}</div>${ex}</div>`;
 }
 
 
@@ -2152,8 +2189,7 @@ function renderChips(){
 }
 
 function renderScore(){
-  const m=W.filter(isMastered).length;
-  $('#score').textContent=`익힌 ${m} / ${W.length}`;
+  const el=$('#score');if(el)el.textContent='';   /* 「익힌 n / 전체」 표시는 쓰지 않음 */
 }
 
 /* 사용자가 한 번이라도 누른 뒤에는, 문제·결과 카드가 화면에 한눈에 들어오도록 카드 위치를 맞춤 */
@@ -2207,33 +2243,39 @@ function render(){
   const PR=Q&&qm==='pron',KC=Q&&qm==='k2jc',CH=(J&&!JS)||PR||KC;
   CARDW=Math.max(200,(m.clientWidth||innerWidth)-40);
   const lastQ=idx+1>=queue.length;
-  const head=`<div class="ch"><div class="ch-l"><button class="ch-arrow" data-act="prev"${idx===0?' disabled':''} aria-label="이전">${ic('prev')}</button><div class="ch-n"><b>${w.seqNo||idx+1}</b><span>/ ${w.seqTotal||queue.length}</span></div><button class="ch-arrow" data-act="${phase==='result'?'next':'skip'}" aria-label="${phase==='result'&&lastQ?'결과 보기':'다음'}">${ic('next')}</button></div><div class="ch-r"><span class="ch-score">정답 ${okCnt}</span>${starBtn(w.k)}</div></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
-  const hb=(act,ic2,label,hot)=>`<button class="hb${hot?' hot':''}" data-act="${act}" aria-label="${label}">${ui(ic2)}</button>`;
-  const spk=hb('speak','volume','발음 듣기');
-  const micBtn=`<div class="micwrap"><button class="mic" data-act="listen" aria-label="${(Q&&qm==='k2j')||JS?'말하기 (마이크)':'읽기 (마이크)'}">${ui('mic',36)}</button></div>`;
-  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${o}</span><span class="sp"></span></button>`).join('')}</div>`;
+  const head=`<div class="ch"><div class="ch-n"><b>${w.seqNo||idx+1}</b><span>/ ${w.seqTotal||queue.length}</span></div><div class="ch-r"><span class="ch-score">정답 ${okCnt}</span>${starBtn(w.k)}<button class="ch-icon" data-act="speak" aria-label="다시 듣기">${ui('volume',22)}</button></div></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
+  const nb=(act,html,label)=>`<button class="nb" data-act="${act}"${act==='prev'&&idx===0?' disabled':''} aria-label="${label}">${html}</button>`;
+  const nextAct=phase==='result'?'next':'skip';
+  const nextIc=phase==='result'&&lastQ?ic('check'):ic('next');
+  const nextLb=phase==='result'&&lastQ?'결과 보기':'다음';
+  const rowB=mid=>`<div class="rowb">${nb('prev',ic('prev'),'이전')}${mid}${nb(nextAct,nextIc,nextLb)}</div>`;
+  const rowA=btn=>`<div class="rowa">${btn}</div>`;
+  const sb=(act,ic2,label,cls)=>`<button class="sb${cls?' '+cls:''}" data-act="${act}" aria-label="${label}">${ui(ic2,24)}</button>`;
   const hot=phase==='nomic'||(noSound.i===idx&&noSound.c>=2);
+  const eyeB=sb('reveal','eye','정답 보기',hot?'hot':'');
+  const micMain=`<button class="mic" data-act="listen" aria-label="${(Q&&qm==='k2j')||JS?'말하기 (마이크)':'읽기 (마이크)'}">${ui('mic',36)}</button>`;
+  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${o}</span><span class="sp"></span></button>`).join('')}</div>`;
   const instr=w.kana?['같은 글자를 3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n<=2?['3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n===3?['2번 이어서 읽어보세요',`${w.k}　${w.k}`]:['소리 내어 읽어보세요',''];
   let body='';
   if(J&&!JS&&phase==='ask'){
-    body=`${boxes(w,'',.8)}<div class="status" id="status">뜻을 골라주세요</div>${optsHtml(qopts[idx],false)}<div class="helpers">${spk}</div>`;
+    body=`${boxes(w,'',.8)}<div class="status" id="status">뜻을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
   }else if(PR&&phase==='ask'){
-    body=`${boxes(w,'',.8)}<div class="status" id="status">한글 발음을 골라주세요</div>${optsHtml(qopts[idx],false)}<div class="helpers">${spk}</div>`;
+    body=`${boxes(w,'',.8)}<div class="status" id="status">한글 발음을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
   }else if(KC&&phase==='ask'){
-    body=`<div class="qz">${w.kana?'':`<div class="pic" aria-hidden="true">${w.e}</div>`}<div class="mean">${w.m}</div></div><div class="status" id="status">${w.kana?'이 소리가 나는 글자를 골라주세요':'일본어를 골라주세요'}</div>${optsHtml(qopts[idx],true)}`;
+    body=`<div class="qz">${w.kana?'':`<div class="pic" aria-hidden="true">${w.e}</div>`}<div class="mean">${w.m}</div></div><div class="status" id="status">${w.kana?'이 소리가 나는 글자를 골라주세요':'일본어를 골라주세요'}</div>${optsHtml(qopts[idx],true)}${rowB(eyeB)}`;
   }else if(JS&&(phase==='ask'||phase==='nomic')){
-    body=`${boxes(w)}<div class="status" id="status">${msg||'뜻을 한국어로 말해보세요'}</div>${phase==='ask'?micBtn:''}<div class="helpers">${hb('reveal','eye','정답 보기',hot)}${spk}</div>`;
+    body=`${boxes(w)}<div class="status" id="status">${msg||'뜻을 한국어로 말해보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(Q&&qm==='k2j'&&(phase==='ask'||phase==='nomic')){
-    body=`${quizPrompt(w)}<div class="status" id="status">${msg||'뜻을 보고 일본어로 말해보세요'}</div>${phase==='ask'?micBtn:''}<div class="helpers">${hb('reveal','eye','정답 보기',hot)}</div>`;
+    body=`${quizPrompt(w)}<div class="status" id="status">${msg||'뜻을 보고 일본어로 말해보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(phase==='ask'||phase==='nomic'){
-    body=`${boxes(w)}<div class="status" id="status">${msg||instr[0]}</div>${msg||!instr[1]?'':`<div class="status2">${instr[1]}</div>`}${phase==='ask'?micBtn:''}<div class="helpers">${hb('reveal','eye','정답 보기',hot)}${spk}</div>`;
+    body=`${boxes(w)}<div class="status" id="status">${msg||instr[0]}</div>${msg||!instr[1]?'':`<div class="status2">${instr[1]}</div>`}${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(phase==='listening'){
-    body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div><div class="micwrap"><button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button></div><div class="mic-cap">다 말했으면 탭하세요</div>`;
+    body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>${rowA(`<button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button>`)}<div class="mic-cap">다 말했으면 탭하세요</div>${rowB(eyeB)}`;
   }else if(phase==='reveal'){
-    body=`${answer(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="grades"><div class="g ng"><button class="gb" data-act="mng" aria-label="틀렸어요">${ui('x',30)}</button><span>틀렸어요</span></div><div class="g ok"><button class="gb" data-act="mok" aria-label="맞았어요">${ui('check',30)}</button><span>맞았어요</span></div></div><div class="helpers">${spk}${SR&&!CH?hb('listen','refresh',Q?'다시 말하기':'다시 읽기'):''}</div>`;
+    body=`${answer(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }else if(phase==='result'){
     const hd=heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 「${String(heardRaw||'').replace(/[<>&]/g,'')}」(으)로 인식됐어요. 히라가나로 바꿀 수 없는 글자예요`:'');
-    body=`<div class="vwrap"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span></div><div class="heard">${hd}</div>${answer(w)}<div class="grades"><button class="nextc" data-act="next" aria-label="${lastQ?'결과 보기':'다음'}">${lastQ?ui('check',30):ui('next',30)}</button></div><div class="helpers">${spk}${SR&&!CH?hb('listen','refresh',Q?'다시 말하기':'다시 읽기'):''}</div>`;
+    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }
   let seqbar='';
   if(w.seqNo&&!isLessonLevel(level)&&!isSpeakLevel(level)&&!isMeaningLevel(level)){
@@ -2270,7 +2312,8 @@ document.addEventListener('click',e=>{
   const act=a.dataset.act,w=queue[idx];
   if(act==='listen')listen();
   else if(act==='stop'){if(endListen)endListen();}
-  else if(act==='reveal'){phase='reveal';render();speakW(w);}
+  else if(act==='reveal'){if(isChoiceNow()){giveUp();}else{phase='reveal';render();speakW(w);}}
+  else if(act==='retryq'){stopRec();msg='';heard='';heardNoConv=false;heardRaw='';verdict=null;phase='ask';render();}
   else if(act==='mok')manual(true);
   else if(act==='mng')manual(false);
   else if(act==='next')next();
