@@ -385,7 +385,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .arows{margin-top:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .arow{position:relative;padding:9px 0 10px;text-align:center}
 .arow+.arow{border-top:1px solid var(--line)}
-.arow .lb{position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:12px;color:var(--sub)}
+.arow .lb{position:static;transform:none;font-size:12px;color:var(--sub);align-self:center}
 .arow .v{font-family:"Noto Sans JP",sans-serif;font-weight:500;color:var(--ink)}
 .arow .v.ko{font-family:"Noto Sans KR",sans-serif;font-weight:700}
 /* 선택지 */
@@ -421,10 +421,19 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .picrow{display:flex;align-items:center;justify-content:center;height:56px}
 .card .answer{margin-top:12px}
 .answer .pic{font-size:52px;line-height:1}
-.arow{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;column-gap:10px;padding:8px 58px 9px}
+.arow{display:grid;grid-template-columns:78px minmax(0,1fr);align-items:baseline;padding:8px 0 9px;text-align:left}
+.arow .vc{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px;min-width:0}
 .arow .v{font-family:"Noto Sans JP",sans-serif;font-weight:500;color:var(--ink)}
 .arow .sm{font:500 14px "Noto Sans KR",sans-serif;color:var(--sub)}
 .opts .opt{font-weight:500}
+
+/* 정답 줄: 값은 같은 왼쪽 선에서 시작하고, 값 덩어리 전체는 카드 가운데에 놓임(긴 값은 덩어리가 넓어져 왼쪽으로 늘어남) */
+.arows{display:grid;grid-template-columns:minmax(22px,1fr) fit-content(calc(100% - 44px)) minmax(22px,1fr);align-items:stretch;margin-top:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.arows .bt{border-top:1px solid var(--line)}
+.arows .al,.arows .ae{display:flex;align-items:center;padding:8px 0 9px;font-size:12px;color:var(--sub)}
+.arows .vc{display:flex;flex-wrap:wrap;align-items:baseline;align-content:center;column-gap:10px;min-width:0;padding:8px 0 9px}
+.arows .v{font-family:"Noto Sans JP",sans-serif;font-weight:500;color:var(--ink)}
+.arows .sm{font:500 14px "Noto Sans KR",sans-serif;color:var(--sub)}
 </style>
 </head>
 <body>
@@ -1757,9 +1766,9 @@ function answer(w){
   if(kanji)rows.push(['한자',kanji,w.m]);
   rows.push(['히라가나',w.k,w.kana?hg:(kanji?hg:`${hg} · ${w.m}`)]);
   rows.push(['카타카나',toKata(w.k),'']);
-  const fs=v=>Math.max(15,Math.min(27,Math.floor((CARDW-116)/[...v].length)));
+  const fs=v=>{const n=[...v].length;return Math.max(15,Math.min(n>=8?21:27,Math.floor((CARDW-44)/n)));};
   const ex=w.kana?`<p class="status" style="margin:10px 0 0">예) <span class="jp-ex">${w.x}</span> (${w.xm})</p>`:'';
-  return `<div class="answer"><div class="picrow"><span class="pic" aria-hidden="true">${w.e||''}</span></div><div class="arows">${rows.map(([l,v,sm])=>`<div class="arow"><span class="lb">${l}</span><span class="v" style="font-size:${fs(v)}px">${v}</span>${sm?`<span class="sm">${sm}</span>`:''}</div>`).join('')}</div>${ex}</div>`;
+  return `<div class="answer"><div class="picrow"><span class="pic" aria-hidden="true">${w.e||''}</span></div><div class="arows">${rows.map(([l,v,sm],i)=>`<span class="al${i?' bt':''}" aria-hidden="true"></span><div class="vc${i?' bt':''}"><span class="v" style="font-size:${fs(v)}px">${v}</span>${sm?`<span class="sm">${sm}</span>`:''}</div><span class="ae${i?' bt':''}"></span>`).join('')}</div>${ex}</div>`;
 }
 
 
