@@ -305,7 +305,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .ap-list{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;padding:max(12px,env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));background:#101B40}
 .ap-list-head{display:flex;align-items:center;justify-content:space-between;height:52px}.ap-list-head b{font-size:18px}
 .ap-list-sub{margin-top:4px;font-size:13.5px;color:#B4BFDD}
-.ap-list-body{flex:1;overflow:auto;margin-top:10px;border-top:1px solid rgba(255,255,255,.10)}
+.ap-list-body{flex:1;overflow:auto;margin-top:10px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14px);mask-image:linear-gradient(to bottom,transparent 0,#000 14px)}
 .ap-li{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:6px 10px;border:0;border-bottom:1px solid rgba(255,255,255,.10);background:transparent;color:#fff;text-align:left;font:500 16px "Noto Sans KR","Noto Sans JP",sans-serif;cursor:pointer}
 .ap-li .n{flex:none;width:24px;color:#8D9AC0;font-size:13px}.ap-li .w{flex:1;min-width:0;font-family:"Noto Sans JP",sans-serif;font-size:24px;font-weight:500}.ap-li .w small{color:#8D9AC0;font-size:14px}.ap-li .m{flex:none;color:#F0B429;font-weight:700;max-width:42%;text-align:right}
 .ap-li.on{background:rgba(240,180,41,.14)}
@@ -1312,7 +1312,22 @@ const LEVELS=[['1','1음'],['2','2음'],['3','3음'],['4','4음'],['5','5음'],[
 /* ---- 저장 ---- */
 const EMAILKEY='hira-email';
 const emailKey=e=>{e=(e||'').trim().toLowerCase();return(/^[a-z0-9_.+\-~:]+@[a-z0-9.\-]+\.[a-z]{2,}$/.test(e)&&e.length<=150)?e:null;};
-let cloudEmail='';try{localStorage.removeItem(EMAILKEY);}catch(e){}
+/* 로그인(이메일)은 한 곳이 지워져도 남도록 여러 곳에 저장: 기기 저장소 → 탭 저장소 → 쿠키(1년) → 창 이름(새로고침) */
+const ckPath=()=>{try{return location.pathname.replace(/[^/]*$/,'')||'/';}catch(e){return '/';}};
+function ckGet(){try{const m=document.cookie.match(/(?:^|;\s*)hira-email=([^;]*)/);return m?decodeURIComponent(m[1]):'';}catch(e){return '';}}
+function ckSet(v){try{if(!/^https?:$/.test(location.protocol))return;document.cookie=v?`hira-email=${encodeURIComponent(v)}; max-age=31536000; path=${ckPath()}; SameSite=Lax${location.protocol==='https:'?'; Secure':''}`:`hira-email=; max-age=0; path=${ckPath()}`;}catch(e){}}
+function emStore(v){
+  try{if(v)localStorage.setItem(EMAILKEY,v);else localStorage.removeItem(EMAILKEY);}catch(e){}
+  try{if(v)sessionStorage.setItem(EMAILKEY,v);else sessionStorage.removeItem(EMAILKEY);}catch(e){}
+  ckSet(v);
+  try{window.name=(window.name||'').replace(/(^|;)hira-email=[^;]*/g,'')+(v?';hira-email='+encodeURIComponent(v):'');}catch(e){}
+}
+function emLoad(){
+  const tries=[()=>localStorage.getItem(EMAILKEY),()=>sessionStorage.getItem(EMAILKEY),ckGet,()=>{const m=(window.name||'').match(/(?:^|;)hira-email=([^;]*)/);return m?decodeURIComponent(m[1]):'';}];
+  for(const t of tries){try{const v=emailKey(t());if(v)return v;}catch(e){}}
+  return '';
+}
+let cloudEmail=emLoad();if(cloudEmail)emStore(cloudEmail);
 const BASEKEY='hira-progress-v2';
 const progKey=()=>BASEKEY+(cloudEmail?':'+cloudEmail:'');
 const freshP=()=>({stats:{},qstats:{},session:null,level:'2',cat:'전체',custom:[],mode:'lesson',seq:{},stars:{}});
@@ -2067,6 +2082,19 @@ function audRenderList(){
   const on=l.querySelector('.on');if(on&&on.scrollIntoView)on.scrollIntoView({block:'center'});
 }
 /* ---- 열기: 오디오 버튼을 누르면 바로 재생 ---- */
+let audHist=false,audListHist=false,audSkipPop=0;
+function audHistPop(n){if(n<=0)return;audSkipPop++;try{history.go(-n);}catch(e){audSkipPop--;}}
+function audSetList(open,fromPop){
+  if(open===AUD.listOpen)return;
+  AUD.listOpen=open;audRenderList();
+  if(open){try{history.pushState({audList:1},'');audListHist=true;}catch(e){}}
+  else if(audListHist){audListHist=false;if(!fromPop)audHistPop(1);}
+}
+window.addEventListener('popstate',()=>{
+  if(audSkipPop>0){audSkipPop--;return;}
+  if(!AUD.player)return;
+  if(AUD.listOpen)audSetList(false,true);else audClose(true);
+});
 function audOpen(){
   if(!('speechSynthesis' in window)){showToast('이 브라우저는 음성 읽기를 지원하지 않아요');return;}
   const v=LV(level),n=v?v.n:LESSONS[LESSONS.length-1].n;
@@ -2077,19 +2105,22 @@ function audOpen(){
   AUD.order=AUD.opts.mode==='rand'?audShuffle(list):list.slice();AUD.pos=0;AUD.step=audFirst(AUD.order[0]);AUD.rep=0;AUD.ended=false;AUD.listOpen=false;
   audBuild();AUD.player=true;$a('audPlayer').hidden=false;document.body.style.overflow='hidden';
   audRenderList();audPlay();
+  try{history.pushState({aud:1},'');audHist=true;}catch(e){}
 }
-function audClose(){
+function audClose(fromPop){
   audStop();AUD.playing=false;AUD.player=false;AUD.listOpen=false;audKeep(false);
   const p=$a('audPlayer');if(p)p.hidden=true;document.body.style.overflow='';
+  const n=(audListHist?1:0)+(audHist?1:0);audListHist=false;audHist=false;
+  if(!fromPop)audHistPop(n);
 }
 window.addEventListener('resize',()=>{if(AUD.player)audFit();});
 document.addEventListener('click',e=>{
   const b=e.target.closest&&e.target.closest('[data-aud]');if(!b)return;
   switch(b.dataset.aud){
     case 'open':audOpen();break;
-    case 'close':audClose();break;
-    case 'list':AUD.listOpen=!AUD.listOpen;audRenderList();break;
-    case 'jump':AUD.pos=+b.dataset.i;AUD.step=audFirst(AUD.order[AUD.pos]);AUD.rep=0;AUD.ended=false;AUD.listOpen=false;audRenderList();if(AUD.playing)audPlay();else audRender();break;
+    case 'close':audClose(false);break;
+    case 'list':audSetList(!AUD.listOpen);break;
+    case 'jump':AUD.pos=+b.dataset.i;AUD.step=audFirst(AUD.order[AUD.pos]);AUD.rep=0;AUD.ended=false;audSetList(false);if(AUD.playing)audPlay();else audRender();break;
     case 'mode':{const m=AUD.opts.mode==='rand'?'seq':'rand';audSetMode(m);showToast(m==='rand'?'랜덤으로 듣기':'순서대로 듣기');break;}
     case 'prev':audGo(-1);break;
     case 'next':audGo(1);break;
@@ -2386,7 +2417,7 @@ async function applyEmail(){
   lastApplyAt=Date.now();
   const inp0=document.getElementById('email');
   // 재입력 중에 빈 칸으로 '입력' → 취소 (현재 이메일 유지)
-  if(inp0&&!inp0.value.trim()&&cloudEmail&&acctEditing){acctEditing=false;renderAcct();syncOn();return;}
+  if(inp0&&!inp0.value.trim()&&cloudEmail){acctEditing=false;renderAcct();syncOn();return;}
   await applyEmailCore();
   const inp=document.getElementById('email');
   if(cloudEmail&&inp&&emailKey(inp.value)===cloudEmail)acctEditing=false;
@@ -2401,6 +2432,7 @@ async function applyEmailCore(){
   savePrgLocal();
   if(cloudRef){clearTimeout(cloudTimer);try{await pushCloud();}catch(e){}}
   cloudEmail=em;
+  emStore(em);
   if(inp)inp.value=em;
   P=loadLocal();
   cloudRef=pickRef();
@@ -2429,7 +2461,7 @@ async function applyEmailCore(){
 async function initCloud(){
   try{
     const inp=document.getElementById('email');
-    if(inp)inp.value='';
+    if(inp)inp.value=cloudEmail||'';
     if(!window.claude||!window.claude.use){setSync(cloudEmail?'이 기기·브라우저에만 저장돼요 (claude.ai 링크로 열면 이메일 기준으로 어디서든 이어져요)':HINT);return;}
     const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
     cloudDb=db;cloudUid=(db&&user)?await user.id():null;
@@ -2455,6 +2487,7 @@ applyCustom();
 fixLevelForMode();
 if(!restore())start(level);else render();
 renderAcct();
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 initCloud();
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{});}catch(e){}});}
 (function(){var sp=document.getElementById('splash');if(!sp||!document.documentElement.classList.contains('splash-on'))return;var done=false;
