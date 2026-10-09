@@ -66,8 +66,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-
 .lsn-pick select:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 .lsn-pick .chev{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;display:inline-flex;color:var(--sub);pointer-events:none}
 .lsn-pick .chev .ic{width:18px;height:18px}
-.lsn-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:8px;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
-.lsn-seg .tab{display:flex;align-items:center;justify-content:center;gap:5px;height:41px;padding:0 6px;border:0;border-radius:0;font-size:15px;text-align:center;white-space:nowrap;background:transparent}
+.lsn-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:8px;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.lsn-seg .tab{display:flex;align-items:center;justify-content:center;gap:4px;height:41px;padding:0 3px;border:0;border-radius:0;font-size:14.5px;text-align:center;white-space:nowrap;background:transparent}
 .lsn-seg .tab+.tab{border-left:1px solid var(--line)}
 .lsn-seg .tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-left-color:var(--ink)}
 .lsn-seg .tab[aria-pressed="true"]+.tab{border-left-color:var(--ink)}
@@ -1136,10 +1136,11 @@ const LESSON = `
    Lesson 3 / Quiz 3 이 Lesson 탭에 자동으로 생겨요. 새 단어는 위 RAW 의 "# Lesson" 아래에도 한 줄씩 추가하세요. */
 const LESSONS=[];
 LESSON.trim().split('\n').forEach(l=>{l=l.trim();if(!l)return;const h=l.match(/^#\s*Lesson\s*(\d+)/i);if(h){LESSONS.push({n:+h[1],label:'Lesson '+h[1],keys:[]});return;}if(l.startsWith('#'))return;const cur=LESSONS[LESSONS.length-1];if(cur)l.split(/\s+/).forEach(k=>{if(k)cur.keys.push(k);});});
-const LV=l=>{const m=/^([LQS])(\d+)$/.exec(l||'');return m?{t:m[1],n:+m[2]}:null;};
+const LV=l=>{const m=/^([LQSM])(\d+)$/.exec(l||'');return m?{t:m[1],n:+m[2]}:null;};
 const lessonOf=l=>{const v=LV(l);if(!v)return null;if(v.n===0)return cloudEmail?{n:0,label:'나의 노트',keys:[]}:null;return LESSONS.find(x=>x.n===v.n)||null;};
 const isLessonLevel=l=>{const v=LV(l);return !!v&&v.t==='L'&&!!lessonOf(l);};
-const isQuizLevel=l=>{const v=LV(l);return !!v&&(v.t==='Q'||v.t==='S')&&!!lessonOf(l);};
+const isQuizLevel=l=>{const v=LV(l);return !!v&&(v.t==='Q'||v.t==='S'||v.t==='M')&&!!lessonOf(l);};
+const isMeaningLevel=l=>{const v=LV(l);return !!v&&v.t==='M'&&!!lessonOf(l);};
 const isSpeakLevel=l=>{const v=LV(l);return !!v&&v.t==='S'&&!!lessonOf(l);};
 const CHIP_LEVEL=/^(1|2|3|4|5|6|all|nemoz|wrong|mine|star)$/;
 const lessonCache={};
@@ -1256,6 +1257,10 @@ function start(l){
     let st=isL?0:(P.seq[l]||0);if(st>=n)st=0;
     const size=isL?n:10;
     queue=list.slice(st,st+size).map((w,i)=>Object.assign({},w,{seqNo:st+i+1,seqTotal:n}));
+  }else if(isMeaningLevel(l)){
+    // 뜻: 그 수업 단어를 수업 순서 그대로 전부, 일본어를 보고 한국어 뜻을 4지선다로 고르기
+    const list=lessonWords(LV(l).n).filter(w=>pool.includes(w));
+    queue=list.map((w,i)=>Object.assign({},w,{qmode:'j2k',qpref:'choice',seqNo:i+1,seqTotal:list.length}));
   }else if(isSpeakLevel(l)){
     // 말하기: 그 수업 단어를 수업 순서 그대로 전부, 한글 뜻을 보고 일본어로 말하기
     const list=lessonWords(LV(l).n).filter(w=>pool.includes(w));
@@ -1529,7 +1534,7 @@ function renderChips(){
   const cur=LV(level),curN=cur?cur.n:LESSONS[LESSONS.length-1].n,curT=cur?cur.t:'L';
   const lw=lessonWords(curN),cw=lw.length,cq=lw.length*2;
   tabsEl.innerHTML=`<label class="lsn-pick"><select id="lsnSel" aria-label="회차 선택"><option value="0"${curN===0?' selected':''}>★ 나의 노트 ${cloudEmail?`(${lessonWords(0).length})`:'(로그인 후 사용)'}</option>${LESSONS.slice().reverse().map(L=>`<option value="${L.n}"${L.n===curN?' selected':''}>Lesson ${L.n}</option>`).join('')}</select><span class="chev">${ic('down')}</span></label>`+
-    `<div class="lsn-seg"><button class="tab" data-level="L${curN}" aria-pressed="${curT==='L'}">읽기<small>${cw}</small></button><button class="tab" data-level="S${curN}" aria-pressed="${curT==='S'}">말하기<small>${cw}</small></button><button class="tab" data-level="Q${curN}" aria-pressed="${curT==='Q'}">퀴즈<small>${cq}</small></button></div>`;
+    `<div class="lsn-seg"><button class="tab" data-level="L${curN}" aria-pressed="${curT==='L'}">읽기<small>${cw}</small></button><button class="tab" data-level="M${curN}" aria-pressed="${curT==='M'}">뜻<small>${cw}</small></button><button class="tab" data-level="S${curN}" aria-pressed="${curT==='S'}">말하기<small>${cw}</small></button><button class="tab" data-level="Q${curN}" aria-pressed="${curT==='Q'}">퀴즈<small>${cq}</small></button></div>`;
 }
 
 function renderScore(){
@@ -1551,6 +1556,17 @@ function fitCard(){
     window.scrollTo({top:Math.max(0,window.scrollY+r.top-8),behavior:'smooth'});
   });
 }
+
+/* 뜻 탭: 새 문제가 나오면 일본어 단어를 자동으로 읽어줌(같은 문제에서 다시 그려져도 반복하지 않음) */
+let lastAutoKey='';
+function autoSpeakMeaning(){
+  if(phase!=='ask'||!isMeaningLevel(level)){return;}
+  const w=queue[idx];if(!w)return;
+  const key=level+'|'+idx+'|'+w.k;
+  if(key===lastAutoKey)return;
+  lastAutoKey=key;
+  setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},180);
+}
 function render(){
   renderChips();renderScore();
   const m=$('#main');
@@ -1564,7 +1580,7 @@ function render(){
       ${bad.length?`<ul class="list">${bad.map(w=>`<li><span style="display:flex;align-items:center"><span class="e">${w.e}</span><span><span class="k">${w.k}</span> <span class="k">${toKata(w.k)}</span><br><span class="m">${w.kana?'':(w.alts.find(hasKanji)||'')} ${w.m}</span></span></span><span style="display:flex;align-items:center;gap:6px">${starBtn(w.k)}<button class="speak" data-speak="${w.k}" aria-label="발음 듣기">🔊</button></span></li>`).join('')}</ul>`:''}
       <button class="btn primary" data-act="again">${queue[0]&&queue[0].seqNo?'이어서 하기':'새 라운드'}</button>
       ${queue[0]&&queue[0].seqNo?`<button class="btn ghost" data-act="restartseq">처음부터</button>`:''}
-      ${isLessonLevel(level)||isSpeakLevel(level)?`<button class="btn primary" data-level="Q${LV(level).n}">퀴즈 풀기 ›</button>`:''}
+      ${isLessonLevel(level)||isSpeakLevel(level)||isMeaningLevel(level)?`<button class="btn primary" data-level="Q${LV(level).n}">퀴즈 풀기 ›</button>`:''}
       ${!isLessonLevel(level)&&!isQuizLevel(level)&&W.some(isWrong)?`<button class="btn ghost" data-level="wrong">오답 단어만 풀기</button>`:''}</div>`;
     return;
   }
@@ -1620,7 +1636,7 @@ function render(){
     body+=`<div class="row navrow"><button class="btn ghost" data-act="prev"${idx===0?' disabled':''}>◀ 이전</button><button class="btn ghost" data-act="skip">다음 ▶</button></div>`;
   }
   let seqbar='';
-  if(w.seqNo&&!isLessonLevel(level)&&!isSpeakLevel(level)){
+  if(w.seqNo&&!isLessonLevel(level)&&!isSpeakLevel(level)&&!isMeaningLevel(level)){
     const total=w.seqTotal;
     seqbar=`<div class="jumpbar"><button class="jb-toc" data-act="toc" aria-haspopup="true" aria-expanded="${tocOpen}" aria-pressed="${tocOpen}">${ic('list')}<span>목차</span><span class="chev">${ic('down')}</span></button><span class="jb-div" aria-hidden="true"></span><span class="jb-group"><input class="jb-input" id="jn" type="number" inputmode="numeric" min="1" max="${total}" placeholder="번호 (1~${total})" aria-label="이동할 번호"><button class="jb-go" data-act="jump">이동</button></span></div>`;
     if(tocOpen){
@@ -1631,7 +1647,7 @@ function render(){
     }
   }
   m.innerHTML=`${seqbar}<div class="card${Q?((J||PR||KC)?' j2k':' k2j'):''}">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${banner}${body}</div>`;
-  fitCard();
+  fitCard();autoSpeakMeaning();
 }
 
 document.addEventListener('change',e=>{
