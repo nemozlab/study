@@ -805,6 +805,47 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 /* 단어 페이지: 뒤로가기는 글씨 없이 화살표만 */
 .wp-back{width:44px;height:44px;padding:0;border:0;background:transparent;justify-content:center;margin-left:-8px;gap:0}
 .wp-back svg{width:26px;height:26px;color:var(--ink)}
+
+/* ===== 메일 페이지: 학습 카드와 같은 디자인 (카드 · 윗줄 · 진행선 · 마이크 · 아래 버튼) ===== */
+.mp-card{margin-top:12px;padding:18px 18px 22px}
+.mp-card .bar{margin:12px 0 0}
+.mp-streak{color:#B7791F}
+.ch-icon.say{background:var(--navy);color:#fff;animation:micPulse 1.4s ease-out infinite}
+.mp-card .mp-s{margin:16px 0 0;text-align:center;font-size:26px;line-height:2;text-wrap:balance}
+.mp-card .mp-k{margin-top:2px;text-align:center}
+.mp-stat{margin-top:12px;min-height:46px;text-align:center}
+.mp-hint{font-size:14px;color:var(--sub);line-height:1.5}
+.mp-hint b{display:flex;align-items:center;justify-content:center;gap:6px;font-size:14.5px;color:var(--ink)}
+.mp-hint small{display:block;margin-top:2px;font-size:13px}.mp-hint small span{color:var(--ink)}
+.mp-hint.ok b{color:var(--ok)}.mp-hint.no b{color:var(--sub)}.mp-hint b svg{width:16px;height:16px}
+.mp-card .rowa{margin-top:6px}
+.mp-card .rowb{margin-top:16px}
+.mp-card .mic{margin:0}
+.sb.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.mp-fin{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 0 4px}
+/* 중요한 단어: 일본어 아래에 한글, 오른쪽에 ★ · 🔊 */
+.mp-words{margin-top:4px}
+.mp-w{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;align-items:center;padding:2px 0;border-bottom:1px solid var(--line);cursor:default}
+.mp-w .wl{display:flex;flex-direction:column;min-width:0;margin:0;padding:0 2px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;font:inherit}
+.mp-w .ws,.mp-w .sp{width:38px;height:38px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mp-w .ws{color:#C2C8D6}.mp-w .ws svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.mp-w .ws.on{color:#F0B429}.mp-w .ws.on svg{fill:currentColor}
+.mp-w .sp{color:var(--navy);border:1.5px solid var(--navy);width:34px;height:34px;margin-right:2px}
+.mp-w.say .sp{background:var(--navy);color:#fff;animation:micPulse 1.4s ease-out infinite}
+.mp-w.say .j,.mp-w.say .k b{color:#5A4FCF}
+.mp-w .sp svg{width:18px;height:18px}
+
+/* 메일 페이지: 카드 디자인은 그대로 두고 세로 여백만 조금씩 줄여 한 화면에 */
+.mp-card{margin-top:8px;padding:14px 16px 18px}
+.mp-card .mp-s{margin-top:10px;font-size:25px;line-height:1.85}
+.mp-stat{min-height:38px;margin-top:8px}
+.mp-card .rowb{margin-top:12px}
+.mp-wh{margin:8px 2px 0}
+.mp-w .j{font-size:17px;line-height:1.7}
+.mp-w .k{margin-top:-4px;padding-bottom:2px}
+
+/* 플레이어: 별 버튼 자리(위쪽)를 비워서 글자와 겹치지 않게 */
+.ap-main{padding-top:52px}
 </style>
 </head>
 <body>
@@ -2312,6 +2353,19 @@ function mlSpeak(text,kind,i){
   mlSayMark();
 }
 function mlAlignTop(){const r=document.querySelector('.mp-row');if(r)window.scrollTo({top:Math.max(0,window.scrollY+r.getBoundingClientRect().top-8)});}
+function mlFavWord(w){   /* 메일의 중요한 단어를 나의 노트(즐겨찾기)에 담기·빼기 */
+  if(!cloudEmail){promptLogin();return false;}
+  const k=w.k;
+  if(!W.some(x=>x.k===k)){
+    P.custom=P.custom||[];
+    if(!P.custom.some(c=>c.k===k)){
+      const plain=audPlain(w.rb||w.k).replace(/[〜~]/g,'');
+      P.custom.push({k,m:String(w.m||'').replace(/\s*\([^)]*\)/g,'').trim(),kj:hasKanji(plain)?plain:'',e:'✉️',src:'mail'});
+    }
+    applyCustom();
+  }
+  toggleStar(k);return true;
+}
 function stopMlRec(){clearTimeout(mailTimer);if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
 function mlEnd(i,msg){stopMlRec();mailLive=-1;mailRes[i]={msg};render();}
 function mlGrade(alts,u){   /* 소리가 조금 달라도 괜찮게: 맞음 / 거의 맞음(읽은 걸로 처리) / 다시 */
@@ -2357,6 +2411,7 @@ function mlAct(a,i){
   if(a==='first'){mlGoto(mlFirstUnread(mail),true);return;}
   if(a==='restart'){mlGoto(0,true);return;}
   const u=mail.units[mailPage];if(!u)return;
+  if(a==='wstar'){const w=(u.words||[])[i];if(w){mlFavWord(w);render();}return;}
   if(a==='word'){const w=(u.words||[])[i];if(w)mlSpeak(w.sp||audPlain(w.rb||w.k).replace(/[〜~]/g,''),'w',i);return;}
   if(a==='speak')mlSpeak(u.sp||u.jp,'s',0);
   else if(a==='read')mlRead(mailPage);
@@ -2369,27 +2424,27 @@ function renderMail(m){
   const mail=mailData[mailIdx]||mailData[0],n=mail.units.length,done=(mlDone()[mail.date]||[]).filter(i=>i<n);
   const pg=Math.max(0,Math.min(n,mailPage)),streak=mlStreak();
   const opts=mailData.map((x,j)=>`<option value="${j}"${j===mailIdx?' selected':''}>${mlLabel(x.date)}${mlFull(x)?' ✓':''}</option>`).join('');
-  const seg=mail.units.map((u,i)=>`<button type="button" class="s${done.includes(i)?' ok':''}${i===pg?' cur':''}" data-ml="go" data-i="${i}" aria-label="${i+1}번째 문장"></button>`).join('');
-  let body='',words='';
+  let inner='',words='';
   if(pg<n){
     const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
     const ws=Array.isArray(u.words)?u.words:[];
-    if(ws.length)words=`<div class="mp-words"><div class="mp-wh">중요한 단어</div>${ws.map((w,j)=>`<button class="mp-w" data-ml="word" data-i="${j}" type="button"><span class="wl"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span></span><span class="sp" aria-hidden="true">${ui('volume',20)}</span></button>`).join('')}</div>`;
-    let res='';
-    if(live)res='<div class="mp-res"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
-    else if(r&&r.msg)res=`<div class="mp-res"><b>${r.msg}</b></div>`;
-    else if(r)res=`<div class="mp-res ${r.g==='no'?'no':'ok'}"><b>${r.g==='ok'?ic('check')+'잘 읽었어요':r.g==='close'?ic('check')+'거의 맞아요 · 읽은 걸로 할게요':'다시 한 번 읽어볼까요?'}</b><small>들린 소리 · <span lang="ja">${r.heard||'—'}</span></small></div>`;
-    body=`<div class="mp-body"><div class="mp-s" lang="ja">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
-    <div class="mp-ctl"><button class="mp-a" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="mp-b" data-ml="speak" type="button" aria-label="듣기">${ui('volume',26)}</button><button class="mp-mic${live?' live':''}" data-ml="read" type="button" aria-label="따라 읽기 (마이크)">${ui('mic',36)}</button><button class="mp-b ck${ok?' on':''}" data-ml="check" type="button" aria-pressed="${ok}" aria-label="읽음 표시">${ic('check')}</button><button class="mp-a" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>
-    <div class="mp-resbox">${res}</div></div>`;
+    if(ws.length)words=`<div class="mp-words"><div class="mp-wh">중요한 단어</div>${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
+    let stat='<div class="mp-hint">문장을 읽어 보세요</div>';
+    if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
+    else if(r&&r.msg)stat=`<div class="mp-hint"><b>${r.msg}</b></div>`;
+    else if(r)stat=`<div class="mp-hint ${r.g==='no'?'no':'ok'}"><b>${r.g==='ok'?ic('check')+'잘 읽었어요':r.g==='close'?ic('check')+'거의 맞아요 · 읽은 걸로 할게요':'다시 한 번 읽어볼까요?'}</b><small>들린 소리 · <span lang="ja">${r.heard||'—'}</span></small></div>`;
+    inner=`<div class="mp-s" lang="ja">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
+    <div class="mp-stat">${stat}</div>
+    <div class="rowa"><button class="mic${live?' live':''}" data-ml="read" type="button" aria-label="따라 읽기 (마이크)">${ui('mic',36)}</button></div>
+    <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="sb${ok?' ok':''}" data-ml="check" type="button" aria-pressed="${ok}" aria-label="읽음 표시">${ic('check')}</button><button class="nb" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>`;
   }else{
     const left=n-done.length;
-    body=`<div class="mp-body mp-fin"><div class="mp-fi${left?'':' ok'}">${ic('check')}</div><h3>${left?'마지막 문장까지 왔어요':'이 메일을 끝까지 읽었어요'}</h3><p>${left?`아직 읽지 않은 문장이 ${left}개 있어요`:(streak?`연속 ${streak}일째예요`:'')}</p>${left?'<button class="mp-link" data-ml="first" type="button">읽지 않은 문장으로 가기</button>':''}<button class="mp-link" data-ml="restart" type="button">처음부터 다시 읽기</button><div class="mp-ctl mp-end"><button class="mp-a" data-ml="prev" type="button" aria-label="이전 문장">${ic('prev')}</button><span></span><button class="mp-a" type="button" aria-label="다음 문장" disabled>${ic('next')}</button></div></div>`;
+    inner=`<div class="mp-fin"><div class="mp-fi${left?'':' ok'}">${ic('check')}</div><h3>${left?'마지막 문장까지 왔어요':'이 메일을 끝까지 읽었어요'}</h3><p>${left?`아직 읽지 않은 문장이 ${left}개 있어요`:(streak?`연속 ${streak}일째예요`:'')}</p>${left?'<button class="mp-link" data-ml="first" type="button">읽지 않은 문장으로 가기</button>':''}<button class="mp-link" data-ml="restart" type="button">처음부터 다시 읽기</button></div>
+    <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장">${ic('prev')}</button><span style="width:56px"></span><button class="nb" type="button" aria-label="다음 문장" disabled>${ic('next')}</button></div>`;
   }
   m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
-  <div class="mp-info"><span class="mp-ko">${mail.subjectKo||''}</span>${streak?`<b class="mp-streak">연속 ${streak}일</b>`:''}</div>
-  <div class="mp-prog"><div class="mp-seg">${seg}</div><span class="mp-cnt"><b>${Math.min(pg+1,n)}</b> / ${n}</span></div>
-  ${body}${words}</div>`;
+  <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ch-icon" data-ml="speak" type="button" aria-label="문장 듣기">${ui('volume',22)}</button>`:''}</div></div>
+  <div class="bar"><i style="width:${Math.round(Math.min(pg,n)/n*100)}%"></i></div>${inner}</div>${words}</div>`;
   mlSayMark();
   if(mailAlign){mailAlign=false;requestAnimationFrame(mlAlignTop);}
 }
@@ -2766,7 +2821,7 @@ function audSetMode(m){
 }
 function audStar(){
   const w=AUD.order[AUD.pos];if(!w)return;
-  if(P.mode==='mail'){showToast('메일 문장은 나의 노트에 담을 수 없어요');return;}
+  if(P.mode==='mail'){if(w.c==='문장'){showToast('문장은 담을 수 없어요. 중요한 단어만 나의 노트에 담을 수 있어요');return;}if(mlFavWord(w))audRender();return;}
   if(!cloudEmail){showToast('나의 노트는 로그인하면 쓸 수 있어요');return;}
   P.stars=P.stars||{};const on=!isStar(w.k);P.stars[w.k]={on:on,t:Date.now()};savePrg();
   document.querySelectorAll('[data-star]').forEach(b=>{if(b.dataset.star===w.k){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);}});
@@ -2867,7 +2922,8 @@ function audFit(){   /* 단어 글자 수·화면 크기에 맞춰 크기 조절
   const w=AUD.order[AUD.pos];if(!w)return;
   const main=$a('apMain'),mw=Math.max(200,main.clientWidth-8);
   const hira=$a('apHira'),n=[...w.k].length;
-  let fs=Math.max(40,Math.min(72,Math.floor(innerHeight*0.12),Math.floor(mw/5.3)));
+  {const e0=$a('apExJa');if(e0)e0.style.fontSize='';}   /* 이전 글자에서 줄였던 예문 크기 되돌림 */
+  let fs=Math.max(36,Math.min(48,Math.floor(mw/(Math.max(n,3)*0.9))));   /* 짧은 단어도 긴 단어도 36~48px 안에서 비슷하게 */
   const SENT=w.c==='문장';if(SENT)fs=Math.max(22,Math.min(40,Math.floor((mw*2.1)/Math.max(n,8))));
   hira.style.fontSize=fs+'px';hira.style.letterSpacing=SENT?'0':'';
   const rbe=$a('apRb');
@@ -2878,16 +2934,23 @@ function audFit(){   /* 단어 글자 수·화면 크기에 맞춰 크기 조절
     f=Math.max(isS?24:30,f);rbe.style.fontSize=f+'px';
     if(isS||len>8){for(let i=0;i<12&&f>(isS?24:30);i++){const lh=parseFloat(getComputedStyle(rbe).lineHeight)||f*1.85;if(rbe.offsetHeight<=lh*2+6)break;f-=2;rbe.style.fontSize=f+'px';}}
   }
-  /* 별 버튼과 글자가 겹치는 긴 단어(인사말)만 내용을 조금 아래로 내림 */
-  const blk=$a('apA'),star=$a('apStar');blk.style.paddingTop='';
-  if(!blk.hidden&&star){
-    const st=star.getBoundingClientRect();
-    const hit=[...blk.children].some(e=>{if(!e.textContent.trim()||e.style.display==='none')return false;const rg=document.createRange();rg.selectNodeContents(e);return [...rg.getClientRects()].some(q=>q.width&&q.right>st.left+2&&q.left<st.right-2&&q.bottom>st.top+2&&q.top<st.bottom-2);});
-    if(hit)blk.style.paddingTop='52px';
-  }
+  /* 별 버튼 자리는 항상 비워 둠(글자 영역 위쪽 50px) — 글자가 아무리 커도 별과 겹치지 않음 */
+  $a('apA').style.paddingTop='';
   /* 아주 낮은 화면에서 두 줄짜리 인사말이 잘릴 때만 조금 줄임 */
-  for(let i=0;i<6&&main.scrollHeight>main.clientHeight+1&&fs>(SENT?22:40);i++){fs-=4;hira.style.fontSize=fs+'px';}
+  for(let i=0;i<6&&main.scrollHeight>main.clientHeight+1&&fs>(SENT?22:48);i++){fs-=3;hira.style.fontSize=fs+'px';}
   if(w.rb){for(let i=0;i<10&&main.scrollHeight>main.clientHeight+1&&parseInt(rbe.style.fontSize)>22;i++)rbe.style.fontSize=(parseInt(rbe.style.fontSize)-3)+'px';}
+  /* 그래도 넘치면: 히라가나(최소 30px) → 예문(최소 18px) 순서로 더 줄임 */
+  if(!$a('apA').hidden){
+    const exj=$a('apExJa');let ef=parseFloat(getComputedStyle(exj).fontSize)||27,hs=parseFloat(hira.style.fontSize)||fs;
+    const hvis=getComputedStyle(hira).display!=='none';
+    for(let i=0;i<14&&main.scrollHeight>main.clientHeight+1;i++){
+      if(ef>20){ef-=2;exj.style.fontSize=ef+'px';}                  /* 예문부터 줄이고 */
+      else if(hvis&&hs>38){hs-=2;hira.style.fontSize=hs+'px';}       /* 단어는 38px 밑으로 잘 안 내려가게 */
+      else if(ef>18){ef-=2;exj.style.fontSize=ef+'px';}
+      else if(hvis&&hs>32){hs-=2;hira.style.fontSize=hs+'px';}
+      else break;
+    }
+  }
   const ex=audEx(w);
   if(ex){const len=audPlain(ex[0]).length,fit=Math.floor((mw-8)/len);$a('apSent').style.fontSize=(fit>=26?Math.min(38,fit):(len<=24?Math.max(24,Math.min(34,Math.floor(((mw-8)*1.9)/len))):24))+'px';}
 }
@@ -3028,7 +3091,7 @@ const KANA_ROWS=[['あ','あいうえおぁぃぅぇぉゔ'],['か','かきく�
 const kanaRow=k=>{const c=(k||'')[0];const r=KANA_ROWS.find(x=>x[1].includes(c));return r?r[0]:'기타';};
 let dictQ='',dictOpen=null,dictSorted=null;
 const escA=t=>String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-function dictAll(){const base=W.filter(w=>w.c!=='문장');if(!dictSorted||dictSorted.length!==base.length)dictSorted=base.sort((a,b)=>a.k.localeCompare(b.k,'ja'));return dictSorted;}
+function dictAll(){const base=W.filter(w=>w.c!=='문장'&&!w.mailw);if(!dictSorted||dictSorted.length!==base.length)dictSorted=base.sort((a,b)=>a.k.localeCompare(b.k,'ja'));return dictSorted;}
 const HG_CH='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ',HG_JU='ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ';
 const HG_JO=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 function hgJamo(str){let o='';for(const ch of String(str)){const c=ch.charCodeAt(0)-0xAC00;o+=(c>=0&&c<11172)?HG_CH[Math.floor(c/588)]+HG_JU[Math.floor((c%588)/28)]+HG_JO[c%28]:ch;}return o;}
@@ -3414,7 +3477,7 @@ function applyCustom(){
     if(!c||!c.k||have.has(c.k))continue;
     have.add(c.k);
     const alts=c.kj?[c.kj]:[];
-    W.push({k:c.k,alts,m:c.m||'',e:c.e||'📝',c:'내 단어',n:units(c.k).length,custom:true});
+    W.push({k:c.k,alts,m:c.m||'',e:c.e||'📝',c:'내 단어',n:units(c.k).length,custom:true,mailw:!!c.src});
     if(c.kj&&hasKanji(c.kj))ckj.push([norm(c.kj),c.k]);
   }
   KJ=[...KJ_BASE,...ckj].sort((a,b)=>b[0].length-a[0].length);
