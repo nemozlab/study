@@ -725,6 +725,30 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 
 /* 플레이어 문장: 줄 간격을 줄이고, 줄 나눔을 고르게 (「が、」 한 글자만 따로 남지 않게) */
 .ap-rb{line-height:1.85;text-wrap:balance}
+
+/* ===== 메일 페이지: 한눈에 (스크롤 없이) · 단어는 일본어 아래에 한글 · 읽는 중 표시 ===== */
+.mp-body{min-height:0;padding:4px 0 0}
+.mp-s{font-size:26px;line-height:2}
+.mp-ctl{margin-top:12px}
+.mp-resbox{min-height:40px;margin-top:8px}
+.mp-words{margin-top:2px}
+.mp-wh{margin:10px 2px 0}
+.mp-w{grid-template-columns:minmax(0,1fr) auto;gap:0 12px;padding:2px 2px}
+.mp-w .wl{display:flex;flex-direction:column;min-width:0}
+.mp-w .j{font:500 18px/1.9 "Noto Sans JP",sans-serif}
+.mp-w .k{font:500 13.5px/1.35 "Noto Sans KR",sans-serif;color:var(--ink);margin-top:-2px;padding-bottom:4px}
+.mp-w .k b{font:inherit;color:var(--ink)}
+.mp-w .k small{font:400 12.5px "Noto Sans KR",sans-serif;color:var(--sub);margin-left:6px}
+.mp-w .sp{width:36px;height:36px;border:1.5px solid var(--navy);border-radius:50%;align-items:center;justify-content:center;padding:0}
+.mp-w .sp svg{width:18px;height:18px}
+.mp-s.say{color:#5A4FCF}
+.mp-b.say,.mp-w.say .sp{background:var(--navy);color:#fff;animation:micPulse 1.4s ease-out infinite}
+.mp-w.say .j,.mp-w.say .k b{color:#5A4FCF}
+/* ===== 플레이어: 일본어는 노란색, 한국어 뜻은 연하게 ===== */
+.ap-rb,.ap-hira{color:#F0B429}
+.ap-rb rt{color:rgba(240,180,41,.72)}
+.ap-a .ap-mean{color:#E4E9F8}
+.ap-pron{color:#9FA9CE}
 </style>
 </head>
 <body>
@@ -2180,7 +2204,7 @@ function toggleStar(k){
 
 /* ===== 메일 탭: 매일 중요한 메일 1통 — 1문장 1페이지로 넘기며 듣고 따라 읽기 (NEMOZ.IO 로그인 전용) ===== */
 const MAIL_DONE_KEY='tomoz-mail-done';
-let mailData=null,mailState='idle',mailIdx=0,mailPage=0,mailLive=-1,mailRes={},mailRec=null,mailTimer=0;
+let mailData=null,mailState='idle',mailIdx=0,mailPage=0,mailLive=-1,mailRes={},mailRec=null,mailTimer=0,mailAlign=false,mailSay=null;
 const mlYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const mlLabel=ds=>{const d=new Date(ds+'T00:00:00');return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+'일월화수목금토'[d.getDay()]+')';};
 const mlDone=()=>{try{return JSON.parse(localStorage.getItem(MAIL_DONE_KEY))||{};}catch(e){return {};}};
@@ -2210,6 +2234,28 @@ function mlAudBuild(mail){
   });
   return out.length?out:mail.units.map(sent);   /* 단어가 하나도 없는 메일이면 문장으로 */
 }
+function mlSayMark(){   /* 읽어주는 동안 그 문장·단어를 선택된 것처럼 표시 (다시 그리지 않고 표시만 바꿈) */
+  const on=k=>!!mailSay&&mailSay.kind===k;
+  document.querySelectorAll('[data-ml="speak"]').forEach(b=>{b.classList.toggle('say',on('s'));b.setAttribute('aria-pressed',on('s'));});
+  const sx=document.querySelector('.mp-s');if(sx)sx.classList.toggle('say',on('s'));
+  document.querySelectorAll('.mp-w').forEach((w,j)=>w.classList.toggle('say',on('w')&&mailSay.i===j));
+}
+function mlSpeak(text,kind,i){
+  if(!('speechSynthesis' in window))return;
+  const same=mailSay&&mailSay.kind===kind&&mailSay.i===i;
+  try{speechSynthesis.cancel();}catch(e){}
+  if(same){mailSay=null;mlSayMark();return;}   /* 읽는 중에 다시 누르면 멈춤 */
+  if(mailLive>=0){stopMlRec();mailLive=-1;mailSay={kind,i};render();}   /* 마이크가 켜져 있으면 끔 */
+  mailSay={kind,i};
+  try{
+    const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.85;
+    const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith('ja'));if(v)u.voice=v;
+    const end=()=>{if(mailSay&&mailSay.kind===kind&&mailSay.i===i){mailSay=null;mlSayMark();}};
+    u.onend=end;u.onerror=end;speechSynthesis.speak(u);
+  }catch(e){mailSay=null;}
+  mlSayMark();
+}
+function mlAlignTop(){const r=document.querySelector('.mp-row');if(r)window.scrollTo({top:Math.max(0,window.scrollY+r.getBoundingClientRect().top-8)});}
 function stopMlRec(){clearTimeout(mailTimer);if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
 function mlEnd(i,msg){stopMlRec();mailLive=-1;mailRes[i]={msg};render();}
 function mlGrade(alts,u){   /* 소리가 조금 달라도 괜찮게: 맞음 / 거의 맞음(읽은 걸로 처리) / 다시 */
@@ -2231,7 +2277,7 @@ function mlRead(i){
   const SRC=window.__SR||SR;
   if(!SRC){mailRes[i]={msg:'이 브라우저는 음성 인식을 지원하지 않아요'};render();return;}
   try{speechSynthesis.cancel();}catch(e){}
-  stopMlRec();mailLive=i;mailRes[i]=null;render();
+  mailSay=null;stopMlRec();mailLive=i;mailRes[i]=null;render();
   const r=new SRC();mailRec=r;r.lang='ja-JP';r.interimResults=false;r.maxAlternatives=5;r.continuous=false;
   let got=false;
   r.onresult=e=>{got=true;const alts=[];for(const rs of e.results)for(const a of rs)alts.push(a.transcript);mlFinish(i,alts);};
@@ -2241,9 +2287,9 @@ function mlRead(i){
   try{r.start();}catch(e){mlEnd(i,'마이크를 켤 수 없어요');}
 }
 function mlGoto(pg,scroll){
-  stopMlRec();mailLive=-1;const mail=mailData&&mailData[mailIdx];if(!mail)return;
+  stopMlRec();mailLive=-1;try{speechSynthesis.cancel();}catch(e){}mailSay=null;const mail=mailData&&mailData[mailIdx];if(!mail)return;
   mailPage=Math.max(0,Math.min(mail.units.length,pg));render();
-  if(scroll){const r=document.querySelector('.mp-row');if(r)window.scrollTo({top:Math.max(0,window.scrollY+r.getBoundingClientRect().top-8)});}
+  if(scroll)mlAlignTop();
 }
 function mlAct(a,i){
   const mail=mailData&&mailData[mailIdx];
@@ -2255,8 +2301,8 @@ function mlAct(a,i){
   if(a==='first'){mlGoto(mlFirstUnread(mail),true);return;}
   if(a==='restart'){mlGoto(0,true);return;}
   const u=mail.units[mailPage];if(!u)return;
-  if(a==='word'){const w=(u.words||[])[i];if(w)speak(w.sp||audPlain(w.rb||w.k).replace(/[〜~]/g,''));return;}
-  if(a==='speak')speak(u.sp||u.jp);
+  if(a==='word'){const w=(u.words||[])[i];if(w)mlSpeak(w.sp||audPlain(w.rb||w.k).replace(/[〜~]/g,''),'w',i);return;}
+  if(a==='speak')mlSpeak(u.sp||u.jp,'s',0);
   else if(a==='read')mlRead(mailPage);
   else if(a==='check'){mlMark(mail.date,mailPage,!(mlDone()[mail.date]||[]).includes(mailPage));render();}
 }
@@ -2272,7 +2318,7 @@ function renderMail(m){
   if(pg<n){
     const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
     const ws=Array.isArray(u.words)?u.words:[];
-    if(ws.length)words=`<div class="mp-words"><div class="mp-wh">중요한 단어</div>${ws.map((w,j)=>`<button class="mp-w" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="t"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span><span class="sp" aria-hidden="true">${ui('volume',20)}</span></button>`).join('')}</div>`;
+    if(ws.length)words=`<div class="mp-words"><div class="mp-wh">중요한 단어</div>${ws.map((w,j)=>`<button class="mp-w" data-ml="word" data-i="${j}" type="button"><span class="wl"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span></span><span class="sp" aria-hidden="true">${ui('volume',20)}</span></button>`).join('')}</div>`;
     let res='';
     if(live)res='<div class="mp-res"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
     else if(r&&r.msg)res=`<div class="mp-res"><b>${r.msg}</b></div>`;
@@ -2288,6 +2334,8 @@ function renderMail(m){
   <div class="mp-info"><span class="mp-ko">${mail.subjectKo||''}</span>${streak?`<b class="mp-streak">연속 ${streak}일</b>`:''}</div>
   <div class="mp-prog"><div class="mp-seg">${seg}</div><span class="mp-cnt"><b>${Math.min(pg+1,n)}</b> / ${n}</span></div>
   ${body}${words}</div>`;
+  mlSayMark();
+  if(mailAlign){mailAlign=false;requestAnimationFrame(mlAlignTop);}
 }
 /* ===== 오디오 레슨: 수업 단어마다 짧은 예문(일본어 + 한국어, 한자는 漢字{よみ} 로 후리가나 표기) ===== */
 const AUD_EX={
@@ -2769,9 +2817,10 @@ function audFit(){   /* 단어 글자 수·화면 크기에 맞춰 크기 조절
   const rbe=$a('apRb');
   if(w.rb){   /* 긴 문장도 두 줄 안에 들어오게 글자 크기 자동 조절 */
     const len=[...audPlain(w.rb)].length;
-    let f=len<=8?Math.min(56,Math.floor(mw/Math.max(len,4)*0.95)):Math.min(38,Math.floor(mw*2/(len+2)));
-    f=Math.max(22,f);rbe.style.fontSize=f+'px';
-    if(len>8){for(let i=0;i<12&&f>22;i++){const lh=parseFloat(getComputedStyle(rbe).lineHeight)||f*1.85;if(rbe.offsetHeight<=lh*2+6)break;f-=2;rbe.style.fontSize=f+'px';}}
+    const isS=w.c==='문장';   /* 문장은 32px 안팎으로 비슷하게, 단어는 44px 안팎으로 */
+    let f=isS?Math.min(32,Math.floor(mw*2/(len+2))):Math.min(44,Math.floor(mw/Math.max(len,5)*0.95));
+    f=Math.max(isS?24:30,f);rbe.style.fontSize=f+'px';
+    if(isS||len>8){for(let i=0;i<12&&f>(isS?24:30);i++){const lh=parseFloat(getComputedStyle(rbe).lineHeight)||f*1.85;if(rbe.offsetHeight<=lh*2+6)break;f-=2;rbe.style.fontSize=f+'px';}}
   }
   /* 별 버튼과 글자가 겹치는 긴 단어(인사말)만 내용을 조금 아래로 내림 */
   const blk=$a('apA'),star=$a('apStar');blk.style.paddingTop='';
@@ -3229,7 +3278,7 @@ document.addEventListener('click',e=>{
   const mlb=e.target.closest('[data-ml]');
   if(mlb){mlAct(mlb.dataset.ml,+mlb.dataset.i);return;}
   const mm=e.target.closest('[data-mode]');
-  if(mm){P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();savePrg();if(P.mode==='dict'||P.mode==='mail'){render();window.scrollTo(0,0);}else start(level);return;}
+  if(mm){P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();savePrg();if(P.mode==='dict'||P.mode==='mail'){if(P.mode==='mail')mailAlign=true;render();window.scrollTo(0,0);}else start(level);return;}
   const c=e.target.closest('[data-level]');
   if(c){start(c.dataset.level);return;}
   const sp=e.target.closest('[data-speak]');
