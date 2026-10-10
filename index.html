@@ -749,6 +749,62 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .ap-rb rt{color:rgba(240,180,41,.72)}
 .ap-a .ap-mean{color:#E4E9F8}
 .ap-pron{color:#9FA9CE}
+
+/* 플레이어: 후리가나(위의 작은 글씨)는 흰색으로 더 크게, 한글 뜻은 보통 굵기 · 한글 발음은 굵게 */
+.ap-rb{line-height:2.05}
+.ap-rb rt{color:#FFFFFF;font-size:max(14px,.44em);font-weight:500;letter-spacing:.5px}
+.ap-a .ap-mean{font-weight:400}
+.ap-pron{font-weight:700;color:#C3CCEC;font-size:15.5px}
+
+/* ===== 단어장 디자인 정리: 알약·카드 대신 가는 선 ===== */
+/* 필터: 글자 + 밑줄 */
+.dict-chips{gap:22px;margin:6px 2px 0}
+.dc{padding:8px 0 6px;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--sub);font:600 15px "Noto Sans KR",sans-serif}
+.dc.on{background:transparent;color:var(--ink);font-weight:800;border-bottom-color:var(--navy)}
+/* 최근 검색: 글자 + 가는 밑줄 */
+.dr-chip{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:0 2px}
+.dr-chips{gap:14px}
+/* あ〜わ: 한 줄로 고르게, 선택된 행은 색 + 밑줄 */
+.dict-bar{padding:2px 0 0}
+.dict-idx{display:flex;gap:0;padding:0;overflow:visible;border-bottom:1px solid var(--line)}
+.dict-idx button{flex:1 1 0;min-width:0;height:44px;margin:0 0 -1px;padding:0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:#8A93A8;font:600 18px "Noto Sans JP",sans-serif}
+.dict-idx button.on{background:transparent;color:#4A3FB8;font-weight:800;border-bottom-color:#5A4FCF}
+/* 목록: 카드 없이 선으로 */
+.dict-sec{margin:18px 2px 0;font:800 13px "Noto Sans KR",sans-serif;color:var(--sub);letter-spacing:.3px}
+.dict-item{margin-top:0;background:transparent;border-radius:0;box-shadow:none;border-bottom:1px solid var(--line)}
+.di-main{padding:12px 2px 12px 4px}
+.di-e{font-size:28px}
+.di-star{color:#C2C8D6}
+.dict-count{margin:12px 2px 0}
+
+/* あ〜わ: 밑선은 한 번만 (두 겹으로 보이던 것 정리) */
+.dict-idx{border-bottom:0}
+.dict-bar{border-bottom:1px solid var(--line)}
+.dict-idx button{margin:0;border-bottom:0;position:relative}
+.dict-idx button.on::after{content:"";position:absolute;left:6px;right:6px;bottom:-1px;height:2px;background:#5A4FCF}
+
+/* 단어장: 「720개」와 「あ행」 제목은 보이지 않게 (위치만 남겨서 행 이동·현재 행 표시는 그대로) */
+.dict-count{display:none}
+.dict-sec{height:0;margin:0;padding:0;overflow:hidden;font-size:0;line-height:0;scroll-margin-top:47px}
+.dict-item:first-child{margin-top:4px}
+
+/* 예문 판: 문장은 전체 폭, 재생 버튼은 번역 줄 오른쪽 / 밑줄은 본문 글자 바로 아래 */
+.expanel{display:block;padding:12px 10px 10px 16px}
+.exrow2{display:flex;align-items:center;gap:10px;margin-top:2px}
+.exrow2 .exko{flex:1;min-width:0;margin:0}
+.exja .hl,.ap-ex .hl{border-bottom-width:2px;padding-bottom:1px}
+.expanel .exbtn{width:38px;height:38px}
+
+.exrow2 .exko{text-wrap:balance;line-height:1.5}
+.exja{text-wrap:pretty}
+
+/* 단어 페이지: 글자 칸 아래 점선과 정답 줄 위 실선이 두 줄로 겹치던 것 → 선 하나만 */
+.wp-card .answer{border-top:0;margin-top:14px;padding-top:0}
+.wp-card .arows{margin-top:0}
+
+/* 단어 페이지: 뒤로가기는 글씨 없이 화살표만 */
+.wp-back{width:44px;height:44px;padding:0;border:0;background:transparent;justify-content:center;margin-left:-8px;gap:0}
+.wp-back svg{width:26px;height:26px;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -2154,7 +2210,7 @@ const ICONS={
 function ic(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICONS[n]+'</svg></span>';}
 function exPanel(w){
   const ex=!w.kana&&typeof AUD_EX!=='undefined'?AUD_EX[w.k]:null;if(!ex)return '';
-  return `<div class="expanel"><div class="exmain"><div class="exja">${audRuby(ex[0],[...(w.alts||[]),w.k,toKata(w.k)],true)}</div><div class="exko">${ex[1]}</div></div><button class="exbtn" data-act="exspeak" aria-label="예문 듣기">${ui('volume',22)}</button></div>`;
+  return `<div class="expanel"><div class="exja">${audRuby(ex[0],[...(w.alts||[]),w.k,toKata(w.k)],true)}</div><div class="exrow2"><div class="exko">${ex[1]}</div><button class="exbtn" data-act="exspeak" aria-label="예문 듣기">${ui('volume',22)}</button></div></div>`;
 }
 function speakEx(w){
   const ex=AUD_EX[w.k];if(!ex||!('speechSynthesis' in window))return;
@@ -2602,7 +2658,7 @@ function audRuby(mk,hl,mark){
   for(const c of (hl||[])){const k=plain.indexOf(c);if(k>=0){s=k;e=k+c.length;break;}}
   const hlOn=mark!==false;
   let pos=0;
-  const parts=u.map(x=>{const a=pos,b=pos+x.t.length;pos=b;const inner=x.r?`<ruby>${x.t}<rt>${x.r}</rt></ruby>`:x.t;return {a,h:(hlOn&&s>=0&&a<e&&b>s)?`<span class="hl">${inner}</span>`:inner};});
+  const parts=u.map(x=>{const a=pos,b=pos+x.t.length;pos=b;const on=hlOn&&s>=0&&a<e&&b>s,base=on?`<span class="hl">${x.t}</span>`:x.t;return {a,h:x.r?`<ruby>${base}<rt>${x.r}</rt></ruby>`:base};});
   /* 줄을 바꿀 수 있는 자리: 단어 경계(브라우저의 일본어 단어 분리) — 없으면 글자 사이. 목표 단어 안쪽은 항상 붙임 */
   const cuts=new Set();
   try{for(const g of new Intl.Segmenter('ja',{granularity:'word'}).segment(plain))cuts.add(g.index);}catch(err){}
@@ -3030,6 +3086,7 @@ function dictOnScroll(){
   if(b)b.classList.toggle('show',(window.scrollY||0)>500);
   let cur='';
   for(const h of document.querySelectorAll('.dict-sec')){if(h.getBoundingClientRect().top<=72)cur=h.id.replace('dsec-','');else break;}
+  if((window.innerHeight+(window.scrollY||0))>=document.documentElement.scrollHeight-4){const hs=document.querySelectorAll('.dict-sec');if(hs.length)cur=hs[hs.length-1].id.replace('dsec-','');}   /* 맨 아래(짧은 마지막 행 わ)까지 내리면 마지막 행으로 */
   document.querySelectorAll('.dict-idx button').forEach(x=>x.classList.toggle('on',x.dataset.didx===cur));
 }
 let dictRaf=0;
@@ -3108,7 +3165,7 @@ function renderDictPage(m){
   else if(p.msg)res=`<div class="wp-res ng"><span class="wp-ri">${ui('mic',18)}</span><div><b>${p.msg}</b></div></div>`;
   const mic=p.res?`<button class="mic rt" data-wp="read" type="button" aria-label="다시 읽어보기">${ui('refresh',34)}</button>`:`<button class="mic${p.live?' live':''}" data-wp="read" type="button" aria-label="${p.live?'듣는 중 (누르면 멈춤)':'읽어보기 (마이크)'}">${ui('mic',36)}</button>`;
   const pv=W.find(x=>x.k===p.keys[p.i-1]),nx=W.find(x=>x.k===p.keys[p.i+1]);
-  m.innerHTML=`<div class="wp"><div class="wp-top"><button class="wp-back" data-wp="back" type="button">${ic('prev')}<span>단어장</span></button><span class="wp-pos"><b>${p.i+1}</b> / ${p.keys.length}</span></div>
+  m.innerHTML=`<div class="wp"><div class="wp-top"><button class="wp-back" data-wp="back" type="button" aria-label="단어장으로 돌아가기">${ic('prev')}</button><span class="wp-pos"><b>${p.i+1}</b> / ${p.keys.length}</span></div>
   <div class="wp-card"><div class="wp-pic" aria-hidden="true">${w.e||''}</div>${boxes(w,'',1)}${rows}${ex}${res}</div>
   <div class="wp-acts"><button class="sb wp-arrow" data-wp="prev" type="button" aria-label="이전 단어${pv?' ('+pv.k+')':''}"${pv?'':' disabled'}>${ic('prev')}</button><button class="sb" data-wp="speak" type="button" aria-label="듣기">${ui('volume',26)}</button>${mic}<button class="sb wp-star${on?' on':''}" data-wp="star" type="button" aria-pressed="${on}" aria-label="즐겨찾기"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sb wp-arrow" data-wp="next" type="button" aria-label="다음 단어${nx?' ('+nx.k+')':''}"${nx?'':' disabled'}>${ic('next')}</button></div></div>`;
 }
