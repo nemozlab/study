@@ -695,6 +695,19 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 
 /* 오디오 플레이어: 한글 발음 */
 .ap-pron{margin-top:6px;min-height:1px;font:500 19px/1.4 "Noto Sans KR",sans-serif;color:#B9C2E6;letter-spacing:.5px;text-align:center}
+
+/* 메일: 문장 아래 「중요한 단어」 */
+.mp-words{margin-top:6px;border-top:1px solid var(--line)}
+.mp-wh{margin:16px 2px 4px;font:800 13px "Noto Sans KR",sans-serif;color:var(--sub)}
+.mp-w{width:100%;display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr) auto;gap:14px;align-items:center;margin:0;padding:6px 2px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;cursor:pointer}
+.mp-w .j{font:500 19px/2.1 "Noto Sans JP",sans-serif;white-space:nowrap}
+.mp-w .j rt{font-size:10px;color:var(--sub)}
+.mp-w .t{display:flex;flex-direction:column;gap:1px;min-width:0;text-align:right}
+.mp-w .t b{font:600 14px/1.4 "Noto Sans KR",sans-serif;color:var(--ink)}
+.mp-w .t small{font:400 12.5px/1.4 "Noto Sans KR",sans-serif;color:var(--sub)}
+.mp-w .sp{display:flex;color:var(--navy);padding-left:2px}.mp-w .sp svg{width:20px;height:20px}
+
+.mp-body{min-height:300px}
 </style>
 </head>
 <body>
@@ -2171,6 +2184,15 @@ async function mailLoad(){
   catch(e){mailState='err';}
   if(P.mode==='mail'&&mailAllowed())render();
 }
+function mlAudBuild(mail){
+  const mode=audListenMode(),out=[];
+  const sent=(u,i)=>({uid:'u'+i,u:i,nx:true,k:u.k,sp:u.sp||u.jp,sd:u.k,m:u.m,e:'✉️',c:'문장',alts:[u.jp],n:units(u.k).length,au:true,pr:u.pr||toHangul(u.k,true)});
+  mail.units.forEach((u,i)=>{
+    if(mode!=='word')out.push(sent(u,i));
+    if(mode!=='sent')(u.words||[]).forEach((w,j)=>{const plain=audPlain(w.rb||w.k).replace(/[〜~]/g,'');out.push({uid:'u'+i+'w'+j,u:i,nx:true,k:w.k,sp:w.sp||plain,sd:w.k,m:w.m,e:'📝',alts:[plain],n:units(w.k).length,au:true,pr:w.pr||toHangul(w.k,true)});});
+  });
+  return out.length?out:mail.units.map(sent);   /* 단어가 하나도 없는 메일이면 문장으로 */
+}
 function stopMlRec(){clearTimeout(mailTimer);if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
 function mlEnd(i,msg){stopMlRec();mailLive=-1;mailRes[i]={msg};render();}
 function mlGrade(alts,u){   /* 소리가 조금 달라도 괜찮게: 맞음 / 거의 맞음(읽은 걸로 처리) / 다시 */
@@ -2216,6 +2238,7 @@ function mlAct(a,i){
   if(a==='first'){mlGoto(mlFirstUnread(mail),true);return;}
   if(a==='restart'){mlGoto(0,true);return;}
   const u=mail.units[mailPage];if(!u)return;
+  if(a==='word'){const w=(u.words||[])[i];if(w)speak(w.sp||audPlain(w.rb||w.k).replace(/[〜~]/g,''));return;}
   if(a==='speak')speak(u.sp||u.jp);
   else if(a==='read')mlRead(mailPage);
   else if(a==='check'){mlMark(mail.date,mailPage,!(mlDone()[mail.date]||[]).includes(mailPage));render();}
@@ -2228,9 +2251,11 @@ function renderMail(m){
   const pg=Math.max(0,Math.min(n,mailPage)),streak=mlStreak();
   const opts=mailData.map((x,j)=>`<option value="${j}"${j===mailIdx?' selected':''}>${mlLabel(x.date)}${mlFull(x)?' ✓':''}</option>`).join('');
   const seg=mail.units.map((u,i)=>`<button type="button" class="s${done.includes(i)?' ok':''}${i===pg?' cur':''}" data-ml="go" data-i="${i}" aria-label="${i+1}번째 문장"></button>`).join('');
-  let body='';
+  let body='',words='';
   if(pg<n){
     const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
+    const ws=Array.isArray(u.words)?u.words:[];
+    if(ws.length)words=`<div class="mp-words"><div class="mp-wh">중요한 단어</div>${ws.map((w,j)=>`<button class="mp-w" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="t"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span><span class="sp" aria-hidden="true">${ui('volume',20)}</span></button>`).join('')}</div>`;
     let res='';
     if(live)res='<div class="mp-res"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
     else if(r&&r.msg)res=`<div class="mp-res"><b>${r.msg}</b></div>`;
@@ -2245,7 +2270,7 @@ function renderMail(m){
   m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
   <div class="mp-info"><span class="mp-ko">${mail.subjectKo||''}</span>${streak?`<b class="mp-streak">연속 ${streak}일</b>`:''}</div>
   <div class="mp-prog"><div class="mp-seg">${seg}</div><span class="mp-cnt"><b>${Math.min(pg+1,n)}</b> / ${n}</span></div>
-  ${body}</div>`;
+  ${body}${words}</div>`;
 }
 /* ===== 오디오 레슨: 수업 단어마다 짧은 예문(일본어 + 한국어, 한자는 漢字{よみ} 로 후리가나 표기) ===== */
 const AUD_EX={
@@ -2542,7 +2567,7 @@ function audVoiceFor(lang){
 }
 function audDisp(w){const kj=showKanji(w);return (AUD_PLAIN.has(w.k)||!kj)?w.k:kj;}
 const audKo=m=>String(m||'').replace(/\([^)]*\)/g,'').replace(/·/g,',').trim();
-const audEx=w=>AUD_EX[w.k]||null;
+const audEx=w=>w.nx?null:(AUD_EX[w.k]||null);
 /* 처음 읽을 부분: 단어를 켜 두었으면 단어부터, 문장만이면 예문부터(예문이 없는 단어는 단어부터) */
 const audFirst=w=>AUD.opts.word?0:(audEx(w)?2:0);
 const audSentOn=w=>AUD.opts.sent&&!!audEx(w);
@@ -2629,7 +2654,10 @@ function audListenMode(){return AUD.opts.word&&AUD.opts.sent?'all':AUD.opts.word
 function audSetListen(m){   /* 전체학습 / 단어만 / 문장만 */
   const o=AUD.opts;if(audListenMode()===m)return;
   o.word=m!=='sent';o.sent=m!=='word';audSave();
-  showToast(m==='all'?'전체학습':m==='word'?'단어만 듣기':'문장만 듣기');
+  showToast(m==='all'?(AUD.mailMode?'문장 + 중요한 단어':'전체학습'):m==='word'?(AUD.mailMode?'중요한 단어만 듣기':'단어만 듣기'):'문장만 듣기');
+  if(AUD.mailMode){const mail=mailData&&mailData[mailIdx],cur=AUD.order[AUD.pos];
+    if(mail){AUD.list=mlAudBuild(mail);AUD.order=AUD.opts.mode==='rand'?audShuffle(AUD.list):AUD.list.slice();
+      let i=cur?AUD.order.findIndex(x=>x.uid===cur.uid):-1;if(i<0&&cur)i=AUD.order.findIndex(x=>x.u===cur.u);AUD.pos=Math.max(0,i);audRenderList();}}
   const w=AUD.order[AUD.pos];AUD.step=audFirst(w);AUD.rep=0;
   if(AUD.playing)audPlay();else audRender();
 }
@@ -2782,11 +2810,11 @@ window.addEventListener('popstate',()=>{
 });
 function audOpen(){
   if(!('speechSynthesis' in window)){showToast('이 브라우저는 음성 읽기를 지원하지 않아요');return;}
-  let n,list,label,startKey='';
-  if(P.mode==='mail'){   /* 메일: 그 날짜 메일의 문장을 순서대로, 지금 보는 문장부터 */
+  let n,list,label,startKey='',startIdx=-1;AUD.mailMode=false;
+  if(P.mode==='mail'){   /* 메일: 전체=문장+중요한 단어 / 단어만=중요한 단어 / 문장만=문장, 지금 보는 문장부터 */
     const mail=mailData&&mailData[mailIdx];if(!mail){showToast('들을 메일이 없어요');return;}
-    n=-3;list=mail.units.map(u=>({k:u.k,sp:u.sp||u.jp,sd:u.k,m:u.m,e:'✉️',c:'문장',alts:[u.jp],n:units(u.k).length,au:true,pr:u.pr||toHangul(u.k,true)}));
-    label=mlLabel(mail.date)+' 메일';startKey=(mail.units[Math.min(mailPage,mail.units.length-1)]||{}).k||'';
+    n=-3;AUD.mailMode=true;list=mlAudBuild(mail);
+    label=mlLabel(mail.date)+' 메일';startIdx=list.findIndex(x=>x.u===Math.min(mailPage,mail.units.length-1));
   }else if(P.mode==='dict'){   /* 단어장: 지금 목록(검색 중이면 검색 결과)을 히라가나 순서로, 화면에 보이는 첫 단어부터 */
     n=-2;list=dictList().slice();label=dictQ.trim()?'검색 결과':'단어장';
     if(!list.length){showToast('들을 단어가 없어요');return;}
@@ -2802,7 +2830,7 @@ function audOpen(){
     if(!list.length){showToast('들을 단어가 없어요');return;}
   }
   AUD.n=n;AUD.list=list;AUD.label=label;
-  AUD.order=AUD.opts.mode==='rand'?audShuffle(list):list.slice();AUD.pos=(startKey&&AUD.opts.mode!=='rand')?Math.max(0,AUD.order.findIndex(w=>w.k===startKey)):0;AUD.step=audFirst(AUD.order[AUD.pos]);AUD.rep=0;AUD.ended=false;AUD.listOpen=false;
+  AUD.order=AUD.opts.mode==='rand'?audShuffle(list):list.slice();AUD.pos=(AUD.opts.mode==='rand')?0:(startIdx>=0?startIdx:(startKey?Math.max(0,AUD.order.findIndex(w=>w.k===startKey)):0));AUD.step=audFirst(AUD.order[AUD.pos]);AUD.rep=0;AUD.ended=false;AUD.listOpen=false;
   audBuild();AUD.player=true;$a('audPlayer').hidden=false;document.body.style.overflow='hidden';
   audRenderList();audPlay();
   try{history.pushState({aud:1},'');audHist=true;}catch(e){}
