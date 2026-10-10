@@ -708,6 +708,11 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .mp-w .sp{display:flex;color:var(--navy);padding-left:2px}.mp-w .sp svg{width:20px;height:20px}
 
 .mp-body{min-height:300px}
+
+/* 메일 오디오: 버튼 순서 = 📖 쭉 1번 · 💬 문장 끊어서 · あ 단어만 */
+#audPlayer.mail .ap-sw #apLsAll{order:1}
+#audPlayer.mail .ap-sw #apLsSent{order:2}
+#audPlayer.mail .ap-sw #apLsWord{order:3}
 </style>
 </head>
 <body>
@@ -2185,11 +2190,11 @@ async function mailLoad(){
   if(P.mode==='mail'&&mailAllowed())render();
 }
 function mlAudBuild(mail){
-  const mode=audListenMode(),out=[];
-  const sent=(u,i)=>({uid:'u'+i,u:i,nx:true,k:u.k,sp:u.sp||u.jp,sd:u.k,m:u.m,e:'✉️',c:'문장',alts:[u.jp],n:units(u.k).length,au:true,pr:u.pr||toHangul(u.k,true)});
+  const mm=AUD.opts.mm||'sent',out=[];
+  const sent=(u,i)=>({uid:'u'+i,u:i,nx:true,once:mm==='cont',k:u.k,sp:u.sp||u.jp,sd:u.k,m:u.m,e:'✉️',c:'문장',alts:[u.jp],n:units(u.k).length,au:true,pr:u.pr||toHangul(u.k,true)});
   mail.units.forEach((u,i)=>{
-    if(mode!=='word')out.push(sent(u,i));
-    if(mode!=='sent')(u.words||[]).forEach((w,j)=>{const plain=audPlain(w.rb||w.k).replace(/[〜~]/g,'');out.push({uid:'u'+i+'w'+j,u:i,nx:true,k:w.k,sp:w.sp||plain,sd:w.k,m:w.m,e:'📝',alts:[plain],n:units(w.k).length,au:true,pr:w.pr||toHangul(w.k,true)});});
+    if(mm!=='word')out.push(sent(u,i));
+    if(mm==='word')(u.words||[]).forEach((w,j)=>{const plain=audPlain(w.rb||w.k).replace(/[〜~]/g,'');out.push({uid:'u'+i+'w'+j,u:i,nx:true,k:w.k,sp:w.sp||plain,sd:w.k,m:w.m,e:'📝',alts:[plain],n:units(w.k).length,au:true,pr:w.pr||toHangul(w.k,true)});});
   });
   return out.length?out:mail.units.map(sent);   /* 단어가 하나도 없는 메일이면 문장으로 */
 }
@@ -2566,7 +2571,8 @@ function audVoiceFor(lang){
   return c.find(v=>v.localService)||c[0]||null;
 }
 function audDisp(w){const kj=showKanji(w);return (AUD_PLAIN.has(w.k)||!kj)?w.k:kj;}
-const audKo=m=>String(m||'').replace(/\([^)]*\)/g,'').replace(/·/g,',').trim();
+const audSym=t=>String(t||'').replace(/[~〜～…]/g,'').replace(/\s{2,}/g,' ').trim();   /* 「~」를 「물결표시」로 읽지 않게: 기호는 읽지 않음 */
+const audKo=m=>audSym(String(m||'').replace(/\([^)]*\)/g,'').replace(/·/g,','));
 const audEx=w=>w.nx?null:(AUD_EX[w.k]||null);
 /* 처음 읽을 부분: 단어를 켜 두었으면 단어부터, 문장만이면 예문부터(예문이 없는 단어는 단어부터) */
 const audFirst=w=>AUD.opts.word?0:(audEx(w)?2:0);
@@ -2600,13 +2606,13 @@ function audRunStep(){
   const nextWord=()=>at(1300,()=>audGo(1,true));
   const S=AUD.step;
   if(S===0){        /* 단어(일본어) ×3 */
-    audSay(w.sp||w.k,'ja-JP',0.85*sp,tk,()=>{if(AUD.rep<2){AUD.rep++;again(450);}else go(1,650);});
+    audSay(w.sp||w.k,'ja-JP',(w.once?0.95:0.85)*sp,tk,()=>{if(w.once){at(600,()=>audGo(1,true));return;}if(AUD.rep<2){AUD.rep++;again(450);}else go(1,650);});
   }else if(S===1){  /* 뜻(한국어) ×1 */
     audSay(audKo(w.m),'ko-KR',1*sp,tk,()=>{if(audSentOn(w))go(2,800);else nextWord();});
   }else if(S===2){  /* 예문(일본어) ×3 */
     audSay(audPlain(ex[0]),'ja-JP',0.9*sp,tk,()=>{if(AUD.rep<2){AUD.rep++;again(500);}else go(3,600);});
   }else{            /* 번역(한국어) ×1 */
-    audSay(ex[1],'ko-KR',1*sp,tk,nextWord);
+    audSay(audSym(ex[1]),'ko-KR',1*sp,tk,nextWord);
   }
 }
 function audPlay(){
@@ -2650,11 +2656,13 @@ function audStar(){
   document.querySelectorAll('[data-star]').forEach(b=>{if(b.dataset.star===w.k){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);}});
   renderChips();audRender();showToast(on?'나의 노트에 담았어요':'나의 노트에서 뺐어요');
 }
-function audListenMode(){return AUD.opts.word&&AUD.opts.sent?'all':AUD.opts.word?'word':'sent';}
+const MAIL_LS={cont:'all',sent:'sent',word:'word'};   /* 메일: 📖 쭉 1번 · 💬 끊어서 · あ 단어만 */
+function audListenMode(){if(AUD.mailMode)return MAIL_LS[AUD.opts.mm||'sent']||'sent';return AUD.opts.word&&AUD.opts.sent?'all':AUD.opts.word?'word':'sent';}
 function audSetListen(m){   /* 전체학습 / 단어만 / 문장만 */
   const o=AUD.opts;if(audListenMode()===m)return;
-  o.word=m!=='sent';o.sent=m!=='word';audSave();
-  showToast(m==='all'?(AUD.mailMode?'문장 + 중요한 단어':'전체학습'):m==='word'?(AUD.mailMode?'중요한 단어만 듣기':'단어만 듣기'):'문장만 듣기');
+  if(AUD.mailMode){o.mm={all:'cont',sent:'sent',word:'word'}[m];}else{o.word=m!=='sent';o.sent=m!=='word';}
+  audSave();
+  showToast(AUD.mailMode?(m==='all'?'문장만 쭉 1번 듣기':m==='sent'?'문장 끊어서 듣기 (3번 · 번역 1번)':'단어만 듣기 (3번 · 번역 1번)'):(m==='all'?'전체학습':m==='word'?'단어만 듣기':'문장만 듣기'));
   if(AUD.mailMode){const mail=mailData&&mailData[mailIdx],cur=AUD.order[AUD.pos];
     if(mail){AUD.list=mlAudBuild(mail);AUD.order=AUD.opts.mode==='rand'?audShuffle(AUD.list):AUD.list.slice();
       let i=cur?AUD.order.findIndex(x=>x.uid===cur.uid):-1;if(i<0&&cur)i=AUD.order.findIndex(x=>x.u===cur.u);AUD.pos=Math.max(0,i);audRenderList();}}
@@ -2771,7 +2779,7 @@ function audRender(){
     $a('apSent').innerHTML=audRuby(ex[0],hl);$a('apSentKo').textContent=ex[1];
   }else{
     $a('apHira').textContent=w.c==='문장'?w.sd:w.k;$a('apKanji').textContent=disp!==w.k?disp:'';$a('apPron').textContent=pronOf(w);
-    const mn=$a('apMean');mn.textContent=w.m;mn.className='ap-mean'+(AUD.step>=1?'':' dim');
+    const mn=$a('apMean');mn.textContent=w.m;mn.style.visibility='';mn.className='ap-mean'+((AUD.step>=1||w.once)?'':' dim');   /* 쭉 1번 듣기에서도 한국어 뜻은 화면에 보임(소리는 안 읽음) */
     const show=AUD.opts.sent&&!!ex,exb=$a('apEx');exb.style.display=show?'':'none';
     if(show){$a('apExJa').innerHTML=audRuby(ex[0],hl,false);$a('apExKo').textContent=ex[1];exb.className='ap-ex'+(AUD.step>=2?'':' dim');$a('apExKo').className='ko'+(AUD.step>=3?'':' dim');}
   }
@@ -2831,7 +2839,10 @@ function audOpen(){
   }
   AUD.n=n;AUD.list=list;AUD.label=label;
   AUD.order=AUD.opts.mode==='rand'?audShuffle(list):list.slice();AUD.pos=(AUD.opts.mode==='rand')?0:(startIdx>=0?startIdx:(startKey?Math.max(0,AUD.order.findIndex(w=>w.k===startKey)):0));AUD.step=audFirst(AUD.order[AUD.pos]);AUD.rep=0;AUD.ended=false;AUD.listOpen=false;
-  audBuild();AUD.player=true;$a('audPlayer').hidden=false;document.body.style.overflow='hidden';
+  audBuild();{const pl=$a('audPlayer');pl.classList.toggle('mail',!!AUD.mailMode);
+    const L=AUD.mailMode?['문장만 쭉 1번 듣기','단어만 듣기 (3번 · 번역 1번)','문장 끊어서 듣기 (3번 · 번역 1번)']:['전체학습 (단어와 문장)','단어만 듣기','문장만 듣기'];
+    $a('apLsAll').setAttribute('aria-label',L[0]);$a('apLsWord').setAttribute('aria-label',L[1]);$a('apLsSent').setAttribute('aria-label',L[2]);}
+  AUD.player=true;$a('audPlayer').hidden=false;document.body.style.overflow='hidden';
   audRenderList();audPlay();
   try{history.pushState({aud:1},'');audHist=true;}catch(e){}
 }
