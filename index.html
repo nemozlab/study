@@ -950,6 +950,17 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 /* 맨 위 5번째 탭: 숫자 대신 「노트」 (다른 탭과 같은 글자색, 별만 노란색) */
 .mode.note b{color:inherit;font-weight:700;gap:3px}
 .mode.note svg{width:15px;height:15px}
+
+/* 메일 단어 줄: 3줄 = ① 일본어 ② 뜻(괄호 설명은 작게 같은 줄) ③ 한글 발음 */
+.mp-w .k{display:flex;flex-direction:column;gap:0;padding-bottom:5px}
+.mp-w .k b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:500 13.5px/1.4 "Noto Sans KR",sans-serif}
+.mp-w .k b em{font:400 12px "Noto Sans KR",sans-serif;font-style:normal;color:var(--sub);margin-left:5px}
+.mp-w .k small{display:block;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:400 12.5px/1.4 "Noto Sans KR",sans-serif;color:var(--sub)}
+
+/* 중요한 단어: 뜻과 발음이 한 줄에 안 들어가면 발음을 다음 줄로 (일본어 / 뜻 / 발음 = 3줄). 발음은 단어 중간에서 끊기지 않음 */
+.mp-w .k{display:flex;flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:6px;row-gap:0}
+.mp-w .k b{flex:0 1 auto;min-width:0}
+.mp-w .k small{flex:none;white-space:nowrap;margin-left:0}
 </style>
 </head>
 <body>
@@ -2534,7 +2545,7 @@ function renderMail(m){
   if(pg<n){
     const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
     const ws=Array.isArray(u.words)?u.words:[];
-    if(ws.length)words=`<div class="mp-words">${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k"><b>${w.m||''}</b><small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
+    if(ws.length)words=`<div class="mp-words">${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k">${(()=>{const mm=/^(.*?)\s*\(([^)]*)\)\s*$/.exec(String(w.m||''));return `<b>${mm?mm[1]:(w.m||'')}${mm?`<em>(${mm[2]})</em>`:''}</b>`;})()}<small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
     let stat='<div class="mp-hint">문장을 읽어 보세요</div>';
     if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
     else if(r&&r.msg)stat=`<div class="mp-hint"><b>${r.msg}</b></div>`;
