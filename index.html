@@ -78,7 +78,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",-
 .tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .meta b{color:var(--ink);font-size:15px}
 .topbar{margin:0 0 12px}
-.modes{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.modes{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-bottom:1px solid var(--line)}
 .mode{display:flex;flex-direction:column;align-items:center;gap:1px;background:transparent;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;border-radius:0;padding:6px 4px 9px;color:var(--sub);cursor:pointer;font-family:"Noto Sans KR",sans-serif}
 .mode b{font-size:15px;font-weight:700;white-space:nowrap}
 .mode small{font-size:11.5px;font-weight:400;opacity:.85;white-space:nowrap}
@@ -478,7 +478,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .dict-idx button{flex:none;min-width:38px;height:38px;border:1px solid var(--line);border-radius:19px;background:var(--card);color:var(--ink);font:700 16px "Noto Sans JP",sans-serif;cursor:pointer}
 .dict-count{margin:10px 4px 0;font-size:12.5px;color:var(--sub)}
 .dict-sec{position:sticky;top:0;z-index:2;margin:12px 0 4px;padding:7px 6px;font:800 14px "Noto Sans KR",sans-serif;color:var(--sub);background:var(--bg);scroll-margin-top:4px}
-.dict-item{display:grid;grid-template-columns:minmax(0,1fr) 46px;align-items:center;margin-top:6px;background:var(--card);border-radius:16px;box-shadow:0 1px 2px rgba(20,33,74,.05)}
+.dict-item{display:grid;grid-template-columns:minmax(0,1fr) 44px 30px;align-items:center;margin-top:6px;background:var(--card);border-radius:16px;box-shadow:0 1px 2px rgba(20,33,74,.05)}
 .di-main{display:flex;align-items:center;gap:12px;min-width:0;padding:10px 6px 10px 14px;border:0;background:transparent;color:var(--ink);text-align:left;cursor:pointer}
 .di-e{flex:none;width:34px;font-size:26px;line-height:1;text-align:center}
 .di-t{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;min-width:0}
@@ -567,6 +567,131 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .acct.on input{padding:0;margin:0;height:auto;line-height:1.3}
 .acct.on .acct-score{padding:0;margin:2px 0 0;line-height:1.3}
 .acct.on .acct-ic,.acct.on .acct-go{align-self:center}
+
+/* 단어장 목록: 한 줄 카드 (★ 즐겨찾기 · › 단어 페이지) */
+.di-star{width:44px;height:44px;margin:0;padding:0;border:0;background:transparent;color:#B5BCCB;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.di-star svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.di-star.on{color:#F0B429}.di-star.on svg{fill:currentColor}
+.di-go{display:flex;color:var(--sub);margin-right:8px}.di-go svg{width:18px;height:18px}
+.dict-chips{display:flex;gap:6px;margin:10px 0 0}
+.dc{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:18px;font:500 14px "Noto Sans KR",sans-serif;cursor:pointer}
+.dc.on{border-color:transparent;background:var(--gold-bg);color:var(--gold-ink);font-weight:700}
+/* 단어 페이지 */
+.wp-top{display:flex;align-items:center;justify-content:space-between}
+.wp-back{display:inline-flex;align-items:center;gap:4px;height:44px;padding:0 14px 0 8px;border:1px solid var(--line);border-radius:22px;background:var(--card);color:var(--ink);font:700 15px "Noto Sans KR",sans-serif;cursor:pointer}
+.wp-back svg{width:22px;height:22px;color:var(--navy)}
+.wp-pos{font-size:14px;color:var(--sub)}.wp-pos b{font-size:17px;color:var(--ink)}
+.wp-card{margin-top:12px;padding:14px 18px 18px;border-radius:28px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.05),0 14px 36px rgba(20,33,74,.07)}
+.wp-pic{text-align:center;font-size:56px;line-height:1.1;margin-bottom:6px}
+.wp-card .answer{margin-top:10px}
+.wp-card .expanel{margin-top:14px}
+.wp-res{margin-top:14px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--soft)}
+.wp-res b{display:block;font:800 16px "Noto Sans KR",sans-serif}.wp-res small{display:block;margin-top:1px;font-size:13px;color:var(--sub)}
+.wp-ri{flex:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--ctl);color:#fff}.wp-ri svg{width:20px;height:20px}
+.wp-res.ok{background:var(--okbg)}.wp-res.ok b{color:var(--ok)}.wp-res.ok .wp-ri{background:var(--ok)}
+.wp-res.ng{background:var(--ngbg)}.wp-res.ng b{color:var(--ng)}.wp-res.ng .wp-ri{background:var(--ng)}
+.wp-acts{margin-top:18px;display:flex;justify-content:center;align-items:center;gap:28px}
+.wp-acts .sb{background:var(--card);border:1px solid var(--line);color:var(--navy)}
+.wp-acts .wp-star{color:#B5BCCB}.wp-acts .wp-star svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.wp-acts .wp-star.on{color:#F0B429}.wp-acts .wp-star.on svg{fill:currentColor}
+.wp-nav{margin-top:16px;display:flex;justify-content:space-between}
+.wp-n{display:inline-flex;align-items:center;gap:4px;height:42px;padding:0 14px;border:1px solid var(--line);border-radius:21px;background:var(--card);color:var(--ink);font:600 14px "Noto Sans JP",sans-serif;cursor:pointer}
+.wp-n svg{width:18px;height:18px;color:var(--sub)}
+
+/* 메일 탭 */
+.ml-head{padding:16px 18px 16px;border-radius:24px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.05),0 14px 36px rgba(20,33,74,.07)}
+.ml-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ml-tag{padding:4px 10px;border-radius:12px;background:var(--gold-bg);color:var(--gold-ink);font:700 12.5px "Noto Sans KR",sans-serif}
+.ml-date{font-size:13.5px;color:var(--sub)}
+.ml-streak{margin-left:auto;font:700 13px "Noto Sans KR",sans-serif;color:#B7791F}
+.ml-sub{margin:10px 0 2px;font:700 18px/1.45 "Noto Sans JP",sans-serif;color:var(--ink)}
+.ml-subko{font:400 13.5px/1.4 "Noto Sans KR",sans-serif;color:var(--sub)}
+.ml-meta{margin-top:8px;font-size:13px;color:var(--sub)}
+.ml-prog{margin-top:12px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--sub)}.ml-prog b{color:var(--ink)}
+.ml-bar{flex:1;height:6px;border-radius:3px;background:var(--line)}.ml-bar i{display:block;height:6px;border-radius:3px;background:#5A4FCF}
+.ml-fin{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--okbg);color:var(--ok);font:700 13.5px "Noto Sans KR",sans-serif}
+.ml-u{margin-top:10px;padding:14px 14px 12px 18px;border-radius:20px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.05);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center}
+.ml-u.done{box-shadow:inset 3px 0 0 var(--ok),0 1px 2px rgba(20,33,74,.05)}
+.ml-jp{font:500 21px/2 "Noto Sans JP",sans-serif;color:var(--ink);word-break:keep-all;overflow-wrap:anywhere}
+.ml-ctl{display:flex;gap:6px;align-items:center}
+.ml-b{width:42px;height:42px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ml-b svg{width:22px;height:22px}
+.ml-b.go{background:var(--navy);border-color:var(--navy);color:#fff}
+.ml-b.live{animation:micPulse 1.4s ease-out infinite}
+.ml-b.ck{color:#B5BCCB}.ml-b.ck.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.ml-ko{grid-column:1/-1;font:400 13.5px/1.45 "Noto Sans KR",sans-serif;color:var(--sub)}
+.ml-res{grid-column:1/-1;margin-top:4px;padding:8px 12px;border-radius:12px;font-size:13px;color:var(--sub);background:var(--soft)}
+.ml-res b{font-weight:800}.ml-res.ok{background:var(--okbg)}.ml-res.ok b{color:var(--ok)}.ml-res.ng{background:var(--ngbg)}.ml-res.ng b{color:var(--ng)}
+.ml-h{margin:22px 4px 6px;font:800 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.ml-past{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;margin-top:6px;padding:12px 14px;border:0;border-radius:16px;background:var(--card);color:var(--ink);text-align:left;cursor:pointer}
+.ml-past .d{font:700 13.5px "Noto Sans KR",sans-serif}.ml-past .t{font:400 13px "Noto Sans JP",sans-serif;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ml-past .c{font:700 12.5px "Noto Sans KR",sans-serif;color:var(--sub)}.ml-past .c.ok{color:var(--ok)}
+
+/* 메일 문장 카드: 일본어는 한 줄 전체 폭으로, 아래 줄에 뜻(왼쪽)과 버튼(오른쪽) */
+.ml-jp{grid-column:1/-1;grid-row:1}
+.ml-ko{grid-column:1;grid-row:2;align-self:center}
+.ml-ctl{grid-column:2;grid-row:2}
+.ml-res{grid-row:3}
+
+/* 메일 문장: 줄바꿈이 어색하게 끊기지 않게(단어 묶음 안에서도 자연스럽게 이어짐) */
+.ml-jp{font-size:19.5px;line-height:2.05}
+.ml-jp .nw{display:inline;white-space:normal}
+
+.ml-jp{word-break:normal;overflow-wrap:break-word;line-break:strict}
+
+/* 단어 페이지: 앞·뒤 버튼을 맨 아래 한 줄(‹ 🔊 🎤 ★ ›)로 */
+.wp-acts{gap:8px}
+.wp-acts .wp-arrow{width:44px;height:44px;color:var(--ink)}
+.wp-acts .wp-arrow svg{width:22px;height:22px}
+.wp-acts .wp-arrow:disabled{opacity:.3;cursor:default}
+
+/* 메일 탭 (1문장 1페이지 · 선 스타일) */
+.mp{padding-bottom:8px}
+.mp-row{margin:0}
+.mp-info{margin:12px 2px 0;display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--sub)}
+.mp-ko{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-streak{flex:none;font-weight:700;color:#B7791F}
+.mp-prog{margin:12px 2px 0;display:flex;align-items:center;gap:12px}
+.mp-seg{flex:1;display:flex;gap:4px}
+.mp-seg .s{flex:1;height:14px;margin:0;padding:0;border:0;background:transparent;position:relative;cursor:pointer}
+.mp-seg .s::after{content:"";position:absolute;left:0;right:0;top:5px;height:3px;background:var(--line)}
+.mp-seg .s.ok::after{background:var(--ok)}
+.mp-seg .s.cur::after{background:#5A4FCF}
+.mp-cnt{font-size:13.5px;color:var(--sub)}.mp-cnt b{font-size:15px;color:var(--ink)}
+.mp-body{min-height:380px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:12px 0 0}
+.mp-s{font:500 27px/2.25 "Noto Sans JP",sans-serif;color:var(--ink);word-break:normal;overflow-wrap:break-word;line-break:strict}
+.mp-s rt{font-size:11px;letter-spacing:.5px;color:var(--sub)}
+.mp-k{margin-top:4px;font:400 15px/1.5 "Noto Sans KR",sans-serif;color:var(--sub)}
+.mp-ctl{margin-top:26px;display:flex;align-items:center;justify-content:center;gap:34px}
+.mp-b{width:56px;height:56px;margin:0;padding:0;border:2px solid var(--navy);border-radius:50%;background:transparent;color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mp-b svg{width:26px;height:26px}
+.mp-b.ck{border-color:#C5CBD8;color:#B5BCCB}.mp-b.ck.on{border-color:var(--ok);color:var(--ok)}
+.mp-mic{width:84px;height:84px;margin:0;padding:0;border:2px solid var(--navy);border-radius:50%;background:transparent;color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mp-mic svg{width:36px;height:36px}
+.mp-mic.live{animation:micPulse 1.4s ease-out infinite;background:var(--navy);color:#fff}
+.mp-resbox{min-height:56px;margin-top:16px}
+.mp-res{font-size:13.5px;color:var(--sub)}
+.mp-res b{display:flex;align-items:center;justify-content:center;gap:6px;font-size:14.5px;color:var(--ok)}
+.mp-res b svg{width:16px;height:16px}
+.mp-res.no b{color:var(--sub)}
+.mp-res small{display:block;margin-top:4px;font-size:13px}.mp-res small span{color:var(--ink)}
+.mp-nav{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:4px}
+.mp-n{display:inline-flex;align-items:center;gap:2px;height:52px;margin:0;padding:0 4px;border:0;background:transparent;color:var(--ink);font:600 15.5px "Noto Sans KR",sans-serif;cursor:pointer}
+.mp-n.nx{color:var(--navy);font-weight:700}
+.mp-n svg{width:24px;height:24px}
+.mp-n:disabled{color:#C5CBD8;cursor:default}
+.mp-fin h3{margin:16px 0 0;font:800 21px "Noto Sans KR",sans-serif}
+.mp-fin p{margin:4px 0 0;font-size:14px;color:var(--sub)}
+.mp-fi{align-self:center;width:72px;height:72px;border:2px solid #C5CBD8;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#B5BCCB}.mp-fi svg{width:38px;height:38px}
+.mp-fi.ok{border-color:var(--ok);color:var(--ok)}
+.mp-link{align-self:center;margin:16px 0 0;padding:0 0 2px;border:0;border-bottom:1px solid var(--navy);background:transparent;color:var(--navy);font:700 14px "Noto Sans KR",sans-serif;cursor:pointer}
+
+/* 메일: 앞·뒤 화살표를 가운데 세 버튼과 한 줄에 (‹ 🔊 🎤 ✓ ›) */
+.mp-ctl{gap:8px}
+.mp-a{width:44px;height:44px;margin:0;padding:0;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.mp-a svg{width:26px;height:26px}
+.mp-a:disabled{color:#C5CBD8;cursor:default}
+.mp-end{margin-top:40px;justify-content:space-between;width:100%}
+.mp-end span{flex:1}
 </style>
 </head>
 <body>
@@ -1591,7 +1716,8 @@ function loadLocal(){
   }catch(e){}
   return P2;
 }
-const normMode=m=>m==='lesson'||m==='seq'||m==='dict'?m:(m==='random'?'seq':'lesson');
+const mailAllowed=()=>!!cloudEmail&&/@nemoz\.io$/i.test(cloudEmail);   /* 메일 탭: nemoz.io 이메일로 로그인한 사람만 */
+const normMode=m=>m==='lesson'||m==='seq'||m==='dict'?m:(m==='mail'?(mailAllowed()?'mail':'lesson'):(m==='random'?'seq':'lesson'));
 let P=loadLocal();P.mode=normMode(P.mode);
 const savePrgLocal=()=>{if(!cloudEmail)return;try{localStorage.setItem(progKey(),JSON.stringify(P));}catch(e){}};
 const savePrg=()=>{savePrgLocal();scheduleCloud();};
@@ -1703,7 +1829,7 @@ function jumpTo(n){
 }
 function start(l){
   level=l;stopRec();resumed=false;tocOpen=false;lsnOpen=false;noSound={i:-1,c:0};
-  if(P.mode==='dict'){render();return;}
+  if(P.mode==='dict'||P.mode==='mail'){render();return;}
   const GL=isGroupLevel(l);
   if(isLessonLevel(l)||isQuizLevel(l)){if(GL)P.groupLevel=l;else P.lessonLevel=l;}
   const isQ=isQuizLevel(l),isL=isLessonLevel(l);
@@ -2018,6 +2144,106 @@ function toggleStar(k){
   document.querySelectorAll('[data-star]').forEach(b=>{if(b.dataset.star===k){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);}});
   renderChips();showToast(on?'★ 나의 노트에 담았어요':'나의 노트에서 뺐어요');
 }
+
+/* ===== 메일 탭: 매일 중요한 메일 1통 — 1문장 1페이지로 넘기며 듣고 따라 읽기 (NEMOZ.IO 로그인 전용) ===== */
+const MAIL_DONE_KEY='tomoz-mail-done';
+let mailData=null,mailState='idle',mailIdx=0,mailPage=0,mailLive=-1,mailRes={},mailRec=null,mailTimer=0;
+const mlYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const mlLabel=ds=>{const d=new Date(ds+'T00:00:00');return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+'일월화수목금토'[d.getDay()]+')';};
+const mlDone=()=>{try{return JSON.parse(localStorage.getItem(MAIL_DONE_KEY))||{};}catch(e){return {};}};
+function mlMark(date,i,on){const a=mlDone();let l=a[date]||[];l=l.filter(x=>x!==i);if(on)l.push(i);a[date]=l;try{localStorage.setItem(MAIL_DONE_KEY,JSON.stringify(a));}catch(e){}}
+const mlCount=m=>(mlDone()[m.date]||[]).filter(i=>i<m.units.length).length;
+const mlFull=m=>mlCount(m)>=m.units.length;
+const mlFirstUnread=m=>{const d=mlDone()[m.date]||[];for(let i=0;i<m.units.length;i++)if(!d.includes(i))return i;return m.units.length;};
+function mlStreak(){   /* 오늘(또는 어제)부터 거꾸로, 그날 메일을 끝까지 읽은 날이 며칠 이어졌는지 */
+  if(!mailData)return 0;const by={};mailData.forEach(m=>by[m.date]=m);
+  let n=0,d=new Date();
+  for(let i=0;i<400;i++){const ds=mlYmd(d),m=by[ds];if(m&&mlFull(m))n++;else if(i!==0)break;d.setDate(d.getDate()-1);}
+  return n;
+}
+async function mailLoad(){
+  if(mailState==='loading')return;mailState='loading';
+  try{const r=await fetch('mails.json',{cache:'no-store'});if(!r.ok)throw new Error(r.status);const d=await r.json();
+    mailData=((d&&d.mails)||[]).filter(m=>m&&m.date&&Array.isArray(m.units)&&m.units.length).sort((a,b)=>a.date<b.date?1:-1);mailState='ok';mailIdx=0;mailPage=mailData.length?mlFirstUnread(mailData[0]):0;}
+  catch(e){mailState='err';}
+  if(P.mode==='mail'&&mailAllowed())render();
+}
+function stopMlRec(){clearTimeout(mailTimer);if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
+function mlEnd(i,msg){stopMlRec();mailLive=-1;mailRes[i]={msg};render();}
+function mlGrade(alts,u){   /* 소리가 조금 달라도 괜찮게: 맞음 / 거의 맞음(읽은 걸로 처리) / 다시 */
+  const acc=accepted({k:u.k,alts:[u.jp,u.sp].filter(Boolean)}),cand=[];
+  for(const a of alts){const t=toKanaText(a);cand.push(a,t);if(hasKanji(t)){const k=kanaCands(t);if(k)cand.push(...k.slice(0,24));}}
+  if(cand.some(a=>looseHit(a,acc)))return 'ok';
+  const y=sk(u.k);if(!y)return 'no';
+  let best=1;for(const a of cand){const n=sk(a);if(!n)continue;best=Math.min(best,lev(n,y)/Math.max(n.length,y.length));}
+  return best<=0.4?'close':'no';
+}
+function mlFinish(i,alts){
+  stopMlRec();const mail=mailData&&mailData[mailIdx],u=mail&&mail.units[i];if(!u)return;
+  const g=mlGrade(alts,u);
+  mailLive=-1;mailRes[i]={g,heard:g==='ok'?u.jp:showHeard(alts)};if(g!=='no')mlMark(mail.date,i,true);render();
+}
+function mlRead(i){
+  const mail=mailData&&mailData[mailIdx],u=mail&&mail.units[i];if(!u)return;
+  if(mailLive===i){stopMlRec();mailLive=-1;render();return;}
+  const SRC=window.__SR||SR;
+  if(!SRC){mailRes[i]={msg:'이 브라우저는 음성 인식을 지원하지 않아요'};render();return;}
+  try{speechSynthesis.cancel();}catch(e){}
+  stopMlRec();mailLive=i;mailRes[i]=null;render();
+  const r=new SRC();mailRec=r;r.lang='ja-JP';r.interimResults=false;r.maxAlternatives=5;r.continuous=false;
+  let got=false;
+  r.onresult=e=>{got=true;const alts=[];for(const rs of e.results)for(const a of rs)alts.push(a.transcript);mlFinish(i,alts);};
+  r.onerror=e=>{if(!got)mlEnd(i,e&&e.error==='not-allowed'?'마이크를 쓸 수 있게 허용해 주세요':'소리가 안 들렸어요');};
+  r.onend=()=>{if(!got&&mailRec)mlEnd(i,'소리가 안 들렸어요');};
+  mailTimer=setTimeout(()=>{if(!got)mlEnd(i,'소리가 안 들렸어요');},15000);
+  try{r.start();}catch(e){mlEnd(i,'마이크를 켤 수 없어요');}
+}
+function mlGoto(pg,scroll){
+  stopMlRec();mailLive=-1;const mail=mailData&&mailData[mailIdx];if(!mail)return;
+  mailPage=Math.max(0,Math.min(mail.units.length,pg));render();
+  if(scroll){const r=document.querySelector('.mp-row');if(r)window.scrollTo({top:Math.max(0,window.scrollY+r.getBoundingClientRect().top-8)});}
+}
+function mlAct(a,i){
+  const mail=mailData&&mailData[mailIdx];
+  if(a==='reload'){mailState='idle';render();return;}
+  if(!mail)return;
+  if(a==='prev'){mlGoto(mailPage-1,true);return;}
+  if(a==='next'){mlGoto(mailPage+1,true);return;}
+  if(a==='go'){mlGoto(i,true);return;}
+  if(a==='first'){mlGoto(mlFirstUnread(mail),true);return;}
+  if(a==='restart'){mlGoto(0,true);return;}
+  const u=mail.units[mailPage];if(!u)return;
+  if(a==='speak')speak(u.sp||u.jp);
+  else if(a==='read')mlRead(mailPage);
+  else if(a==='check'){mlMark(mail.date,mailPage,!(mlDone()[mail.date]||[]).includes(mailPage));render();}
+}
+function renderMail(m){
+  if(mailState==='idle'){mailLoad();}
+  if(mailState==='idle'||mailState==='loading'){m.innerHTML='<div class="mp"><p class="status">메일을 불러오는 중이에요…</p></div>';return;}
+  if(mailState==='err'||!mailData||!mailData.length){m.innerHTML='<div class="mp"><p class="status">아직 메일이 없어요.<br>mails.json 파일을 올리면 여기에 나와요.</p><button class="mp-link" data-ml="reload" type="button">다시 불러오기</button></div>';return;}
+  const mail=mailData[mailIdx]||mailData[0],n=mail.units.length,done=(mlDone()[mail.date]||[]).filter(i=>i<n);
+  const pg=Math.max(0,Math.min(n,mailPage)),streak=mlStreak();
+  const opts=mailData.map((x,j)=>`<option value="${j}"${j===mailIdx?' selected':''}>${mlLabel(x.date)}${mlFull(x)?' ✓':''}</option>`).join('');
+  const seg=mail.units.map((u,i)=>`<button type="button" class="s${done.includes(i)?' ok':''}${i===pg?' cur':''}" data-ml="go" data-i="${i}" aria-label="${i+1}번째 문장"></button>`).join('');
+  let body='';
+  if(pg<n){
+    const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
+    let res='';
+    if(live)res='<div class="mp-res"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
+    else if(r&&r.msg)res=`<div class="mp-res"><b>${r.msg}</b></div>`;
+    else if(r)res=`<div class="mp-res ${r.g==='no'?'no':'ok'}"><b>${r.g==='ok'?ic('check')+'잘 읽었어요':r.g==='close'?ic('check')+'거의 맞아요 · 읽은 걸로 할게요':'다시 한 번 읽어볼까요?'}</b><small>들린 소리 · <span lang="ja">${r.heard||'—'}</span></small></div>`;
+    body=`<div class="mp-body"><div class="mp-s" lang="ja">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
+    <div class="mp-ctl"><button class="mp-a" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="mp-b" data-ml="speak" type="button" aria-label="듣기">${ui('volume',26)}</button><button class="mp-mic${live?' live':''}" data-ml="read" type="button" aria-label="따라 읽기 (마이크)">${ui('mic',36)}</button><button class="mp-b ck${ok?' on':''}" data-ml="check" type="button" aria-pressed="${ok}" aria-label="읽음 표시">${ic('check')}</button><button class="mp-a" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>
+    <div class="mp-resbox">${res}</div></div>`;
+  }else{
+    const left=n-done.length;
+    body=`<div class="mp-body mp-fin"><div class="mp-fi${left?'':' ok'}">${ic('check')}</div><h3>${left?'마지막 문장까지 왔어요':'이 메일을 끝까지 읽었어요'}</h3><p>${left?`아직 읽지 않은 문장이 ${left}개 있어요`:(streak?`연속 ${streak}일째예요`:'')}</p>${left?'<button class="mp-link" data-ml="first" type="button">읽지 않은 문장으로 가기</button>':''}<button class="mp-link" data-ml="restart" type="button">처음부터 다시 읽기</button><div class="mp-ctl mp-end"><button class="mp-a" data-ml="prev" type="button" aria-label="이전 문장">${ic('prev')}</button><span></span><button class="mp-a" type="button" aria-label="다음 문장" disabled>${ic('next')}</button></div></div>`;
+  }
+  m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
+  <div class="mp-info"><span class="mp-ko">${mail.subjectKo||''}</span>${streak?`<b class="mp-streak">연속 ${streak}일</b>`:''}</div>
+  <div class="mp-prog"><div class="mp-seg">${seg}</div><span class="mp-cnt"><b>${Math.min(pg+1,n)}</b> / ${n}</span></div>
+  ${body}</div>`;
+}
 /* ===== 오디오 레슨: 수업 단어마다 짧은 예문(일본어 + 한국어, 한자는 漢字{よみ} 로 후리가나 표기) ===== */
 const AUD_EX={
 'あい':['愛{あい}は大切{たいせつ}です。','사랑은 소중해요.'],
@@ -2269,13 +2495,17 @@ const AUD_ICON={
 };
 /* 예문 표기: 漢字{よみ} → 한자 위에 히라가나(후리가나) */
 function audParse(mk){
-  const out=[],re=/([\u4e00-\u9fff々]+)\{([^}]+)\}/y;let i=0;
+  const out=[],re=/((?:[\u4e00-\u9fff々]+)|(?:[A-Za-z0-9][A-Za-z0-9 ]*))\{([^}]+)\}/y;let i=0;
   while(i<mk.length){re.lastIndex=i;const m=re.exec(mk);if(m){out.push({t:m[1],r:m[2]});i+=m[0].length;}else{out.push({t:mk[i]});i++;}}
   return out;
 }
 const audPlain=mk=>audParse(mk).map(u=>u.t).join('');
+function audKata(a){   /* 가타카나 덩어리 위에 히라가나 읽기를 자동으로 붙임 */
+  const o=[];for(const x of a){if(!x.r&&/^[ァ-ヶー]$/.test(x.t)){const l=o[o.length-1];if(l&&l.kata){l.t+=x.t;continue;}o.push({t:x.t,kata:true});}else o.push(x);}
+  o.forEach(x=>{if(x.kata)x.r=toHira(x.t);});return o;
+}
 function audRuby(mk,hl,mark){
-  const u=audParse(mk),plain=u.map(x=>x.t).join('');let s=-1,e=-1;
+  const u=audKata(audParse(mk)),plain=u.map(x=>x.t).join('');let s=-1,e=-1;
   for(const c of (hl||[])){const k=plain.indexOf(c);if(k>=0){s=k;e=k+c.length;break;}}
   const hlOn=mark!==false;
   let pos=0;
@@ -2386,6 +2616,7 @@ function audSetMode(m){
 }
 function audStar(){
   const w=AUD.order[AUD.pos];if(!w)return;
+  if(P.mode==='mail'){showToast('메일 문장은 나의 노트에 담을 수 없어요');return;}
   if(!cloudEmail){showToast('나의 노트는 로그인하면 쓸 수 있어요');return;}
   P.stars=P.stars||{};const on=!isStar(w.k);P.stars[w.k]={on:on,t:Date.now()};savePrg();
   document.querySelectorAll('[data-star]').forEach(b=>{if(b.dataset.star===w.k){b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);}});
@@ -2541,13 +2772,18 @@ function audSetList(open,fromPop){
 }
 window.addEventListener('popstate',()=>{
   if(audSkipPop>0){audSkipPop--;return;}
+  if(dictPage&&!AUD.player){dictClosePage(true);return;}
   if(!AUD.player)return;
   if(AUD.listOpen)audSetList(false,true);else audClose(true);
 });
 function audOpen(){
   if(!('speechSynthesis' in window)){showToast('이 브라우저는 음성 읽기를 지원하지 않아요');return;}
   let n,list,label,startKey='';
-  if(P.mode==='dict'){   /* 단어장: 지금 목록(검색 중이면 검색 결과)을 히라가나 순서로, 화면에 보이는 첫 단어부터 */
+  if(P.mode==='mail'){   /* 메일: 그 날짜 메일의 문장을 순서대로, 지금 보는 문장부터 */
+    const mail=mailData&&mailData[mailIdx];if(!mail){showToast('들을 메일이 없어요');return;}
+    n=-3;list=mail.units.map(u=>({k:u.k,sp:u.sp||u.jp,sd:u.k,m:u.m,e:'✉️',c:'문장',alts:[u.jp],n:units(u.k).length,au:true}));
+    label=mlLabel(mail.date)+' 메일';startKey=(mail.units[Math.min(mailPage,mail.units.length-1)]||{}).k||'';
+  }else if(P.mode==='dict'){   /* 단어장: 지금 목록(검색 중이면 검색 결과)을 히라가나 순서로, 화면에 보이는 첫 단어부터 */
     n=-2;list=dictList().slice();label=dictQ.trim()?'검색 결과':'단어장';
     if(!list.length){showToast('들을 단어가 없어요');return;}
     const vis=[...document.querySelectorAll('.dict-item')].find(d=>d.getBoundingClientRect().top>=54);startKey=vis?vis.dataset.dk:'';
@@ -2598,7 +2834,7 @@ function renderChips(){
   const lessonTab=mode==='lesson',seqTab=mode==='seq';
   $('#chips').innerHTML='';
   const on=m=>mode===m;
-  $('#modes').innerHTML=`<button class="mode" data-mode="lesson" aria-pressed="${on('lesson')}"><b>Lesson</b></button><button class="mode" data-mode="seq" aria-pressed="${on('seq')}"><b>학습</b></button><button class="mode" data-mode="dict" aria-pressed="${on('dict')}"><b>단어장</b></button>`;
+  $('#modes').innerHTML=`<button class="mode" data-mode="lesson" aria-pressed="${on('lesson')}"><b>Lesson</b></button><button class="mode" data-mode="seq" aria-pressed="${on('seq')}"><b>학습</b></button><button class="mode" data-mode="dict" aria-pressed="${on('dict')}"><b>단어장</b></button>${mailAllowed()?`<button class="mode" data-mode="mail" aria-pressed="${on('mail')}"><b>메일</b></button>`:''}`;
   const tabsEl=$('#tabs');
   tabsEl.classList.toggle('picker',lessonTab||seqTab);
   if(!lessonTab&&!seqTab){tabsEl.innerHTML='';return;}
@@ -2627,7 +2863,7 @@ const HG_CH='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ',HG_JU='�
 const HG_JO=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 function hgJamo(str){let o='';for(const ch of String(str)){const c=ch.charCodeAt(0)-0xAC00;o+=(c>=0&&c<11172)?HG_CH[Math.floor(c/588)]+HG_JU[Math.floor((c%588)/28)]+HG_JO[c%28]:ch;}return o;}
 function hgInit(str){let o='';for(const ch of String(str)){const c=ch.charCodeAt(0)-0xAC00;o+=(c>=0&&c<11172)?HG_CH[Math.floor(c/588)]:ch;}return o;}
-function dictList(){
+function dictBase(){
   const q=dictQ.trim();if(!q)return dictAll();
   const ql=q.toLowerCase(),qk=toHira(q),qj=hgJamo(ql),cho=/^[ㄱ-ㅎ]+$/.test(q)?q:'';
   const mj=w=>w._mj||(w._mj=hgJamo(String(w.m||'').toLowerCase())),pj=w=>w._pj||(w._pj=hgJamo(String(pronOf(w))));
@@ -2644,24 +2880,27 @@ function dictList(){
   });
   return first.concat(hit);   /* 시작하는 말 먼저, 그다음 포함하는 말(각각 오십음순) */
 }
-function dictItem(w,open){
-  const kj=showKanji(w),sub=kj||(w.kana?'':toKata(w.k));
-  let det='';
-  if(open){
-    const ex=!w.kana&&AUD_EX[w.k];
-    det=`<div class="di-detail"><div class="di-row"><span>한글 발음</span><b>${w.kana?w.m:toHangul(w.k,true)}</b></div>${ex?`<div class="di-exrow"><div class="di-ex"><div class="exja">${audRuby(ex[0],[...(w.alts||[]),w.k,toKata(w.k)],true)}</div><div class="exko">${ex[1]}</div></div><button class="exbtn" data-dex="${w.k}" aria-label="예문 듣기">${ui('volume',22)}</button></div>`:''}</div>`;
-  }
-  return `<div class="dict-item${open?' open':''}" data-dk="${w.k}"><button class="di-main" data-dtoggle="${w.k}" aria-expanded="${!!open}"><span class="di-e" aria-hidden="true">${w.e||''}</span><span class="di-t"><span class="di-k">${w.k}</span>${sub?`<span class="di-s">${sub}</span>`:''}<span class="di-m">${w.m||''}</span></span></button><button class="di-spk" data-dspeak="${w.k}" aria-label="발음 듣기">${ui('volume',20)}</button>${det}</div>`;
+function dictList(noFav){const b=dictBase();return (dictFav&&!noFav)?b.filter(w=>isStar(w.k)):b;}
+function dictItem(w){
+  const kj=showKanji(w),sub=kj||(w.kana?'':toKata(w.k)),on=isStar(w.k);
+  return `<div class="dict-item" data-dk="${w.k}"><button class="di-main" data-dopen="${w.k}" type="button"><span class="di-e" aria-hidden="true">${w.e||''}</span><span class="di-t"><span class="di-k">${w.k}</span>${sub?`<span class="di-s">${sub}</span>`:''}<span class="di-m">${w.m||''}</span></span></button><button class="di-star${on?' on':''}" data-dstar="${w.k}" aria-pressed="${on}" aria-label="즐겨찾기" type="button"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><span class="di-go" aria-hidden="true">${ic('next')}</span></div>`;
+}
+function dictChipsUpdate(all){
+  const el=$('#dchips');if(!el)return;
+  const fav=all.filter(w=>isStar(w.k)).length;
+  el.innerHTML=`<button type="button" class="dc${dictFav?'':' on'}" data-dfav="0">전체 ${all.length}</button><button type="button" class="dc${dictFav?' on':''}" data-dfav="1">★ 즐겨찾기 ${fav}</button>`;
+  return fav;
 }
 function fillDict(){
-  const list=dictList(),box=$('#dlist'),cnt=$('#dcount');if(!box)return;
+  const all=dictList(true),box=$('#dlist'),cnt=$('#dcount');if(!box)return;
+  const fav=dictChipsUpdate(all),list=dictFav?all.filter(w=>isStar(w.k)):all;
   let html='',cur='';
-  list.forEach(w=>{const r=kanaRow(w.k);if(r!==cur){cur=r;html+=`<h3 class="dict-sec" id="dsec-${r}">${r}${r==='기타'?'':'행'}</h3>`;}html+=dictItem(w,dictOpen===w.k);});
-  box.innerHTML=html||'<p class="status">찾는 단어가 없어요</p>';
-  if(cnt)cnt.textContent=list.length+'개';
+  list.forEach(w=>{const r=kanaRow(w.k);if(r!==cur){cur=r;html+=`<h3 class="dict-sec" id="dsec-${r}">${r}${r==='기타'?'':'행'}</h3>`;}html+=dictItem(w);});
+  box.innerHTML=html||`<p class="status">${dictFav?'즐겨찾기한 단어가 없어요. 단어 페이지의 ★를 눌러 담아보세요.':'찾는 단어가 없어요'}</p>`;
+  if(cnt)cnt.textContent=list.length+'개'+(dictQ.trim()&&list.length?' · 눌러서 단어 보기':'');
 }
 function renderDict(m){
-  m.innerHTML=`<div class="dict${dictQ.trim()?' searching':''}"><div class="lsn-row dict-row"><label class="lsn-pick"><span class="dsi" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><input class="dict-in" id="dq" type="search" inputmode="search" enterkeyhint="search" placeholder="단어 검색 (가나 · 한자 · 한글)" aria-label="단어 검색" value="${escA(dictQ)}" autocomplete="off"><button class="dict-clear" id="dclr" type="button" aria-label="검색어 지우기"${dictQ?'':' hidden'}>×</button></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div><div class="dict-recent" id="drecent"></div><div class="dict-bar"><div class="dict-idx" role="group" aria-label="행으로 이동">${KANA_ROWS.map(r=>`<button data-didx="${r[0]}">${r[0]}</button>`).join('')}</div></div><p class="dict-count" id="dcount"></p><div class="dict-list" id="dlist"></div></div>`;
+  m.innerHTML=`<div class="dict${dictQ.trim()?' searching':''}"><div class="lsn-row dict-row"><label class="lsn-pick"><span class="dsi" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><input class="dict-in" id="dq" type="search" inputmode="search" enterkeyhint="search" placeholder="단어 검색 (가나 · 한자 · 한글)" aria-label="단어 검색" value="${escA(dictQ)}" autocomplete="off"><button class="dict-clear" id="dclr" type="button" aria-label="검색어 지우기"${dictQ?'':' hidden'}>×</button></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div><div class="dict-chips" id="dchips"></div><div class="dict-recent" id="drecent"></div><div class="dict-bar"><div class="dict-idx" role="group" aria-label="행으로 이동">${KANA_ROWS.map(r=>`<button data-didx="${r[0]}">${r[0]}</button>`).join('')}</div></div><p class="dict-count" id="dcount"></p><div class="dict-list" id="dlist"></div></div>`;
   fillRecent();
   fillDict();ensureDictTop();dictOnScroll();
 }
@@ -2673,7 +2912,7 @@ function ensureDictTop(){
 }
 function dictOnScroll(){
   const b=document.getElementById('dtop');
-  if(P.mode!=='dict'){if(b)b.classList.remove('show');return;}
+  if(P.mode!=='dict'||dictPage){if(b)b.classList.remove('show');return;}
   if(b)b.classList.toggle('show',(window.scrollY||0)>500);
   let cur='';
   for(const h of document.querySelectorAll('.dict-sec')){if(h.getBoundingClientRect().top<=72)cur=h.id.replace('dsec-','');else break;}
@@ -2682,11 +2921,82 @@ function dictOnScroll(){
 let dictRaf=0;
 window.addEventListener('scroll',()=>{if(dictRaf)return;dictRaf=requestAnimationFrame(()=>{dictRaf=0;dictOnScroll();});},{passive:true});
 function dictJump(r){const el=document.getElementById('dsec-'+r);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
-function dictToggle(k){
-  const w=W.find(x=>x.k===k);if(!w)return;
-  const wasOpen=dictOpen===k;dictOpen=wasOpen?null:k;
-  document.querySelectorAll('.dict-item.open').forEach(x=>{const ww=W.find(y=>y.k===x.dataset.dk);if(ww)x.outerHTML=dictItem(ww,false);});
-  const el=document.querySelector(`[data-dk="${k}"]`);if(el)el.outerHTML=dictItem(w,!wasOpen);
+let dictPage=null,dictFav=false,dpHist=false,dictScrollY=0,wpRec=null,wpTimer=0;
+const STAR_P='<path d="M12 2.8l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.6 6.1 20.9l1.3-6.6L2.5 9.7l6.6-.8z"/>';
+const wpWord=()=>dictPage?W.find(x=>x.k===dictPage.keys[dictPage.i]):null;
+function dictOpenPage(k){
+  const keys=dictList().map(w=>w.k);let i=keys.indexOf(k);if(i<0){keys.push(k);i=keys.length-1;}
+  dictScrollY=window.scrollY||0;
+  try{if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();}catch(e){}
+  dictPage={keys,i,res:null,msg:'',live:false};
+  dictSaveFor(W.find(x=>x.k===k));   /* 단어 페이지에 도달 = 최근 검색에 담음 */
+  try{history.pushState({dp:1},'');dpHist=true;}catch(e){dpHist=false;}
+  render();window.scrollTo(0,0);
+}
+function dictClosePage(fromPop){
+  stopWpRec();dictPage=null;if(fromPop)dpHist=false;
+  render();window.scrollTo(0,dictScrollY);
+}
+function dictBack(){if(dpHist){dpHist=false;try{history.back();return;}catch(e){}}dictClosePage(false);}
+function dictStar(k){
+  const was=isStar(k);toggleStar(k);const on=isStar(k);
+  if(on===was)return;   /* 로그인 전이면 바뀌지 않음(안내만 나옴) */
+  document.querySelectorAll(`[data-dstar="${k}"]`).forEach(b=>{b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  const wb=document.querySelector('[data-wp="star"]');if(wb&&dictPage&&dictPage.keys[dictPage.i]===k){wb.classList.toggle('on',on);wb.setAttribute('aria-pressed',on);}
+  if(!dictPage){if(dictFav)fillDict();else dictChipsUpdate(dictList(true));}
+}
+function stopWpRec(){clearTimeout(wpTimer);if(wpRec){wpRec.onresult=wpRec.onerror=wpRec.onend=null;try{wpRec.abort();}catch(e){}wpRec=null;}}
+function wpMove(d){
+  const p=dictPage;if(!p)return;const n=p.i+d;if(n<0||n>=p.keys.length)return;
+  stopWpRec();p.i=n;p.res=null;p.msg='';p.live=false;render();window.scrollTo(0,0);
+}
+function wpEnd(msg){stopWpRec();const p=dictPage;if(!p)return;p.live=false;p.msg=msg;render();}
+function wpFinish(w,alts){
+  stopWpRec();const p=dictPage;if(!p)return;
+  const acc=accepted(w),cand=[];
+  for(const a of alts){const t=toKanaText(a);cand.push(a,t);if(hasKanji(t)){const k=kanaCands(t);if(k)cand.push(...k.slice(0,24));}}
+  const ok=cand.some(a=>looseHit(a,acc));
+  p.live=false;p.msg='';p.res={ok,heard:ok?w.k:showHeard(alts)};render();speakW(w);
+}
+function wpRead(){
+  const p=dictPage,w=wpWord();if(!p||!w)return;
+  if(p.live){stopWpRec();p.live=false;render();return;}
+  const SRC=window.__SR||SR;
+  if(!SRC){p.res=null;p.msg='이 브라우저는 음성 인식을 지원하지 않아요';render();return;}
+  try{speechSynthesis.cancel();}catch(e){}
+  stopWpRec();p.res=null;p.msg='';p.live=true;render();
+  const r=new SRC();wpRec=r;r.lang='ja-JP';r.interimResults=false;r.maxAlternatives=5;r.continuous=false;
+  let got=false;
+  r.onresult=e=>{got=true;const alts=[];for(const rs of e.results)for(const a of rs)alts.push(a.transcript);wpFinish(w,alts);};
+  r.onerror=e=>{if(!got)wpEnd(e&&e.error==='not-allowed'?'마이크를 쓸 수 있게 허용해 주세요':'소리가 안 들렸어요');};
+  r.onend=()=>{if(!got&&wpRec)wpEnd('소리가 안 들렸어요');};
+  wpTimer=setTimeout(()=>{if(!got)wpEnd('소리가 안 들렸어요');},9000);
+  try{r.start();}catch(e){wpEnd('마이크를 켤 수 없어요');}
+}
+function wpAct(a){
+  const w=wpWord();if(!w)return;
+  if(a==='back')dictBack();
+  else if(a==='speak')speakW(w);
+  else if(a==='read')wpRead();
+  else if(a==='star')dictStar(w.k);
+  else if(a==='prev')wpMove(-1);
+  else if(a==='next')wpMove(1);
+}
+function renderDictPage(m){
+  const p=dictPage,w=wpWord();if(!w){dictPage=null;renderDict(m);return;}
+  CARDW=Math.max(200,(m.clientWidth||innerWidth)-40-36);
+  const on=isStar(w.k);
+  const rows=answer(w).replace(/<div class="picrow">[\s\S]*?<\/div>/,'');
+  const ex=exPanel(w).replace('data-act="exspeak"','data-wpex="1"');
+  let res='';
+  if(p.res)res=`<div class="wp-res ${p.res.ok?'ok':'ng'}"><span class="wp-ri">${p.res.ok?ic('check'):ui('refresh',18)}</span><div><b>${p.res.ok?'잘 읽었어요':'조금 달라요'}</b><small>들린 소리 · <span lang="ja">${p.res.heard||'—'}</span></small></div></div>`;
+  else if(p.live)res=`<div class="wp-res live"><span class="wp-ri">${ui('mic',18)}</span><div><b>듣고 있어요</b><small>또박또박 읽어보세요</small></div></div>`;
+  else if(p.msg)res=`<div class="wp-res ng"><span class="wp-ri">${ui('mic',18)}</span><div><b>${p.msg}</b></div></div>`;
+  const mic=p.res?`<button class="mic rt" data-wp="read" type="button" aria-label="다시 읽어보기">${ui('refresh',34)}</button>`:`<button class="mic${p.live?' live':''}" data-wp="read" type="button" aria-label="${p.live?'듣는 중 (누르면 멈춤)':'읽어보기 (마이크)'}">${ui('mic',36)}</button>`;
+  const pv=W.find(x=>x.k===p.keys[p.i-1]),nx=W.find(x=>x.k===p.keys[p.i+1]);
+  m.innerHTML=`<div class="wp"><div class="wp-top"><button class="wp-back" data-wp="back" type="button">${ic('prev')}<span>단어장</span></button><span class="wp-pos"><b>${p.i+1}</b> / ${p.keys.length}</span></div>
+  <div class="wp-card"><div class="wp-pic" aria-hidden="true">${w.e||''}</div>${boxes(w,'',1)}${rows}${ex}${res}</div>
+  <div class="wp-acts"><button class="sb wp-arrow" data-wp="prev" type="button" aria-label="이전 단어${pv?' ('+pv.k+')':''}"${pv?'':' disabled'}>${ic('prev')}</button><button class="sb" data-wp="speak" type="button" aria-label="듣기">${ui('volume',26)}</button>${mic}<button class="sb wp-star${on?' on':''}" data-wp="star" type="button" aria-pressed="${on}" aria-label="즐겨찾기"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sb wp-arrow" data-wp="next" type="button" aria-label="다음 단어${nx?' ('+nx.k+')':''}"${nx?'':' disabled'}>${ic('next')}</button></div></div>`;
 }
 const RS_KEY='tomoz-recent-search';
 let dictRecent=(()=>{try{const a=JSON.parse(localStorage.getItem(RS_KEY));return Array.isArray(a)?a.filter(x=>typeof x==='string'&&x).slice(0,10):[];}catch(e){return [];}})(),dictT=0;
@@ -2760,9 +3070,13 @@ function autoSpeakMeaning(){
   setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},180);
 }
 function render(){
+  if(P.mode==='mail'&&!mailAllowed()){P.mode='lesson';fixLevelForMode();start(level);return;}
   renderChips();renderScore();
   const m=$('#main');
-  if(P.mode==='dict'){renderDict(m);return;}
+  if(P.mode!=='mail'&&mailLive>=0){stopMlRec();mailLive=-1;}
+  if(P.mode==='mail'){renderMail(m);return;}
+  if(P.mode!=='dict'&&dictPage){stopWpRec();dictPage=null;}
+  if(P.mode==='dict'){if(dictPage)renderDictPage(m);else renderDict(m);return;}
   if(phase==='empty'){m.innerHTML=`<div class="card"><p class="status">${(level==='star'||(LV(level)&&LV(level).n===0))?'나의 노트가 비어 있어요. 문제 카드 위쪽의 ☆를 눌러 잘 안 외워지는 단어를 담아보세요.':'이 범위에 단어가 없어요. 다른 글자 수나 분류를 골라보세요.'}</p></div>`;return;}
   if(phase==='done'){
     const total=queue.length,ok=results.filter(Boolean).length;
@@ -2827,6 +3141,7 @@ function render(){
 
 
 document.addEventListener('change',e=>{
+  if(e.target&&e.target.id==='mailSel'&&mailData){stopMlRec();mailLive=-1;mailRes={};mailIdx=+e.target.value||0;mailPage=mlFirstUnread(mailData[mailIdx]);render();return;}
   if(e.target&&e.target.id==='lvlSel'){const n=+e.target.value;const t=(LV(level)||{t:'L'}).t;start(t+n);return;}
   if(e.target&&e.target.id==='lsnSel'){const n=+e.target.value;if(n===0&&!cloudEmail){promptLogin();renderChips();return;}const t=(LV(level)||{t:'L'}).t;start(t+n);}
 });
@@ -2841,11 +3156,15 @@ document.addEventListener('click',e=>{
   const drc=e.target.closest('[data-drclear]');if(drc){dictRecent=[];dictPersist();fillRecent();return;}
   const dcl=e.target.closest('#dclr');if(dcl){dictSetQ('',true);return;}
   const di=e.target.closest('[data-didx]');if(di){dictJump(di.dataset.didx);return;}
-  const dt=e.target.closest('[data-dtoggle]');if(dt){dictSaveFor(W.find(x=>x.k===dt.dataset.dtoggle));dictToggle(dt.dataset.dtoggle);return;}
-  const ds=e.target.closest('[data-dspeak]');if(ds){dictSaveFor(W.find(x=>x.k===ds.dataset.dspeak));speak(ds.dataset.dspeak);return;}
-  const dx=e.target.closest('[data-dex]');if(dx){const ww=W.find(x=>x.k===dx.dataset.dex);if(ww)speakEx(ww);return;}
+  const dop=e.target.closest('[data-dopen]');if(dop){dictOpenPage(dop.dataset.dopen);return;}
+  const dst=e.target.closest('[data-dstar]');if(dst){dictStar(dst.dataset.dstar);return;}
+  const dfv=e.target.closest('[data-dfav]');if(dfv){dictFav=dfv.dataset.dfav==='1';fillDict();return;}
+  const wpb=e.target.closest('[data-wp]');if(wpb){wpAct(wpb.dataset.wp);return;}
+  const wex=e.target.closest('[data-wpex]');if(wex){const ww=wpWord();if(ww)speakEx(ww);return;}
+  const mlb=e.target.closest('[data-ml]');
+  if(mlb){mlAct(mlb.dataset.ml,+mlb.dataset.i);return;}
   const mm=e.target.closest('[data-mode]');
-  if(mm){P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();savePrg();if(P.mode==='dict'){render();window.scrollTo(0,0);}else start(level);return;}
+  if(mm){P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();savePrg();if(P.mode==='dict'||P.mode==='mail'){render();window.scrollTo(0,0);}else start(level);return;}
   const c=e.target.closest('[data-level]');
   if(c){start(c.dataset.level);return;}
   const sp=e.target.closest('[data-speak]');
