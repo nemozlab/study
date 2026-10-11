@@ -1002,7 +1002,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .pg-w .t small{font:400 12px "Noto Sans KR",sans-serif;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pg-w.ng{border-color:#F1C5BD}
 
-/* ===== 틀린 것만 다시 풀기 ===== */
+/* ===== 오답풀기 ===== */
 .lsn-retry{width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 0;padding:11px 16px;border:1px solid #F1C5BD;border-radius:22px;background:#FFF6F4;color:var(--ink);font:700 14.5px "Noto Sans KR",sans-serif;cursor:pointer;text-align:left}
 .lsn-retry b{color:var(--ng);font-weight:800}
 .lsn-retry.on{border-color:var(--line);background:var(--card);cursor:default}
@@ -1017,6 +1017,212 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 #acct .acct-prog{font:400 12.5px/1.35 "Noto Sans KR",sans-serif}
 
 #acct .acct-prog{color:#2F6FAE}
+
+/* 이메일 입력 중에는 진도 글씨를 숨김 (진도 글씨를 버튼으로 바꾸면서 입력칸 안에 나오던 것) */
+.acct:not(.on) .acct-prog{display:none}
+
+/* ===== 진도 화면 정리: 같은 높이·같은 정렬·같은 카드 ===== */
+.pg-sh{padding:14px 16px calc(20px + env(safe-area-inset-bottom))}
+.pg-top h3{font:800 18px "Noto Sans KR",sans-serif}
+.pg-x{width:36px;height:36px;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
+.pg-hero{margin-top:10px;padding:14px 16px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.pg-hero .big{display:flex;align-items:baseline;gap:6px}
+.pg-hero .big b{font:800 30px/1 "Noto Sans KR",sans-serif;color:var(--ink)}
+.pg-hero .big span{font:600 16px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-hero .big em{margin-left:auto;font:600 13px "Noto Sans KR",sans-serif;font-style:normal;color:var(--sub)}
+.pg-hero .pg-bar{margin:12px 0 10px}
+.pg-leg{display:flex;gap:16px;font:600 13px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-leg span{display:inline-flex;align-items:center;gap:6px}
+.pg-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;box-sizing:border-box}
+.pg-leg .ok i{background:var(--ok)}.pg-leg .ng i{background:var(--ng)}.pg-leg .new i{border:2px solid #B5BCCB}
+.pg-why{margin:10px 2px 0;padding:0 0 0 16px;font-size:12.5px;line-height:1.6;color:var(--sub)}
+.pg-sec{margin-top:10px;padding:14px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.pg-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0}
+.pg-h .l{display:flex;align-items:baseline;gap:8px;min-width:0}
+.pg-h b{font:800 16px "Noto Sans KR",sans-serif}
+.pg-h .n{margin:0;font:700 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-go{height:32px;margin:0;padding:0 8px 0 14px;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--navy);font:700 13px "Noto Sans KR",sans-serif;display:inline-flex;align-items:center;gap:2px;line-height:1}
+.pg-go .ic{display:flex}.pg-go svg{width:14px;height:14px;display:block}
+.pg-sec .pg-bar{height:6px;margin:12px 0}
+.pg-retry,.lsn-retry{height:44px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;line-height:1}
+.pg-retry .l,.lsn-retry .l{display:flex;align-items:center;gap:8px}
+.pg-retry .ic,.lsn-retry .ic{display:flex}.pg-retry .ic svg,.lsn-retry .ic svg{width:16px;height:16px;display:block;stroke-width:2.2}
+.pg-retry b,.lsn-retry b{line-height:1}
+.pg-done{height:44px;display:flex;align-items:center;padding:0 4px}
+.lsn-retry.on{height:44px}
+.lsn-retry.on button{height:30px;padding:0 12px;line-height:1}
+
+/* 아이콘 칸(.ic)이 26px로 커서 화살표가 위쪽에 붙던 것 → 아이콘 크기에 맞춤 */
+.pg-go .ic{width:14px;height:14px;align-items:center;justify-content:center}
+.pg-retry .ic,.lsn-retry .ic{width:16px;height:16px;align-items:center;justify-content:center}
+
+/* ===== 진도 화면 새 디자인 ===== */
+.pg-ov{background:rgba(20,33,74,.42);opacity:0;transition:opacity .2s}
+.pg-ov.in{opacity:1}
+.pg-sh{background:var(--bg);border-radius:28px 28px 0 0;padding:10px 18px calc(26px + env(safe-area-inset-bottom));transform:translateY(24px);transition:transform .22s ease}
+.pg-ov.in .pg-sh{transform:none}
+.pg-grab{width:42px;height:5px;border-radius:3px;background:#C9D1E0;margin:2px auto 10px}
+.pg-top h3{font:800 22px "Noto Sans KR",sans-serif;letter-spacing:-.3px}
+.pg-x{width:38px;height:38px;border:1px solid var(--line);color:var(--navy)}
+.pg-x svg{width:20px;height:20px}
+.pg-hero{display:flex;align-items:center;gap:20px;margin-top:12px;padding:18px 20px;border-radius:24px;background:var(--card);box-shadow:0 10px 28px rgba(20,33,74,.07)}
+.pg-ring{position:relative;width:112px;height:112px;flex:none}
+.pg-ring svg{width:112px;height:112px;display:block}
+.pg-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.pg-ring .bg{stroke:#E8ECF5}
+.pg-ring .fg{stroke:var(--navy);transition:stroke-dashoffset .6s ease}
+.pg-ring.full .fg{stroke:var(--ok)}
+.pg-ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.pg-ring .c b{font:800 30px "Noto Sans KR",sans-serif;color:var(--ink)}
+.pg-ring .c span{margin-top:3px;font:600 13px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-stats{flex:1;min-width:0}
+.pg-stats .t{margin-bottom:8px;font:800 15px "Noto Sans KR",sans-serif;color:var(--ink)}
+.pg-stats .r{display:flex;align-items:center;gap:8px;padding:4px 0;font:600 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-stats .r b{margin-left:auto;font:800 16px "Noto Sans KR",sans-serif;color:var(--ink)}
+.pg-stats i{width:10px;height:10px;border-radius:50%;flex:none}
+.pg-stats .ok{background:var(--ok)}.pg-stats .ng{background:var(--ng)}.pg-stats .nw{border:2px solid #B5BCCB;box-sizing:border-box}
+.pg-learn{display:flex;align-items:center;gap:12px;margin:12px 4px 0;font:700 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-learn .b{flex:1;height:6px;border-radius:3px;background:#E3E8F1}
+.pg-learn .b i{display:block;height:6px;border-radius:3px;background:var(--navy)}
+.pg-learn b{color:var(--ink);font-weight:800}
+.pg-lessons{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.pg-card{padding:14px 16px 14px;border-radius:20px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.06);border:1px solid #EEF1F7}
+.pg-ch{display:flex;align-items:center;gap:10px}
+.pg-ch b{font:800 17px "Noto Sans KR",sans-serif}
+.pg-ch .n{font:700 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pg-ch .st{margin-left:auto;padding:4px 10px;border-radius:12px;background:#FFF0EC;color:var(--ng);font:800 12.5px "Noto Sans KR",sans-serif}
+.pg-ch .st.ok{background:var(--okbg);color:var(--ok)}
+.pg-card .pg-bar{height:7px;margin:10px 0 12px;background:#E8ECF5}
+.pg-card .pg-bar i{height:7px;background:var(--navy)}
+.pg-card.full .pg-bar i{background:var(--ok)}
+.pg-act{display:flex;gap:8px}
+.pg-act .pg-retry{flex:1;min-width:0;padding:11px 14px;border-radius:18px;font:700 14px "Noto Sans KR",sans-serif}
+.pg-act .pg-go{margin:0;flex:none;padding:10px 12px 10px 16px;border-radius:18px;font:700 14px "Noto Sans KR",sans-serif;line-height:1.2}
+.pg-card.full .pg-go{margin-left:auto}
+.pg-go svg{width:16px;height:16px;margin-top:1px}
+.pg-info{margin-top:16px;padding:0 4px;color:var(--sub);font-size:13px}
+.pg-info summary{cursor:pointer;font:700 13px "Noto Sans KR",sans-serif;color:var(--sub);list-style:none}
+.pg-info summary::before{content:'ⓘ ';}
+.pg-info ul{margin:8px 0 0;padding-left:18px;line-height:1.65}
+.pg-info b{color:var(--ink)}
+
+.pg-card .pg-go.solo{margin-left:auto}
+
+/* ===== 진도 화면 (A안: 3색 막대 + 회차별 카드) — 완료 · 오답 · 안 푼 ===== */
+.pa-hero{margin-top:10px;padding:20px 20px 18px;border-radius:24px;background:var(--card);box-shadow:0 10px 28px rgba(20,33,74,.07)}
+.pa-big{display:flex;align-items:baseline;gap:8px}
+.pa-big b{font:800 44px/1 "Noto Sans KR",sans-serif;color:var(--ink)}
+.pa-big span{font:700 18px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-big em{margin-left:auto;padding:4px 11px;border-radius:12px;background:#EEF1F7;color:var(--sub);font:800 13px "Noto Sans KR",sans-serif;font-style:normal;align-self:center}
+.pa-big em.full{background:var(--okbg);color:var(--ok)}
+.pa-sub{margin:4px 0 14px;font:600 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-seg{display:flex;border-radius:6px;overflow:hidden;background:#E3E8F1}
+.pa-seg i{display:block;height:100%}
+.pa-seg .ok{background:var(--ok)}.pa-seg .ng{background:var(--ng);margin-left:2px}
+.pa-seg .ok:first-child{margin-left:0}
+.pa-leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.pa-leg span{display:inline-flex;align-items:center;gap:6px;font:600 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-leg b{font-weight:800;color:var(--ink)}
+.pa-leg i{width:10px;height:10px;border-radius:50%;flex:none}
+.pa-leg .ok{background:var(--ok)}.pa-leg .ng{background:var(--ng)}.pa-leg .nw{border:2px solid #B5BCCB;box-sizing:border-box}
+.pa-learn{display:flex;align-items:center;gap:12px;margin:16px 4px 0;font:700 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-learn>span{width:34px}
+.pa-learn .b{flex:1;height:6px;border-radius:3px;background:#E3E8F1}
+.pa-learn .b i{display:block;height:6px;border-radius:3px;background:var(--navy)}
+.pa-learn b{color:var(--ink);font-weight:800}
+.pa-h{margin:20px 4px 2px;font:800 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-row{margin-top:8px;padding:14px 16px 14px;border-radius:20px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.06)}
+.pa-r1{display:flex;align-items:center;gap:10px;height:34px;margin-bottom:10px}
+.pa-r1 b{font:800 17px "Noto Sans KR",sans-serif}
+.pa-r1 .n{font:700 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pa-go{margin:0 0 0 auto;height:34px;padding:0 8px 0 14px;border:1px solid var(--line);border-radius:17px;background:var(--card);color:var(--navy);font:700 13.5px "Noto Sans KR",sans-serif;display:inline-flex;align-items:center;gap:2px;cursor:pointer;white-space:nowrap}
+.pa-go svg{width:16px;height:16px}
+.pa-retry{width:100%;box-sizing:border-box;margin:12px 0 0;height:44px;padding:0 16px;border:1px solid #F1C5BD;border-radius:22px;background:#FFF6F4;color:var(--ink);display:flex;align-items:center;justify-content:space-between;font:800 14.5px "Noto Sans KR",sans-serif;cursor:pointer}
+.pa-retry span{display:inline-flex;align-items:center;gap:8px}
+.pa-retry svg{width:18px;height:18px}
+.pa-retry b{color:var(--ng);font-weight:800}
+
+.pa-go .ic,.pa-retry .ic{display:flex;align-items:center;line-height:0}
+.pa-retry span{gap:8px}
+
+/* ===== 회차 한 줄 (A안) ===== */
+.pb-row{display:flex;align-items:center;gap:14px;box-sizing:border-box;height:76px;padding:0 14px 0 18px;margin-top:8px;border-radius:20px;background:var(--card);box-shadow:0 1px 2px rgba(20,33,74,.06);cursor:pointer}
+.pb-l{width:92px;flex:none}
+.pb-l b{display:block;font:800 17px "Noto Sans KR",sans-serif;color:var(--ink)}
+.pb-l .pa-seg{margin-top:7px;height:6px}
+.pb-n{flex:none;width:46px;text-align:right;font:700 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pb-n span{color:#8A93A8}
+.pb-a{flex:1;display:flex;justify-content:flex-end;min-width:0}
+.pb-retry{height:40px;margin:0;padding:0 14px 0 12px;border:0;border-radius:20px;background:#FDEBE7;color:var(--ng);display:flex;align-items:center;gap:6px;font:800 14px "Noto Sans KR",sans-serif;white-space:nowrap;cursor:pointer}
+.pb-retry .ic{display:flex;line-height:0}.pb-retry svg{width:17px;height:17px}
+.pb-ok{width:40px;height:40px;border-radius:50%;background:var(--okbg);color:var(--ok);display:flex;align-items:center;justify-content:center}
+.pb-ok .ic{display:flex;line-height:0}.pb-ok svg{width:20px;height:20px}
+.pb-todo{height:40px;padding:0 14px;border-radius:20px;background:#EEF1F7;color:var(--sub);display:flex;align-items:center;font:800 14px "Noto Sans KR",sans-serif;white-space:nowrap}
+
+/* 진도 화면 위쪽 탭 */
+.pt-tabs{display:flex;gap:4px;margin-top:10px;padding:4px;border-radius:20px;background:#E8ECF5}
+.pt-tabs button{flex:1;margin:0;padding:10px 0;border:0;border-radius:16px;background:transparent;color:var(--sub);font:700 15px "Noto Sans KR",sans-serif;cursor:pointer}
+.pt-tabs button.on{background:var(--card);color:var(--ink);font-weight:800;box-shadow:0 2px 8px rgba(20,33,74,.08)}
+
+/* 오답풀기 버튼: 아이콘과 글씨를 같은 높이·가까운 간격으로 */
+.pb-retry{gap:6px}
+.pb-retry .ic{display:flex;align-items:center;justify-content:center;width:17px;height:17px;line-height:0;margin:0}
+.pb-retry svg{display:block;width:17px;height:17px}
+.pb-a{align-items:center}
+
+/* ===== 오답풀기 = 빨간 동그라미 + 아이콘 ===== */
+.pb-n{flex:none;width:56px;text-align:right}
+.pb-n .c{font:700 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.pb-n .c span{color:#8A93A8}
+.pb-n .e{margin-top:3px;font:800 12px "Noto Sans KR",sans-serif;color:var(--ng)}
+.pb-c{flex:none;width:42px;height:42px;margin:0;padding:0;border:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.pb-c .ic{display:flex;line-height:0}.pb-c svg{display:block;width:21px;height:21px}
+.pb-c.ng{background:#FDEBE7;color:var(--ng);cursor:pointer}
+.pb-c.ok{background:var(--okbg);color:var(--ok)}
+.pb-c.nw{background:#EEF1F7}
+.pb-c.nw i{display:block;width:16px;height:16px;border:2.5px solid #B5BCCB;border-radius:50%;box-sizing:border-box}
+/* Lesson·학습 탭 맨 위 줄 */
+.lsn-top{display:flex;align-items:center;gap:10px}
+.lsn-top .lsn-row{flex:1;min-width:0}
+.lsn-ret{position:relative;flex:none;width:52px;height:52px;margin:0;padding:0;border:0;border-radius:50%;background:#FDEBE7;color:var(--ng);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lsn-ret .ic{display:flex;line-height:0}.lsn-ret svg{display:block;width:24px;height:24px}
+.lsn-ret .bd{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:10px;background:var(--ng);color:#fff;font:800 12px/20px "Noto Sans KR",sans-serif;text-align:center;box-shadow:0 0 0 2px var(--bg)}
+.lsn-ret.on{background:var(--ng);color:#fff}
+.lsn-ret.on .bd{background:#fff;color:var(--ng)}
+.lsn-ret.done{background:var(--ok)}
+
+/* 동그라미 안 아이콘 정중앙 */
+.pb-c .ic{width:21px;height:21px}
+.lsn-ret .ic{width:24px;height:24px}
+
+/* 진도 화면 탭 = 앱 메뉴(학습·뜻·말하기·퀴즈)와 같은 모양 */
+.pg-seg{margin-top:10px}
+/* 동그라미 안 아이콘 정중앙 */
+.pb-c .ic{width:21px;height:21px;display:flex;align-items:center;justify-content:center;line-height:0}
+.pb-c svg{width:21px;height:21px}
+.lsn-ret .ic{width:24px;height:24px;display:flex;align-items:center;justify-content:center;line-height:0}
+.lsn-ret svg{width:24px;height:24px}
+
+.pg-x{display:flex;align-items:center;justify-content:center;padding:0}
+.pg-x .ic{width:20px;height:20px;display:flex;align-items:center;justify-content:center;line-height:0}
+.pg-x svg{width:20px;height:20px}
+
+/* 미완료 > 화살표 */
+.pb-c.nw{color:var(--sub);cursor:pointer}
+.pb-c.nw .ic{width:21px;height:21px;display:flex;align-items:center;justify-content:center;line-height:0}
+
+/* ===== 오답풀기: 헤드폰 옆 동그라미 대신 메뉴 아래에 잠깐 나왔다 사라지는 안내 ===== */
+.lsn-hint{width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;margin:10px 0 0;padding:0 16px;overflow:hidden;border:1px solid #F1C5BD;border-radius:22px;background:#FFF6F4;color:var(--ink);font:800 14.5px "Noto Sans KR",sans-serif;text-align:left}
+.lsn-hint .l{display:inline-flex;align-items:center;gap:8px}
+.lsn-hint .ic{display:flex;width:18px;height:18px;line-height:0}.lsn-hint svg{width:18px;height:18px;color:var(--ng)}
+.lsn-hint b{color:var(--ng);font-weight:800}
+.lsn-hint.on{border-color:var(--line);background:var(--card)}
+.lsn-hint.on svg{color:var(--navy)}.lsn-hint.on b{color:var(--ng)}
+.lsn-hint.on button{margin:0;padding:6px 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--navy);font:700 13px "Noto Sans KR",sans-serif;cursor:pointer}
+.lsn-hint.tmp{cursor:pointer;animation:lsnHint 7s ease forwards}
+@keyframes lsnHint{0%{opacity:0;transform:translateY(-6px);height:44px;pointer-events:auto}6%{opacity:1;transform:none;height:44px;pointer-events:auto}88%{opacity:1;height:44px;margin-top:10px;border-width:1px;pointer-events:auto}100%{opacity:0;height:0;margin-top:0;padding:0;border-width:0;pointer-events:none}}
+
+.lsn-hint.tmp{animation:none;cursor:pointer}
 </style>
 </head>
 <body>
@@ -2174,8 +2380,11 @@ function start(l){
   if(isLessonLevel(l)||isQuizLevel(l)){if(GL)P.groupLevel=l;else if((LV(l)||{}).n!==0)P.lessonLevel=l;}   /* 나의 노트(0)는 Lesson 탭의 마지막 회차로 기억하지 않음 */
   const isQ=isQuizLevel(l),isL=isLessonLevel(l);
   let gst=0,gn=0,gchunk=null;
-  if(GL){const gl=lessonWords(LV(l).n);gn=gl.length;P.seq=P.seq||{};gst=P.seq['g'+LV(l).n]||0;if(gst>=gn)gst=0;gchunk=gl.slice(gst,gst+10);}
-  const RT=retryOnly&&!GL&&(LV(l)||{}).n>0&&(LV(l)||{}).n===retryN,keepW=w=>!RT||(w.c==='문장'?true:!everOk(w));
+  if(GL){
+    const RTG=retryOnly&&LV(l).n===retryN;   /* 오답풀기: 이 범위에서 오답인 단어만 10개씩 */
+    const gl=RTG?lessonWords(LV(l).n).filter(w=>progStatus(w)==='ng'):lessonWords(LV(l).n);gn=gl.length;P.seq=P.seq||{};gst=RTG?0:(P.seq['g'+LV(l).n]||0);if(gst>=gn)gst=0;gchunk=gl.slice(gst,gst+10);
+  }
+  const RT=retryOnly&&!GL&&(LV(l)||{}).n>0&&(LV(l)||{}).n===retryN,keepW=w=>!RT||(w.c==='문장'?true:progStatus(w)==='ng');
   const pool=(GL?gchunk:W.filter(w=>inLevel(w,l)&&inCat(w))).filter(keepW);
   const mk=(list,f)=>list.map((w,i)=>Object.assign({},w,f(w,i),{seqNo:(GL?gst:0)+i+1,seqTotal:GL?gn:list.length}));
   const base=()=>GL?gchunk:lessonWords(LV(l).n).filter(w=>pool.includes(w));
@@ -2210,6 +2419,7 @@ function start(l){
     queue=[];
   }
   idx=0;results=[];phase=queue.length?'ask':'empty';msg='';heard='';verdict=null;
+  if(!retryOnly&&(isLessonLevel(l)||isQuizLevel(l)))armHint((LV(l)||{}).n);   /* 오답이 있으면 아래에 잠깐 안내 */
   genQuiz();
   persistSession();render();
 }
@@ -2352,7 +2562,7 @@ function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='r
 function next(){
   stopRec();idx++;msg='';heard='';verdict=null;resumed=false;
   if(idx>=queue.length){
-    phase='done';
+    phase='done';if(!retryOnly&&(isLessonLevel(level)||isQuizLevel(level)))armHint((LV(level)||{}).n);
     const last=queue[queue.length-1];
     if(last&&last.seqNo&&!isGroupLevel(level)){P.seq=P.seq||{};P.seq[level]=(last.seqNo>=last.seqTotal)?0:last.seqNo;}
     P.session=null;P.ts=Date.now();savePrg();
@@ -2493,6 +2703,7 @@ function toggleStar(k){
 /* ===== 메일 탭: 매일 중요한 메일 1통 — 1문장 1페이지로 넘기며 듣고 따라 읽기 (NEMOZ.IO 로그인 전용) ===== */
 const MAIL_DONE_KEY='tomoz-mail-done';
 let mailData=null,mailState='idle',mailIdx=0,mailPage=0,mailLive=-1,mailRes={},mailRec=null,mailTimer=0,mailAlign=false,mailSay=null;
+var mailSil=0,mailFinish=null;
 const mlYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const mlLabel=ds=>{const d=new Date(ds+'T00:00:00');return (d.getMonth()+1)+'월 '+d.getDate()+'일 ('+'일월화수목금토'[d.getDay()]+')';};
 const mlDone=()=>{try{return JSON.parse(localStorage.getItem(MAIL_DONE_KEY))||{};}catch(e){return {};}};
@@ -2557,7 +2768,7 @@ function mlFavWord(w){   /* 메일의 중요한 단어를 나의 노트(즐겨�
   }
   toggleStar(k);return true;
 }
-function stopMlRec(){clearTimeout(mailTimer);if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
+function stopMlRec(){clearTimeout(mailTimer);clearTimeout(mailSil);mailFinish=null;if(mailRec){mailRec.onresult=mailRec.onerror=mailRec.onend=null;try{mailRec.abort();}catch(e){}mailRec=null;}}
 function mlEnd(i,msg){stopMlRec();mailLive=-1;mailRes[i]={msg};render();}
 function mlGrade(alts,u){   /* 소리가 조금 달라도 괜찮게: 맞음 / 거의 맞음(읽은 걸로 처리) / 다시 */
   const acc=accepted({k:u.k,alts:[u.jp,u.sp].filter(Boolean)}),cand=[];
@@ -2574,18 +2785,48 @@ function mlFinish(i,alts){
 }
 function mlRead(i){
   const mail=mailData&&mailData[mailIdx],u=mail&&mail.units[i];if(!u)return;
-  if(mailLive===i){stopMlRec();mailLive=-1;render();return;}
+  if(mailLive===i){if(mailFinish)mailFinish();else{stopMlRec();mailLive=-1;render();}return;}   /* 읽는 중에 마이크를 다시 누르면 「다 읽었어요」→ 바로 판정 */
   const SRC=window.__SR||SR;
   if(!SRC){mailRes[i]={msg:'이 브라우저는 음성 인식을 지원하지 않아요'};render();return;}
   try{speechSynthesis.cancel();}catch(e){}
   mailSay=null;stopMlRec();mailLive=i;mailRes[i]=null;render();
-  const r=new SRC();mailRec=r;r.lang='ja-JP';r.interimResults=false;r.maxAlternatives=5;r.continuous=false;
-  let got=false;
-  r.onresult=e=>{got=true;const alts=[];for(const rs of e.results)for(const a of rs)alts.push(a.transcript);mlFinish(i,alts);};
-  r.onerror=e=>{if(!got)mlEnd(i,e&&e.error==='not-allowed'?'마이크를 쓸 수 있게 허용해 주세요':'소리가 안 들렸어요');};
-  r.onend=()=>{if(!got&&mailRec)mlEnd(i,'소리가 안 들렸어요');};
-  mailTimer=setTimeout(()=>{if(!got)mlEnd(i,'소리가 안 들렸어요');},15000);
-  try{r.start();}catch(e){mlEnd(i,'마이크를 켤 수 없어요');}
+  /* 초보라 천천히 읽어요: 문장 길이에 따라 4~8초 동안 조용해야 끝으로 보고, 최대 60초까지 기다려요 */
+  const T0=Date.now(),MAX=60000,SIL=Math.min(8000,4000+[...(u.k||'')].length*130);
+  let acc=[],cur=[],done=false;
+  const segs=()=>[...acc,...cur];
+  const judge=()=>{
+    if(done)return;done=true;clearTimeout(mailTimer);clearTimeout(mailSil);mailFinish=null;
+    const r0=mailRec;mailRec=null;if(r0){r0.onresult=r0.onerror=r0.onend=null;try{r0.stop();}catch(e){}}
+    const sg=segs();if(!sg.length){mlEnd(i,'소리가 안 들렸어요');return;}
+    const prefix=sg.slice(0,-1).map(r=>r[0]).join('');
+    const alts=sg[sg.length-1].map(a=>prefix+a);
+    const every=sg.flatMap(r=>r).filter(Boolean);
+    mlFinish(i,[...new Set([...alts,...every])]);
+  };
+  mailFinish=judge;
+  const restart=old=>{
+    try{old.onresult=old.onerror=old.onend=null;old.abort();}catch(e){}
+    if(Date.now()-T0>MAX-2500||(!segs().length&&Date.now()-T0>25000)){judge();return;}
+    setTimeout(()=>{if(done||mailRec!==old)return;try{begin();}catch(e){judge();}},220);
+  };
+  const begin=()=>{
+    const r=new SRC();mailRec=r;r.lang='ja-JP';r.interimResults=true;r.maxAlternatives=5;r.continuous=true;
+    r.onresult=e=>{
+      cur=[];for(let k=0;k<e.results.length;k++)cur.push([...e.results[k]].map(a=>a.transcript));
+      const h=document.getElementById('mlHeard');if(h){h.textContent=toKanaText(segs().map(x=>x[0]).join('')).replace(/[\u4e00-\u9fff々]+/g,'…');}
+      clearTimeout(mailSil);mailSil=setTimeout(judge,SIL);
+    };
+    r.onerror=e=>{
+      if(done||mailRec!==r)return;
+      if(e.error==='not-allowed'||e.error==='service-not-allowed'){done=true;mlEnd(i,'마이크를 쓸 수 있게 허용해 주세요');return;}
+      if(e.error==='aborted')return;
+      if(e.error==='no-speech'&&segs().length){judge();return;}
+      restart(r);
+    };
+    r.onend=()=>{if(done||mailRec!==r)return;acc=acc.concat(cur);cur=[];restart(r);};   /* 엔진이 먼저 끝나도 시간이 남았으면 이어서 들음 */
+    r.start();
+  };
+  try{begin();mailTimer=setTimeout(judge,MAX);}catch(e){mlEnd(i,'마이크를 켤 수 없어요');}
 }
 function mlGoto(pg,scroll){
   stopMlRec();mailLive=-1;try{speechSynthesis.cancel();}catch(e){}mailSay=null;const mail=mailData&&mailData[mailIdx];if(!mail)return;
@@ -2621,7 +2862,7 @@ function renderMail(m){
     const ws=Array.isArray(u.words)?u.words:[];
     if(ws.length)words=`<div class="mp-words">${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k">${(()=>{const mm=/^(.*?)\s*\(([^)]*)\)\s*$/.exec(String(w.m||''));return `<b>${mm?mm[1]:(w.m||'')}${mm?`<em>(${mm[2]})</em>`:''}</b>`;})()}<small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
     let stat='<div class="mp-hint">문장을 읽어 보세요</div>';
-    if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 또박또박 읽어보세요</div>';
+    if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 천천히 읽고, 다 읽으면 마이크를 눌러요<small id="mlHeard"></small></div>';
     else if(r&&r.msg)stat=`<div class="mp-hint"><b>${r.msg}</b></div>`;
     else if(r)stat=`<div class="mp-hint ${r.g==='no'?'no':'ok'}"><b>${r.g==='ok'?ic('check')+'잘 읽었어요':r.g==='close'?ic('check')+'거의 맞아요 · 읽은 걸로 할게요':'다시 한 번 읽어볼까요?'}</b><small>들린 소리 · <span lang="ja">${r.heard||'—'}</span></small></div>`;
     inner=`<div class="mp-s" lang="ja">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
@@ -3194,6 +3435,8 @@ function audSetList(open,fromPop){
 }
 window.addEventListener('popstate',()=>{
   if(audSkipPop>0){audSkipPop--;return;}
+  if(document.getElementById('progSheet')){closeProg(true);return;}
+  if(typeof noteReturn!=='undefined'&&noteReturn&&P.mode==='lesson'&&(LV(level)||{}).n===0&&!AUD.player){noteBack(true);return;}
   if(dictPage&&!AUD.player){dictClosePage(true);return;}
   if(!AUD.player)return;
   if(AUD.listOpen)audSetList(false,true);else audClose(true);
@@ -3268,8 +3511,11 @@ function startNotes(t){   /* 나의 노트 목록 → 학습·뜻·말하기·�
   if(!cloudEmail){promptLogin();return;}
   stopRec();try{speechSynthesis.cancel();}catch(e){}
   noteReturn={mode:'notes'};P.mode='lesson';savePrg();start(t+'0');window.scrollTo(0,0);
+  try{history.pushState({ns:1},'');nsHist=true;}catch(e){nsHist=false;}
 }
-function noteBack(){
+var nsHist=false;
+function noteBack(fromPop){
+  if(nsHist){nsHist=false;if(fromPop!==true){audSkipPop++;try{history.go(-1);}catch(e){audSkipPop--;}}}
   const r=noteReturn||{mode:'notes'};noteReturn=null;
   P.mode=cloudEmail?r.mode:'lesson';fixLevelForMode();savePrg();
   if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();window.scrollTo(0,0);}
@@ -3310,10 +3556,18 @@ function renderChips(){
   const rowHtml=(lessonTab&&curN===0)
     ?`<div class="lsn-row note-head"><button class="note-back" data-notes="back" type="button" aria-label="뒤로">${ic('prev')}</button><span class="note-ttl"><svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.6 6.1 20.9l1.3-6.6L2.5 9.7l6.6-.8z"/></svg>나의 노트<b>${lessonWords(0).length}</b></span><button class="aud-btn" data-aud="open" aria-label="${audLabel}">${AUD_ICON.head}</button></div>`
     :`<div class="lsn-row"><label class="lsn-pick">${selHtml}<span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="${audLabel}">${AUD_ICON.head}</button></div>`;
-  const rtLeft=(lessonTab&&curN>0)?retryCount(curN):0,rtOn=lessonTab&&retryOnly&&retryN===curN;
-  const retryHtml=(rtOn||rtLeft)?(rtOn?`<div class="lsn-retry on"><span>↺ 틀린 것만 푸는 중 · <b>${rtLeft}개</b> 남음</span><button type="button" data-retry="off">전체 보기</button></div>`:`<button class="lsn-retry" type="button" data-retry="${curN}"><span>↺ 틀린 것만 다시 풀기</span><b>${rtLeft}개</b></button>`):'';
-  tabsEl.innerHTML=rowHtml+
-    `<div class="lsn-seg"><button class="tab" data-level="L${curN}" aria-pressed="${curT==='L'}">학습</button><button class="tab" data-level="M${curN}" aria-pressed="${curT==='M'}">뜻</button><button class="tab" data-level="S${curN}" aria-pressed="${curT==='S'}">말하기</button><button class="tab" data-level="Q${curN}" aria-pressed="${curT==='Q'}">퀴즈</button></div>`+retryHtml;
+  const gOk=seqTab&&curN>=100&&groupOfN(curN)&&groupOfN(curN)[0]!=='wrong';
+  const rtLeft=((lessonTab&&curN>0)||gOk)?retryCount(curN):0,rtOn=(lessonTab||seqTab)&&retryOnly&&retryN===curN;
+  const retryHtml=(rtOn||rtLeft)?(rtOn?`<div class="lsn-retry on"><span class="l">${ic('refresh')}<span>${rtLeft?`오답풀기 중 · <b>${rtLeft}개</b> 남음`:'오답을 모두 해결했어요'}</span></span><button type="button" data-retry="off">전체 보기</button></div>`:`<button class="lsn-retry" type="button" data-retry="${curN}"><span class="l">${ic('refresh')}<span>오답풀기</span></span><b>${rtLeft}개</b></button>`):'';
+  const dws=(lessonTab&&curN>0)?lessonWords(curN).filter(w=>w.c!=='문장'):(gOk?lessonWords(curN):[]);
+  const allDone=!rtOn&&!rtLeft&&dws.length>0&&dws.every(w=>progStatus(w)==='ok');
+  const retryBtn=allDone?`<button class="lsn-ret done" type="button" data-retry="done" aria-label="모두 완료">${ic('check')}</button>`:(rtOn||rtLeft)?`<button class="lsn-ret${rtOn?' on':''}${rtOn&&!rtLeft?' done':''}" type="button" data-retry="${rtOn?'off':curN}" aria-label="${rtOn?'오답풀기 끝내기':'오답풀기'}">${rtOn&&!rtLeft?ic('check'):ic('refresh')}${rtLeft?`<b class="bd">${rtLeft}</b>`:''}</button>`:'';
+  const hintOn=(lessonTab||seqTab)&&!rtOn&&rtLeft>0;   /* 오답이 남아 있는 동안 계속, 다 풀면 사라짐 */
+  const hintHtml=rtOn
+    ?`<div class="lsn-hint on"><span class="l">${ic('refresh')}${rtLeft?`오답풀기 중 · <b>${rtLeft}개</b> 남음`:'오답을 모두 해결했어요'}</span><button type="button" data-retry="off">전체 보기</button></div>`
+    :(hintOn?`<button class="lsn-hint tmp" type="button" data-retry="${curN}"><span class="l">${ic('refresh')}오답풀기</span><b>${rtLeft}개</b></button>`:'');
+  tabsEl.innerHTML=`<div class="lsn-top">${rowHtml}</div>`+
+    `<div class="lsn-seg"><button class="tab" data-level="L${curN}" aria-pressed="${curT==='L'}">학습</button><button class="tab" data-level="M${curN}" aria-pressed="${curT==='M'}">뜻</button><button class="tab" data-level="S${curN}" aria-pressed="${curT==='S'}">말하기</button><button class="tab" data-level="Q${curN}" aria-pressed="${curT==='Q'}">퀴즈</button></div>`+hintHtml;
 }
 
 /* ===== 단어장: 모든 단어를 히라가나(あいうえお) 순서로, 사전처럼 ===== */
@@ -3508,29 +3762,51 @@ const progStatus=w=>{   /* Lesson 단어: 한 번이라도 맞히면 완료 / �
   if(lessonSetW().has(w)){if(st&&st.ok>0)return 'ok';return st&&(st.ng>0||st.last===false)?'ng':'new';}
   return !st?'new':(st.last===true?'ok':(st.last===false?'ng':'new'));
 };
-const retryCount=n=>lessonWords(n).filter(w=>w.c!=='문장'&&!everOk(w)).length;
-var retryOnly=false,retryN=0;
+const retryCount=n=>lessonWords(n).filter(w=>w.c!=='문장'&&progStatus(w)==='ng').length;   /* 풀어 봤지만 한 번도 못 맞힌 단어만 */
+var retryOnly=false,retryN=0,hintAt=0,hintN=-1,hintDur=7000;
+function armHint(n){if(n>0){hintAt=Date.now();hintN=n;}}
 function startRetry(n){
-  if(!retryCount(n)){showToast('이 회차는 모두 완료했어요');return;}
-  retryOnly=true;retryN=n;P.mode='lesson';fixLevelForMode();savePrg();
-  const cur=LV(level);start(cur&&cur.n===n&&P.mode==='lesson'?level:'L'+n);window.scrollTo(0,0);
+  if(!retryCount(n)){showToast('풀 오답이 없어요');return;}
+  retryOnly=true;retryN=n;P.mode=n>=100?'seq':'lesson';if(n>=100)P.groupLevel='L'+n;fixLevelForMode();savePrg();
+  const cur=LV(level);start(cur&&cur.n===n?level:'L'+n);window.scrollTo(0,0);
 }
-function statePill(w){if(!w||w.c==='문장'||isQuizLevel(level))return '';const t=progStatus(w);return `<span class="ch-state ${t}">${t==='ok'?'완료':t==='ng'?'틀림':'새 단어'}</span>`;}
-function closeProg(){const o=document.getElementById('progSheet');if(o)o.remove();document.body.classList.remove('pg-open');}
-function openProg(){
-  closeProg();
-  let tot=0,ok=0,ng=0;
-  const secs=LESSONS.slice().reverse().map(L=>{
-    const ws=lessonWords(L.n).filter(w=>w.c!=='문장');let dn=0,nn=0;
-    ws.forEach(w=>{const t=progStatus(w);tot++;if(t==='ok'){ok++;dn++;}else if(t==='ng'){ng++;nn++;}});
-    const left=ws.length-dn,pct=ws.length?Math.round(dn/ws.length*100):0;
-    return `<div class="pg-sec"><div class="pg-h"><b>Lesson ${L.n}</b><span class="n">${dn} / ${ws.length}</span><button class="pg-go" data-pglesson="${L.n}" type="button">전체 학습 ${ic('next')}</button></div><div class="pg-bar"><i style="width:${pct}%"></i></div>${left?`<button class="pg-retry" data-pgretry="${L.n}" type="button"><span>↺ 틀린 것만 다시 풀기</span><b>${left}개</b></button>`:'<div class="pg-done">✓ 모두 완료했어요</div>'}</div>`;
-  }).join('');
+function statePill(w){if(!w||w.c==='문장'||isQuizLevel(level))return '';const t=progStatus(w);return `<span class="ch-state ${t}">${t==='ok'?'완료':t==='ng'?'오답':'미완료'}</span>`;}
+var pgHist=false;
+function closeProg(fromPop){
+  const o=document.getElementById('progSheet');if(o)o.remove();document.body.classList.remove('pg-open');
+  if(pgHist){pgHist=false;if(!fromPop){audSkipPop++;try{history.go(-1);}catch(e){audSkipPop--;}}}   /* 백버튼으로 열린 기록 정리 */
+}
+var progTab='lesson';
+function progBody(tab){
+  const segBar=(ok,ng,tot,h)=>`<div class="pa-seg" style="height:${h}px"><i class="ok" style="width:${tot?ok/tot*100:0}%"></i><i class="ng" style="width:${tot?ng/tot*100:0}%;margin-left:auto"></i></div>`;
+  const legend=(ok,ng,nw)=>`<div class="pa-leg"><span><i class="ok"></i>완료 <b>${ok}</b></span><span><i class="nw"></i>미완료 <b>${nw}</b></span><span><i class="ng"></i>오답 <b>${ng}</b></span></div>`;
+  const rowHtml=(attr,title,ws)=>{
+    let dn=0,bad=0;ws.forEach(w=>{const t=progStatus(w);if(t==='ok')dn++;else if(t==='ng')bad++;});
+    const nw=ws.length-dn-bad,n=ws.length;
+    const key=attr.n;
+    return `<div class="pb-row" ${attr.go}="${key}"><div class="pb-l"><b>${title}</b>${segBar(dn,bad,n,6)}</div><div class="pb-n"><div class="c">${dn}<span>/${n}</span></div>${bad?`<div class="e">오답 ${bad}</div>`:''}</div><div class="pb-a">${bad?`<button class="pb-c ng" data-pgretry="${key}" type="button" aria-label="오답풀기 (오답 ${bad}개)">${ic('refresh')}</button>`:(nw?`<span class="pb-c nw" aria-label="미완료 ${nw}개 · 학습하러 가기">${ic('next')}</span>`:`<span class="pb-c ok" aria-label="완료">${ic('check')}</span>`)}</div></div>`;
+  };
+  let ok=0,ng=0,tot=0,rows='';
+  if(tab==='lesson'){
+    rows=LESSONS.slice().reverse().map(L=>{const ws=lessonWords(L.n).filter(w=>w.c!=='문장');ws.forEach(w=>{const t=progStatus(w);tot++;if(t==='ok')ok++;else if(t==='ng')ng++;});return rowHtml({n:L.n,go:'data-pglesson'},'Lesson '+L.n,ws);}).join('');
+  }else{
+    W.forEach(w=>{if(w.c==='문장'||lessonSetW().has(w))return;const t=progStatus(w);tot++;if(t==='ok')ok++;else if(t==='ng')ng++;});
+    rows=GROUPS.filter(g=>g[0]!=='all'&&g[0]!=='wrong').map(g=>rowHtml({n:g[2],go:'data-pgseq'},g[1],lessonWords(g[2]))).join('');
+  }
+  const pct=tot?Math.round(ok/tot*100):0;
+  return `<div class="pa-hero"><div class="pa-big"><b>${ok}</b><span>/ ${tot}</span><em class="${pct>=100?'full':''}">${pct}%</em></div><div class="pa-sub">${tab==='lesson'?'Lesson':'학습'} 완료</div>${segBar(ok,ng,tot,10)}${legend(ok,ng,tot-ok-ng)}</div><div class="pa-h">${tab==='lesson'?'회차별':'범위별'}</div>${rows}`;
+}
+function setProgTab(t){progTab=t;const bd=document.getElementById('pgBody');if(bd)bd.innerHTML=progBody(t);document.querySelectorAll('[data-pgtab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.pgtab===t)));}
+function openProg(tab){
+  closeProg();if(tab)progTab=tab;
   const o=document.createElement('div');o.id='progSheet';o.className='pg-ov';
-  o.innerHTML=`<div class="pg-sh" role="dialog" aria-label="진도"><div class="pg-top"><h3>진도</h3><button class="pg-x" data-pgclose type="button" aria-label="닫기">✕</button></div>
-  <div class="pg-sum"><span class="c ok"><i></i>완료 ${ok}</span><span class="c ng"><i></i>틀림 ${ng}</span><span class="c new"><i></i>안 푼 ${tot-ok-ng}</span><span class="all">Lesson ${ok} / ${tot}</span></div>
-  <ul class="pg-why"><li>Lesson은 <b>한 번이라도 맞히면 완료</b>예요. 나중에 틀려도 완료가 유지돼요.</li><li>「틀린 것만 다시 풀기」에는 <b>한 번도 못 맞힌 단어</b>(틀렸거나 건너뛴 것)만 나와요.</li><li>학습·뜻·말하기만 세고, <b>퀴즈</b>는 따로예요.</li></ul>${secs}</div>`;
+  o.innerHTML=`<div class="pg-sh" role="dialog" aria-label="진도"><div class="pg-grab"></div>
+  <div class="pg-top"><h3>진도</h3><button class="pg-x" data-pgclose type="button" aria-label="닫기">${ic('down')}</button></div>
+  <div class="lsn-seg pg-seg"><button class="tab" data-pgtab="lesson" type="button" aria-pressed="${progTab==='lesson'}">Lesson</button><button class="tab" data-pgtab="seq" type="button" aria-pressed="${progTab==='seq'}">학습</button></div>
+  <div id="pgBody">${progBody(progTab)}</div></div>`;
   document.body.appendChild(o);document.body.classList.add('pg-open');
+  try{history.pushState({pg:1},'');pgHist=true;}catch(e){pgHist=false;}
+  requestAnimationFrame(()=>o.classList.add('in'));
 }
 function renderScore(){
   const el=$('#score');if(!el)return;
@@ -3661,10 +3937,12 @@ document.addEventListener('click',e=>{
   const wex=e.target.closest('[data-wpex]');if(wex){const ww=wpWord();if(ww)speakEx(ww);return;}
   const pgo=e.target.closest('[data-prog]');if(pgo){openProg();return;}
   const pgc=e.target.closest('[data-pgclose]');if(pgc||(e.target.id==='progSheet')){closeProg();return;}
-  const pgl=e.target.closest('[data-pglesson]');if(pgl){const n=+pgl.dataset.pglesson;closeProg();retryOnly=false;P.mode='lesson';fixLevelForMode();savePrg();start('L'+n);window.scrollTo(0,0);return;}
+  const pgt=e.target.closest('[data-pgtab]');if(pgt){setProgTab(pgt.dataset.pgtab);return;}
   const pgr=e.target.closest('[data-pgretry]');if(pgr){closeProg();startRetry(+pgr.dataset.pgretry);return;}
-  const rt=e.target.closest('[data-retry]');if(rt){if(rt.dataset.retry==='off'){retryOnly=false;start(level);}else startRetry(+rt.dataset.retry);return;}
-  const nt=e.target.closest('[data-notes]');if(nt){if(nt.dataset.notes==='open')openNotes();else noteBack();return;}
+  const pgs=e.target.closest('[data-pgseq]');if(pgs){const n=+pgs.dataset.pgseq;closeProg();retryOnly=false;P.mode='seq';P.groupLevel='L'+n;fixLevelForMode();savePrg();start('L'+n);window.scrollTo(0,0);return;}
+  const pgl=e.target.closest('[data-pglesson]');if(pgl){const n=+pgl.dataset.pglesson;closeProg();retryOnly=false;P.mode='lesson';fixLevelForMode();savePrg();start('L'+n);window.scrollTo(0,0);return;}
+  const rt=e.target.closest('[data-retry]');if(rt){if(rt.dataset.retry==='done'){showToast('모두 완료했어요');}else if(rt.dataset.retry==='off'){retryOnly=false;start(level);}else startRetry(+rt.dataset.retry);return;}
+  const nt=e.target.closest('[data-notes]');if(nt){if(nt.dataset.notes==='open')openNotes();else noteBack(false);return;}
   const nt2=e.target.closest('[data-nt]');if(nt2){startNotes(nt2.dataset.nt);return;}
   const mlb=e.target.closest('[data-ml]');
   if(mlb){mlAct(mlb.dataset.ml,+mlb.dataset.i);return;}
