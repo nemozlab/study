@@ -1260,6 +1260,53 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 /* 결과 표시(들린 소리)와 마이크 사이 간격 / 상태 줄 높이를 일정하게 */
 .mp-stat{min-height:62px;margin-top:10px;display:flex;flex-direction:column;justify-content:center}
 .mp-card .rowa{margin-top:12px}
+
+/* 구 안의 글자와 후리가나 덩어리를 같은 아래선에 정렬 (폰 브라우저에서 「通り」의 り가 위로 뜨던 것) */
+.mp-s .ph{display:inline-flex;align-items:flex-end;vertical-align:top;white-space:nowrap}
+.mp-s .ph .nw{display:contents}
+.mp-s .ph .tx{display:block;white-space:nowrap}
+.mp-s .ph ruby{display:block;white-space:nowrap}
+/* 한글은 작게 — 일본어가 주인공 */
+.mp-card .mp-k{font-size:14px;line-height:1.5;margin-top:2px;color:var(--sub)}
+.mp-hint{font-size:13px}
+.mp-hint b{font-size:14.5px}
+.mp-hint small{font-size:12.5px}
+.mp-stat{min-height:54px}
+.mp-w .k b{font-size:14px}
+.mp-w .k small{font-size:12.5px}
+
+/* ===== 한자·히라가나·가타카나 같은 줄 정렬: 후리가나(위)+글자(아래)를 한 덩어리로 ===== */
+.u{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom}
+.u .a{font-size:.47em;line-height:1.2;min-height:1.2em;color:#46506B;font-weight:600;letter-spacing:.03em;white-space:nowrap}
+.u .t{line-height:1.25;white-space:nowrap}
+.mp-card .mp-s{line-height:1}
+.mp-s .ph{line-height:1;margin-bottom:.12em}
+.mp-s .nw,.mp-w .j .nw{display:inline;white-space:nowrap}
+.mp-w .j{line-height:1}
+.mp-w .j .u .a{font-size:14px;min-height:16px;line-height:16px}
+.mp-w .j .u .t{line-height:1.2}
+/* 한글은 작아도 돼 */
+.mp-card .mp-k{font-size:15px;margin-top:6px}
+.mp-hint{font-size:13.5px}
+.mp-hint b{font-size:14.5px}
+.mp-hint small{font-size:12.5px}
+.mp-w .k b{font-size:14px}
+.mp-w .k small{font-size:12.5px}
+
+/* 후리가나가 없는 줄은 위쪽 빈칸을 줄여서 줄 간격을 고르게 */
+.mp-s .ph:not(:has(.a:not(:empty))) .u .a{min-height:0;height:0;line-height:0;overflow:hidden}
+.mp-s .ph{display:inline-flex;align-items:flex-end;vertical-align:bottom}
+
+/* ===== 따라 읽기 화면: 듣기(🔊)는 마이크 바로 아래, 읽음 표시(✓)는 윗줄로 ===== */
+.nb.ml-sp{color:var(--navy);border-color:#B9C3DA}
+.nb.ml-sp svg{width:26px;height:26px}
+.nb.ml-sp.say{background:var(--navy);border-color:var(--navy);color:#fff;animation:micPulse 1.4s ease-out infinite}
+.ch-icon.ml-ok{color:#B5BCCB}
+.ch-icon.ml-ok.on{color:var(--ok)}
+.ch-icon.ml-ok .ic{display:flex;width:24px;height:24px;line-height:0}
+.ch-icon.ml-ok svg{width:24px;height:24px}
+
+.mp-w .j .u .a{font-size:13px;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -2770,11 +2817,23 @@ function mlAudBuild(mail){
   });
   return out.length?out:mail.units.map(sent);   /* 단어가 하나도 없는 메일이면 문장으로 */
 }
+function mlRubyFix(html){
+  const d=document.createElement('div');d.innerHTML=html;
+  const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const unit=(a,t)=>`<span class="u"><span class="a">${a}</span><span class="t">${t}</span></span>`;
+  const conv=n=>{let out='';n.childNodes.forEach(c=>{
+    if(c.nodeType===3){if(c.textContent)out+=unit('',esc(c.textContent));}
+    else if(c.tagName==='RUBY'){const rt=c.querySelector('rt');const base=[...c.childNodes].filter(x=>x.tagName!=='RT'&&x.tagName!=='RP').map(x=>x.nodeType===3?esc(x.textContent):x.textContent).join('');out+=unit(rt?esc(rt.textContent):'',esc(base));}
+    else if(c.nodeType===1){out+=`<span class="${c.className||''}">${conv(c)}</span>`;}
+  });return out;};
+  return conv(d);
+}
 function mlPhrases(html){
   const d=document.createElement('div');d.innerHTML=html;
   const units=[...d.children].filter(e=>e.classList&&e.classList.contains('nw'));
   if(!units.length)return html;
   const txt=u=>{const c=u.cloneNode(true);c.querySelectorAll('rt').forEach(r=>r.remove());return c.textContent;};
+  units.forEach(u=>u.childNodes.forEach(n=>{if(n.nodeType===3&&n.textContent){const sp=document.createElement('span');sp.className='tx';sp.textContent=n.textContent;n.replaceWith(sp);}}));   /* 글자 덩어리를 따로 감싸 아래선 정렬 */
   const info=units.map(u=>{const t=txt(u);return {h:u.outerHTML,t,k:/^[。、，．？！?!「」『』…・〜~]+$/.test(t)?'p':(u.querySelector('ruby')||/[一-龥ァ-ヶー々A-Za-z0-9]/.test(t))?'c':'k'};});
   const phs=[];let i=0;
   while(i<info.length){
@@ -2801,7 +2860,7 @@ function mlPhrases(html){
     }
     i=j;
   }
-  return phs.map(p=>`<span class="ph">${p.h}</span>`).join('');
+  return phs.map(p=>`<span class="ph">${mlRubyFix(p.h)}</span>`).join('');
 }
 function mlFitSent(){   /* 한 구가 카드 폭보다 넓으면 글자를 줄여서 밖으로 안 나가게 */
   const s=document.querySelector('.mp-s');if(!s)return;
@@ -2939,7 +2998,7 @@ function renderMail(m){
   if(pg<n){
     const u=mail.units[pg],ok=done.includes(pg),r=mailRes[pg],live=mailLive===pg;
     const ws=Array.isArray(u.words)?u.words:[];
-    if(ws.length)words=`<div class="mp-words">${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${audRuby(w.rb||w.k,[],false)}</span><span class="k">${(()=>{const mm=/^(.*?)\s*\(([^)]*)\)\s*$/.exec(String(w.m||''));return `<b>${mm?mm[1]:(w.m||'')}${mm?`<em>(${mm[2]})</em>`:''}</b>`;})()}<small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
+    if(ws.length)words=`<div class="mp-words">${ws.map((w,j)=>{const fv=isStar(w.k);return `<div class="mp-w"><button class="wl" data-ml="word" data-i="${j}" type="button"><span class="j" lang="ja">${mlRubyFix(audRuby(w.rb||w.k,[],false))}</span><span class="k">${(()=>{const mm=/^(.*?)\s*\(([^)]*)\)\s*$/.exec(String(w.m||''));return `<b>${mm?mm[1]:(w.m||'')}${mm?`<em>(${mm[2]})</em>`:''}</b>`;})()}<small>${w.pr||toHangul(w.k,true)}</small></span></button><button class="ws${fv?' on':''}" data-ml="wstar" data-i="${j}" type="button" aria-pressed="${fv}" aria-label="즐겨찾기 (나의 노트에 담기)"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><button class="sp" data-ml="word" data-i="${j}" type="button" aria-label="듣기">${ui('volume',18)}</button></div>`;}).join('')}</div>`;
     let stat='<div class="mp-hint">문장을 읽어 보세요</div>';
     if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 천천히 읽고, 다 읽으면 마이크를 눌러요<small id="mlHeard"></small></div>';
     else if(r&&r.msg)stat=`<div class="mp-hint"><b>${r.msg}</b></div>`;
@@ -2948,14 +3007,14 @@ function renderMail(m){
     inner=`<div class="mp-s" lang="ja" style="--mps:${sfs}px">${mlPhrases(audRuby(u.rb||u.jp,[],false))}</div><div class="mp-k">${u.m||''}</div>
     <div class="mp-stat">${stat}</div>
     <div class="rowa"><button class="mic${live?' live':''}" data-ml="read" type="button" aria-label="따라 읽기 (마이크)">${ui('mic',36)}</button></div>
-    <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="sb${ok?' ok':''}" data-ml="check" type="button" aria-pressed="${ok}" aria-label="읽음 표시">${ic('check')}</button><button class="nb" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>`;
+    <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="nb ml-sp" data-ml="speak" type="button" aria-label="문장 듣기">${ui('volume',26)}</button><button class="nb" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>`;
   }else{
     const left=n-done.length;
     inner=`<div class="mp-fin"><div class="mp-fi${left?'':' ok'}">${ic('check')}</div><h3>${left?'마지막 문장까지 왔어요':'이 메일을 끝까지 읽었어요'}</h3><p>${left?`아직 읽지 않은 문장이 ${left}개 있어요`:(streak?`연속 ${streak}일째예요`:'')}</p>${left?'<button class="mp-link" data-ml="first" type="button">읽지 않은 문장으로 가기</button>':''}<button class="mp-link" data-ml="restart" type="button">처음부터 다시 읽기</button></div>
     <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장">${ic('prev')}</button><span style="width:56px"></span><button class="nb" type="button" aria-label="다음 문장" disabled>${ic('next')}</button></div>`;
   }
   m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
-  <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ml-spd" data-ml="spd" type="button" aria-label="문장 읽는 속도">${AUD.opts.mspeed===1?'1.0':AUD.opts.mspeed}x</button><button class="ch-icon" data-ml="speak" type="button" aria-label="문장 듣기">${ui('volume',22)}</button>`:''}</div></div>
+  <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ml-spd" data-ml="spd" type="button" aria-label="문장 읽는 속도">${AUD.opts.mspeed===1?'1.0':AUD.opts.mspeed}x</button><button class="ch-icon ml-ok${done.includes(pg)?' on':''}" data-ml="check" type="button" aria-pressed="${done.includes(pg)}" aria-label="읽음 표시">${ic('check')}</button>`:''}</div></div>
   <div class="bar"><i style="width:${Math.round(Math.min(pg,n)/n*100)}%"></i></div>${inner}</div>${words}</div>`;
   mlFitSent();mlSayMark();
   if(mailAlign){mailAlign=false;requestAnimationFrame(mlAlignTop);}
