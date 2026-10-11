@@ -1223,6 +1223,29 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 @keyframes lsnHint{0%{opacity:0;transform:translateY(-6px);height:44px;pointer-events:auto}6%{opacity:1;transform:none;height:44px;pointer-events:auto}88%{opacity:1;height:44px;margin-top:10px;border-width:1px;pointer-events:auto}100%{opacity:0;height:0;margin-top:0;padding:0;border-width:0;pointer-events:none}}
 
 .lsn-hint.tmp{animation:none;cursor:pointer}
+
+/* ===== 메일: 따라 읽을 문장이 주인공 — 글자·후리가나를 크게 ===== */
+.mp-card .mp-s{font-size:var(--mps,34px);line-height:2.1;margin-top:12px;font-weight:500;color:var(--ink)}
+.mp-card .mp-s rt{font-size:.47em;color:#46506B;font-weight:600;letter-spacing:.03em}
+.mp-card .mp-k{margin-top:4px;font-size:18px;line-height:1.5;color:var(--sub)}
+.mp-hint{font-size:15px}
+.mp-hint b{font-size:16.5px}
+.mp-hint small{font-size:14px}
+/* 중요한 단어(나중에 보는 것): 크게, 아래로 스크롤해서 */
+.mp-w{padding:6px 0}
+.mp-w .j{font-size:24px;line-height:1.8}
+.mp-w .j rt{font-size:.5em;color:#46506B;font-weight:600}
+.mp-w .k{margin-top:-2px}
+.mp-w .k b{font-size:17px}
+.mp-w .k small{font-size:14.5px}
+.mp-w .ws,.mp-w .sp{width:42px;height:42px}
+.mp-w .sp{width:40px;height:40px}
+.mp-w .ws svg{width:24px;height:24px}
+
+.mp-w .j rt{font-size:14px}
+
+/* 메일 문장 읽는 속도 칩 */
+.ml-spd{height:32px;margin:0 6px 0 0;padding:0 11px;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--navy);font:800 13px "Noto Sans KR",sans-serif;cursor:pointer}
 </style>
 </head>
 <body>
@@ -2747,7 +2770,8 @@ function mlSpeak(text,kind,i){
   if(mailLive>=0){stopMlRec();mailLive=-1;mailSay={kind,i};render();}   /* 마이크가 켜져 있으면 끔 */
   mailSay={kind,i};
   try{
-    const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.85;
+    const ms=(AUD&&AUD.opts&&AUD.opts.mspeed)||0.5;
+    const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.85*(kind==='s'?ms:Math.max(0.7,ms));   /* 문장은 설정 속도(기본 0.5배), 단어는 너무 느리지 않게 */
     const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().replace('_','-').startsWith('ja'));if(v)u.voice=v;
     const end=()=>{if(mailSay&&mailSay.kind===kind&&mailSay.i===i){mailSay=null;mlSayMark();}};
     u.onend=end;u.onerror=end;speechSynthesis.speak(u);
@@ -2837,6 +2861,7 @@ function mlAct(a,i){
   const mail=mailData&&mailData[mailIdx];
   if(a==='reload'){mailState='idle';render();return;}
   if(!mail)return;
+  if(a==='spd'){const L=AUD_SPEEDS,i=L.indexOf(AUD.opts.mspeed);AUD.opts.mspeed=L[(i+1)%L.length];audSave();render();showToast('문장 속도 '+AUD.opts.mspeed+'배');return;}
   if(a==='prev'){mlGoto(mailPage-1,true);return;}
   if(a==='next'){mlGoto(mailPage+1,true);return;}
   if(a==='go'){mlGoto(i,true);return;}
@@ -2865,7 +2890,8 @@ function renderMail(m){
     if(live)stat='<div class="mp-hint"><b>듣고 있어요</b> · 천천히 읽고, 다 읽으면 마이크를 눌러요<small id="mlHeard"></small></div>';
     else if(r&&r.msg)stat=`<div class="mp-hint"><b>${r.msg}</b></div>`;
     else if(r)stat=`<div class="mp-hint ${r.g==='no'?'no':'ok'}"><b>${r.g==='ok'?ic('check')+'잘 읽었어요':r.g==='close'?ic('check')+'거의 맞아요 · 읽은 걸로 할게요':'다시 한 번 읽어볼까요?'}</b><small>들린 소리 · <span lang="ja">${r.heard||'—'}</span></small></div>`;
-    inner=`<div class="mp-s" lang="ja">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
+    const sl=[...(u.jp||'')].length,sfs=sl<=8?44:sl<=14?38:sl<=22?34:32;   /* 플레이어 문장(32px)보다 작아지지 않게 */
+    inner=`<div class="mp-s" lang="ja" style="--mps:${sfs}px">${audRuby(u.rb||u.jp,[],false)}</div><div class="mp-k">${u.m||''}</div>
     <div class="mp-stat">${stat}</div>
     <div class="rowa"><button class="mic${live?' live':''}" data-ml="read" type="button" aria-label="따라 읽기 (마이크)">${ui('mic',36)}</button></div>
     <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장"${pg<=0?' disabled':''}>${ic('prev')}</button><button class="sb${ok?' ok':''}" data-ml="check" type="button" aria-pressed="${ok}" aria-label="읽음 표시">${ic('check')}</button><button class="nb" data-ml="next" type="button" aria-label="다음 문장">${ic('next')}</button></div>`;
@@ -2875,7 +2901,7 @@ function renderMail(m){
     <div class="rowb"><button class="nb" data-ml="prev" type="button" aria-label="이전 문장">${ic('prev')}</button><span style="width:56px"></span><button class="nb" type="button" aria-label="다음 문장" disabled>${ic('next')}</button></div>`;
   }
   m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
-  <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ch-icon" data-ml="speak" type="button" aria-label="문장 듣기">${ui('volume',22)}</button>`:''}</div></div>
+  <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ml-spd" data-ml="spd" type="button" aria-label="문장 읽는 속도">${AUD.opts.mspeed===1?'1.0':AUD.opts.mspeed}x</button><button class="ch-icon" data-ml="speak" type="button" aria-label="문장 듣기">${ui('volume',22)}</button>`:''}</div></div>
   <div class="bar"><i style="width:${Math.round(Math.min(pg,n)/n*100)}%"></i></div>${inner}</div>${words}</div>`;
   mlSayMark();
   if(mailAlign){mailAlign=false;requestAnimationFrame(mlAlignTop);}
@@ -3154,10 +3180,10 @@ function audRuby(mk,hl,mark){
   parts.forEach(p=>{if(!groups.length||canBreak(p.a))groups.push([]);groups[groups.length-1].push(p.h);});
   return groups.map(g=>`<span class="nw">${g.join('')}</span>`).join('');
 }
-const AUD_KEY='tomoz-audio-opts',AUD_SPEEDS=[0.8,1,1.25];
+const AUD_KEY='tomoz-audio-opts',AUD_SPEEDS=[0.5,0.8,1,1.25];
 const AUD={
   opts:(()=>{let o={};try{o=JSON.parse(localStorage.getItem(AUD_KEY))||{};}catch(e){}
-    const r=Object.assign({word:true,sent:true,speed:1,repeat:'all',mode:'seq'},o);
+    const r=Object.assign({word:true,sent:true,speed:1,mspeed:0.5,repeat:'all',mode:'seq'},o);if(![0.5,0.8,1,1.25].includes(r.mspeed))r.mspeed=0.5;
     if('ex' in o&&!('sent' in o))r.sent=!!o.ex;delete r.ex;
     if(!('repeat' in o)&&'loop' in o)r.repeat=o.loop?'all':'off';delete r.loop;
     if(!['all','one','off'].includes(r.repeat))r.repeat='all';
@@ -3202,7 +3228,7 @@ function audSay(text,lang,rate,tk,done){
 /* ---- 재생: 일본어는 3번씩, 한국어는 1번만 ---- */
 function audRunStep(){
   const tk=++AUD.token,w=AUD.order[AUD.pos];if(!w){audEnd();return;}
-  const sp=AUD.opts.speed,ex=audEx(w);
+  const sp=AUD.mailMode?AUD.opts.mspeed:AUD.opts.speed,ex=audEx(w);
   const at=(ms,fn)=>audLater(()=>{if(AUD.token===tk&&AUD.playing)fn();},ms/sp);
   const again=ms=>at(ms,()=>audRunStep());
   const go=(st,ms)=>at(ms,()=>{AUD.step=st;AUD.rep=0;audRender();audRunStep();});
@@ -3411,7 +3437,7 @@ function audRender(){
   $a('apBar').style.width=Math.min(100,((AUD.pos+(AUD.playing?.5:0))/total)*100)+'%';
   const pl=$a('apPlay');pl.innerHTML=AUD.playing?AUD_ICON.pause:AUD_ICON.play;pl.setAttribute('aria-label',AUD.playing?'일시정지':(AUD.ended?'처음부터 다시 듣기':'재생'));
   const m=$a('apMode');m.innerHTML=AUD.opts.mode==='rand'?AUD_ICON.shuffle:AUD_ICON.order;m.setAttribute('aria-label',AUD.opts.mode==='rand'?'랜덤으로 듣는 중 (누르면 순서대로)':'순서대로 듣는 중 (누르면 랜덤)');m.setAttribute('aria-pressed',String(AUD.opts.mode==='rand'));
-  $a('apSpeed').textContent=(AUD.opts.speed===1?'1.0':AUD.opts.speed)+'x';$a('apSpeed').setAttribute('aria-label','재생 속도 '+AUD.opts.speed+'배');
+  {const sv=AUD.mailMode?AUD.opts.mspeed:AUD.opts.speed;$a('apSpeed').textContent=(sv===1?'1.0':sv)+'x';$a('apSpeed').setAttribute('aria-label','재생 속도 '+sv+'배');}
   const lm=audListenMode();$a('apLsAll').setAttribute('aria-pressed',String(lm==='all'));$a('apLsWord').setAttribute('aria-pressed',String(lm==='word'));$a('apLsSent').setAttribute('aria-pressed',String(lm==='sent'));
   {const lp=$a('apLoop'),rp=AUD.opts.repeat;lp.innerHTML=rp==='one'?AUD_ICON.repeat1:AUD_ICON.repeat;lp.setAttribute('aria-pressed',String(rp!=='off'));
    lp.setAttribute('aria-label',rp==='all'?'전체 반복 켜짐 (누르면 1개만 계속 듣기)':rp==='one'?'1개만 계속 듣기 켜짐 (누르면 반복 끔)':'반복 꺼짐 (누르면 전체 반복)');}
@@ -3497,7 +3523,7 @@ document.addEventListener('click',e=>{
     case 'prev':audGo(-1);break;
     case 'next':audGo(1);break;
     case 'toggle':audToggle();break;
-    case 'speed':{const i=AUD_SPEEDS.indexOf(AUD.opts.speed);AUD.opts.speed=AUD_SPEEDS[(i+1)%AUD_SPEEDS.length];audSave();audRender();showToast('속도 '+AUD.opts.speed+'배');break;}
+    case 'speed':{const key=AUD.mailMode?'mspeed':'speed';const i=AUD_SPEEDS.indexOf(AUD.opts[key]);AUD.opts[key]=AUD_SPEEDS[(i+1)%AUD_SPEEDS.length];audSave();audRender();showToast((AUD.mailMode?'문장 ':'')+'속도 '+AUD.opts[key]+'배');break;}
     case 'ls':audSetListen(b.dataset.v);break;
     case 'star':audStar();break;
     case 'loop':{const nx={all:'one',one:'off',off:'all'}[AUD.opts.repeat]||'all';AUD.opts.repeat=nx;audSave();audRender();showToast(nx==='all'?'전체 반복':nx==='one'?'1개만 계속 듣기':'반복 끔');break;}
