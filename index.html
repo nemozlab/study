@@ -1354,7 +1354,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 /* ===== 대화 · 빈칸 · 교재 문장 카드 ===== */
 .lsn-seg.dm{height:40px;margin-top:10px}
 .lsn-seg.dm .tab{font-size:14px}
-.dg-b{position:relative;margin:12px 0 4px;padding:10px 46px 10px 14px;border-radius:18px;border-top-left-radius:6px;background:#EEF1F7;text-align:left}
+.dg-b-old{position:relative;margin:12px 0 4px;padding:10px 46px 10px 14px;border-radius:18px;border-top-left-radius:6px;background:#EEF1F7;text-align:left}
 .dg-w{display:inline-block;margin-bottom:3px;font:800 11.5px "Noto Sans KR",sans-serif;color:#4A3FB8;background:rgba(90,79,207,.12);border-radius:9px;padding:2px 8px}
 .dg-t{font:500 19px/1.35 "Noto Sans JP","Noto Sans KR",sans-serif;color:var(--ink)}
 .dg-m{margin-top:2px;font:500 12.5px "Noto Sans KR",sans-serif;color:var(--sub)}
@@ -1365,6 +1365,244 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .s4m{text-align:center;color:var(--sub);font:500 15px "Noto Sans KR",sans-serif;margin:2px 0 6px}
 .bk-jp .ph{display:inline-block;white-space:nowrap}
 .bk-jp{font-size:19px}
+
+/* ===== 교재 말풍선 · 문절 줄바꿈 · 한국어 작게 ===== */
+.lsn-chips{position:relative}
+.bk-pair{padding:10px 0 12px;border-top:1px solid var(--line)}
+.bk-pair:first-child{border-top:0}
+.bk-no{margin:0 0 2px;font:800 12.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-bub{position:relative;max-width:96%;margin:6px 0 0;padding:8px 50px 9px 14px;border-radius:18px;box-sizing:border-box}
+.bk-bub.l{background:#EEF1F7;border-top-left-radius:6px}
+.bk-bub.r{background:#E1F1E8;border-top-right-radius:6px;margin-left:auto}
+.bk-bub .bk-sp{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px}
+.bk-lb{display:inline-block;margin-bottom:3px;font:800 11.5px "Noto Sans KR",sans-serif;color:#4A3FB8;background:rgba(90,79,207,.13);border-radius:9px;padding:2px 8px}
+.bk-bub.r .bk-lb{color:#2E7D5B;background:rgba(46,125,91,.14)}
+.bk-bub .bk-jp{font-size:19px;line-height:1}
+.bk-jp .ph{display:inline-block;white-space:nowrap;margin-right:.18em}
+.bk-bub .bk-m{font-size:12.5px}
+.bk-t{min-width:0}
+.sentbox.s4b{padding:6px 2px}
+.sentbox.s4 .ph{display:inline-block;white-space:nowrap;margin:0 .1em}
+.s4m{font-size:14px}
+.qz.qs .pic{font-size:34px}
+.qz.qs .mean{font-size:16.5px;font-weight:600;margin:4px 0 2px;color:var(--sub)}
+.opts.sm .opt .t{font-size:15.5px;font-weight:600;line-height:1.35}
+.opts.sm .opt{min-height:50px}
+
+/* ===== 대화: 왼쪽(상대) · 오른쪽(나) 말풍선 ===== */
+.dg-th{margin:14px 0 4px}
+.dg-row{display:flex;margin-top:12px}
+.dg-row.r{justify-content:flex-end}
+.dg-col{max-width:88%}
+.dg-row.r .dg-col{display:flex;flex-direction:column;align-items:flex-end}
+.dg-n{margin:0 4px 3px;font:700 11.5px "Noto Sans KR",sans-serif;color:#8A93A8}
+.dg-bb{position:relative;padding:10px 14px;border-radius:18px;text-align:left}
+.dg-bb.l{padding-right:48px;background:#EEF1F7;border-top-left-radius:6px}
+.dg-bb.r{background:#DCEFE4;border-top-right-radius:6px}
+.dg-bb.r.ng{background:#FCEAE7}
+.dg-bb.r.ans{background:#E8ECF7}
+.dg-bb.r.hint{background:transparent;border:1.5px dashed #B9C3DA}
+.dg-bb .dg-t{font:500 19px/1.4 "Noto Sans JP","Noto Sans KR",sans-serif;color:var(--ink)}
+.dg-bb .dg-m{margin-top:2px;font:500 12.5px/1.4 "Noto Sans KR",sans-serif;color:var(--sub)}
+.dg-bb.hint .dg-m{margin:0;font-size:15px;color:#6B7488}
+.dg-bb .dg-s{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.dg-bb .dg-s svg{width:17px;height:17px}
+
+/* ===== 카카오톡 모양 대화 ===== */
+.kk{margin:12px -16px 0;background:#B2C7D9;padding-bottom:0;color:#1a1a1a}
+.kk-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 10px 8px}
+.kk-nv{width:38px;height:38px;margin:0;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.55);color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.kk-nv:disabled{opacity:.35}
+.kk-nv .ic{display:flex;width:22px;height:22px;line-height:0}.kk-nv svg{width:22px;height:22px}
+.kk-ti{text-align:center}.kk-ti b{display:block;font:800 15.5px "Noto Sans KR",sans-serif}.kk-ti span{font:600 12px "Noto Sans KR",sans-serif;color:rgba(0,0,0,.55)}
+.kk-pg{height:3px;background:rgba(0,0,0,.1)}.kk-pg i{display:block;height:3px;background:#3B4D6B}
+.kk-th{padding:6px 10px 18px;min-height:240px}
+.kk-day{width:max-content;margin:10px auto 6px;padding:6px 14px;border-radius:16px;background:rgba(0,0,0,.14);font:600 12.5px "Noto Sans KR",sans-serif;color:#1a1a1a}
+.kk-m{display:flex;gap:8px;margin-top:14px}
+.kk-m.r{justify-content:flex-end}
+.kk-av{flex:none;width:42px;height:42px;border-radius:16px;background:#E9EEF3;display:flex;align-items:center;justify-content:center;font-size:23px}
+.kk-c{min-width:0;flex:1}
+.kk-nm{margin:0 0 4px 2px;font:600 12.5px "Noto Sans KR",sans-serif;color:#2C3A4E}
+.kk-r{display:flex;align-items:flex-end;gap:6px;max-width:100%}
+.kk-m.r .kk-r{flex-direction:row;justify-content:flex-end;width:100%}
+.kk-b{position:relative;padding:9px 13px;border-radius:14px;max-width:86%;box-sizing:border-box;text-align:left}
+.kk-b.l{background:#fff;border-top-left-radius:3px}
+.kk-b.l::before{content:"";position:absolute;top:0;left:-6px;width:9px;height:12px;background:#fff;clip-path:polygon(100% 0,0 0,100% 100%)}
+.kk-b.r{background:#FEE500;border-top-right-radius:3px}
+.kk-b.r::before{content:"";position:absolute;top:0;right:-6px;width:9px;height:12px;background:#FEE500;clip-path:polygon(0 0,100% 0,0 100%)}
+.kk-b.r.ng{background:#FFD3CD}.kk-b.r.ng::before{background:#FFD3CD}
+.kk-b.r.ans{background:#FFF3A6}.kk-b.r.ans::before{background:#FFF3A6}
+.kk-b.r.hint{background:rgba(254,229,0,.35);border:1.5px dashed rgba(60,50,0,.35);padding:9px 13px}
+.kk-b.r.hint::before{display:none}
+.kk-t{font:500 19px/1.4 "Noto Sans JP","Noto Sans KR",sans-serif;color:#1a1a1a}
+.kk-k{margin-top:2px;font:500 12.5px/1.4 "Noto Sans KR",sans-serif;color:rgba(0,0,0,.5)}
+.kk-b.hint .kk-k{margin:0;font-size:15px;color:rgba(0,0,0,.6)}
+.kk-sp{flex:none;width:30px;height:30px;margin:0 0 2px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.7);color:#2C3A4E;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.kk-sp svg{width:17px;height:17px}
+.kk-lb{flex:none;margin:0 0 3px;font:700 11.5px "Noto Sans KR",sans-serif;color:#2C3A4E;white-space:nowrap}
+.kk-lb.ok{color:#1F6B49}.kk-lb.ng{color:#B5372B}.kk-lb.ans{color:#4A3FB8}
+.kk-hr{margin:6px 4px 0;text-align:right;font:500 12.5px "Noto Sans KR",sans-serif;color:#7A2E27}
+.kk-m.in{animation:kkIn .35s ease .5s both}
+@keyframes kkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kk-bar{display:flex;align-items:center;gap:10px;margin:0;padding:10px 12px 14px;background:#B2C7D9}
+.kk-bar>*{flex:none}
+.kk-ph{flex:1;min-width:0;height:48px;padding:0 16px;border-radius:24px;background:#F7F8FA;display:flex;align-items:center;font:500 14px "Noto Sans KR",sans-serif;color:#8A93A8}
+.kk-ph.live{color:#C0392B;font-weight:700}.kk-ph.ok{color:#1F6B49;font-weight:700}
+.kk-i{width:48px;height:48px;margin:0;padding:0;border:0;border-radius:50%;background:#F7F8FA;color:#3B4D6B;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.kk-i svg{width:20px;height:20px}
+.kk-mic{width:52px;height:52px;margin:0;padding:0;border:0;border-radius:50%;background:#20306F;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(32,48,111,.3)}
+.kk-mic svg{width:26px;height:26px}.kk-mic .ic{display:flex;width:26px;height:26px;line-height:0}
+.kk-mic.live{background:#C0392B;box-shadow:0 0 0 7px rgba(192,57,43,.18)}
+.kk-mic.next{background:#FEE500;color:#1a1a1a;box-shadow:none}
+.kk-gr{height:44px;margin:0;padding:0 14px;border:0;border-radius:22px;background:#F7F8FA;color:#2C3A4E;display:flex;align-items:center;gap:5px;font:700 13.5px "Noto Sans KR",sans-serif;cursor:pointer;white-space:nowrap}
+.kk-gr svg{width:18px;height:18px}
+.kk-gr.ok{background:#FEE500;color:#1a1a1a}.kk-gr.ng{background:#fff;color:#B5372B}
+
+.kk-t .ph{display:inline-block;white-space:nowrap;margin-right:.16em}
+.kk-t .u .a{font-size:10px;min-height:12px;line-height:12px}
+.kk-b.r.hint{background:#FFF8C4;border:1.5px dashed #CDBE5E}
+
+/* 카톡: 말풍선이 좌우로 꽉 차게 */
+.kk-th{padding:6px 14px 18px 10px}
+.kk-m{gap:7px}
+.kk-av{width:38px;height:38px;border-radius:14px;font-size:21px}
+.kk-b.l{max-width:calc(100% - 38px)}
+.kk-b.r{max-width:calc(100% - 50px)}
+.kk-b.r.hint{max-width:100%}
+.kk-t{font-size:18.5px}
+
+/* 교재 예문·회화: 카카오톡 모양, 좌우 꽉 차게 */
+.bk-chat{margin:4px -18px 0;padding:4px 14px 16px 10px;background:#B2C7D9}
+.bk-chat .kk-day{margin-top:14px}
+.kk-c.rc{display:flex;flex-direction:column;align-items:flex-end;flex:1;min-width:0}
+.kk-nm.r{margin:0 3px 4px 0;text-align:right}
+.bk-chat .kk-m.r .kk-r{width:100%}
+
+/* ===== 말풍선 모양만 카톡처럼: 꼬리(화살표) + 좌우 꽉 차게 ===== */
+.bk-bub{width:calc(100% - 12px);max-width:none}
+.bk-bub.l::before{content:"";position:absolute;top:0;left:-7px;width:10px;height:12px;background:#EEF1F7;clip-path:polygon(100% 0,0 0,100% 100%)}
+.bk-bub.r::before{content:"";position:absolute;top:0;right:-7px;width:10px;height:12px;background:#E1F1E8;clip-path:polygon(0 0,100% 0,0 100%)}
+.dg-col{width:100%;max-width:100%}
+.dg-bb{width:calc(100% - 12px)}
+.dg-bb.l::before{content:"";position:absolute;top:0;left:-7px;width:10px;height:12px;background:#EEF1F7;clip-path:polygon(100% 0,0 0,100% 100%)}
+.dg-bb.r::before{content:"";position:absolute;top:0;right:-7px;width:10px;height:12px;background:#DCEFE4;clip-path:polygon(0 0,100% 0,0 100%)}
+.dg-bb.r.ng::before{background:#FCEAE7}
+.dg-bb.r.ans::before{background:#E8ECF7}
+.dg-bb.r.hint::before{display:none}
+
+/* ===== 카톡 말풍선 꼬리(위쪽 모서리의 뾰족한 곡선) ===== */
+.bk-bub,.dg-bb{--bc:#EEF1F7}
+.bk-bub.r{--bc:#E1F1E8}
+.dg-bb.r{--bc:#DCEFE4}.dg-bb.r.ng{--bc:#FCEAE7}.dg-bb.r.ans{--bc:#E8ECF7}
+.bk-bub.l,.dg-bb.l{border-top-left-radius:0}
+.bk-bub.r,.dg-bb.r:not(.hint){border-top-right-radius:0}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{content:"";position:absolute;top:0;width:7px;height:14px;background:var(--bc);clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 14'%3E%3Cpath d='M0 0C1.5 1.2 4 2.6 7 3.6V14C4 10.5 1.2 5.5 0 0Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 14'%3E%3Cpath d='M0 0C1.5 1.2 4 2.6 7 3.6V14C4 10.5 1.2 5.5 0 0Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%}
+.bk-bub.l::before,.dg-bb.l::before{left:-7px;right:auto}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before{right:-7px;left:auto;transform:scaleX(-1)}
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{content:"";position:absolute;top:0;width:24px;height:9px;background:var(--card,#fff);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 9'%3E%3Cpath d='M0 0H24C20 4 14 8.2 8 7.2C5 6.6 2 5 0 3.6Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 9'%3E%3Cpath d='M0 0H24C20 4 14 8.2 8 7.2C5 6.6 2 5 0 3.6Z'/%3E%3C/svg%3E") no-repeat 0 0/100% 100%;pointer-events:none}
+.bk-bub.l::after,.dg-bb.l::after{left:0;right:auto}
+.bk-bub.r::after,.dg-bb.r:not(.hint)::after{right:0;left:auto;transform:scaleX(-1)}
+
+/* 꼬리 모양 보정: 카톡처럼 바깥으로 살짝 뻗은 뾰족한 곡선 */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{width:6px;height:18px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 18'%3E%3Cpath d='M0 0C1.5 2 4 3.8 6 5V18C2.5 13 0.2 6 0 0Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 18'%3E%3Cpath d='M0 0C1.5 2 4 3.8 6 5V18C2.5 13 0.2 6 0 0Z'/%3E%3C/svg%3E")}
+.bk-bub.l::before,.dg-bb.l::before{left:-6px}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before{right:-6px}
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{width:26px;height:11px;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 11'%3E%3Cpath d='M0 0H26C22 6 18 11 12 11C7 11 2 8 0 5Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 11'%3E%3Cpath d='M0 0H26C22 6 18 11 12 11C7 11 2 8 0 5Z'/%3E%3C/svg%3E")}
+
+.dg-t .ph{display:inline-block;white-space:nowrap;margin-right:.16em}
+.bk-bub .u .a,.dg-t .u .a{font-size:9.5px;min-height:11px;line-height:11px}
+
+/* ===== 카톡 말풍선 꼬리: 실제 카톡 사진의 윤곽 그대로 ===== */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before,
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{content:"";position:absolute;width:39.68px;height:29.48px;top:-1.09px;clip-path:none;pointer-events:none;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;transform:none}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{background:var(--bc);-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAABRCAYAAADYQCiAAAAMQ0lEQVR42u1da4/b1hE95iUpyavd9are2F7b69ixa9epU6d1gjRA//9f6IegQIMUDWJ40a0FK8vyiv2wM/bxZPjQSlppDV6AkCi+LufM48xc8uoagDH6dqVacsHjcln6dkVAi7J0Xe/bilvaYZ8AoJBPbQUBFOh737bE0hSYaKwoEGDB/NYDuHhI6RJyYhtoBQERCbzcWBaDWRjr69vFwk8TsCE1OwbHNQYHrCZr69vFWtEgx8BhKqUfcwPI2MSyQFY0anChcC7+qbjLdcfv2GAE7z1dShtzQzC8WGVPotY3I9A9DbJgXlUXGldgSXXnzY3c8zqjSJ0NaoaF+lBzUG4AA1le3gAUGtZXKdR8CeGGBUBbJeEKRv5NfYnXAEw4yNUcFAlM3la0uMiiRVOXFfIy1hG8IN9iIXGF/QkNDDI2KPo4pZ33xWL00xKPKVkQW9KpYZfRrKOGuEQnXsYlrdHLKbtaV5dj8jUUD1jRiwYSMhGe8SCVjjwG8BWAYwCHAHYN2ZgB+A+AEwFvJp+nAN7I+in9PnXSgfwCAogdg7OXI4YawXjeIDf3yjEld84THQF3UTzbJ+YRubn+WLBQg3okOD1KZeMdAN8CeEKWNnJu5ITiXSFAvZXfXwP4GcAv8vsJAendWG6EZgEoalhtnZU0uR17TQ/QYsl426aAnuJZr6AAjQHcBXCPDOmefE5S2nFXTHDiaNeI0LeVEbW8mQCnFvkv+XwD4EfZVhhQWGtHTg7YFBdDDSB5R6puLSO2uK6muNbEhkNNaIDp70RAuSNAHTNQhMEolROoxVjWGJwk23Z6TIK9LdtnAtgJgJ8EwB/l+88mPgbDQq3rKRpcY10aERrOEVvibFeajg5pTKjZxvnuvgDzgMB6IK4wJyzeK2MqHfsJwA+y88QIKad9S3PTno/WdkzgTQH8Q4D7AcA/BbxTWYIjXBX82FhlXQ40MgF9ZFyQp3ChpsqzKL0vGmqwVl4KxNjEqsci/0PyeOyRRtyZBMAZgLmc5HcA9uT3oYCVCGApFZr12EQ6kcnJd6hjQzLte2L6R/LbPTlHJtdnoZVGQSpZgnyyoLSfoG2VnBdmPcr3SPtq/bV0fgOtVy2WFsz+fIwCtiPLXQBPAfxBuMQrAM/k9wmAA5FfAuCa9D0VjFK90Jlc4ECWfTn5yHTkjE6W6EloPdDJ1UpTAAMAN8gV3AHwGTHVlNzqjEArSYCZLApmQsKqzL4JCVEBL0iQlbGGiu6Bj0k6gMbKmxmQ+LoTALcAfAHgOYCXAL4H8CcA90UWO2QoIEPhfpR6wYJQ3RNruynrrHmpo4HeemK2seAHcu4D+VTtS+V6pSgHHxuJHifOtby+hBoAeL1y4iR7kejsF8x6YizXgpwLYI/Fur4WwL4E8LnIYOiEI++eACDRYJjQsisaodambQ7gf+g2cNrU1EIr6ey+WN2RALknwFbGdQ3JzSUmfiRkaYFcYDQWCHPeYO4ddL26sa2KjuW+5OSFAqVNt8W6vgbwjeTDjwXIPQoteY1sS5HXe1kEcyHdIRcXdmi0KNSgb09c10ojIA2wB6IotwS8I7H2IFaXGSuriz2xQy2xatDkqkHDURPnNKZXpCxDAuulgPVKYthtillWcbw2N32aB+fgSnacCHCa3Gbm5CVpODre7JzAVXc4JKu7STHvjlhhRimCtRi1pGAsCIa1VY7rTpztCcU7tMSwsWG5bHETcX/fAPirfD6UY8ZyrwkZTJPsEuNJkkB5QGKS3VSEuE8HZyR41oK0o3bOjQtQ0pLRkoj13aRlRIrDAb4yIFSOG2yznrKFhDRZ7hmBPJa+/l5c4HdCNI6pyjRuyOmSDpb9UW5VGdQ18I8o7mQmMCcLXLAxsBo2yvFmT7T2M+nDUPr1loQGA97QAQ8tQCQdXWRiCIuec08s6UuJXX8T6zokbpCTcqfmnrvKsLSWFozmRTn5DVnGBLK98KranBRIb2SHYt4B7TcT0BKTs7G1WOKwyDCOzUUrWnKKx3fFur6X+PVSWOFdUrJSyFWXmNWq9IHYC+c97FYOqFLC29IaN7MsaCW5kIxYmVYRroswhlTM5jypdCwmaQHKy8dsbOM4NJS+HIkrfCVgPRCwxgIou9q0BbR5V/lxFV01NjPWNhAtP6TYkjsUGSsCLZh8qDK1ySFZ/66QGY1xM+nfGRUGvHwsGOvJCCQmMJnJnYaGxr+S5Pi5gHVLPENmztnGDtOLgBZMQOZHDrQC/UQ6lBj3WTYQkS7Wx/t4xKainCg6wO1TDTUCeGfuK9aQlKomBVBvMyTiAypDfSFJ8ndSgnom7nBM8hlJn7qEkGRRhWciogfOTN1uJi5Shwky0vqyJdnu7KdbKimgiooCt0fx7rpY3H+pzJWR0MuGMlRWQ/MzshK9zufiBr8VwvFUZBKIuGUr8jqtA3PRSRoLYmgD6fB9chWDRUx6SZfpCRkCnC7XpS9TCv6VsaqE8rumQvGIcsexuMPH4gr/AuCPIgt1hUMq6tq8ai2g5YYyBy5OkqCOJOFVDfceISjXAGTipAWBiMeQitv6+aso3Rnlc5kzVJM4wync9z2JVU8AvBDS8UJkMaIwYWWWrFOhg8McozO0EeUG7kiwVTb3q9lvvm7X4LjQlEjCgZS/dMTgHRULKlNJ4WIvzH2UYmH3hWS8kM9jSaBzI7O0QwF7paANnTJOdC66Kxr2QADMHM1MlqxNdm2lM+oQiCzsEUUHpRE2FHDOBapz7ok7fC7u8IUAdkDpRi73FM1QSnKBe5mbEl8n92jdYnDqchkNYu4Tpe5ysWUs0APcKsecUhatsN+Qe9Ok9h1ZX0VEJVKc1LrhQ8q9nsr6DuWGXIdNL1AZaorZredIGyrk/BxDIQH+76J9D5396gSeYv1NUw/tqz7RlIu7HFM88x6wDZR/PaOxr0fCDseUr4UWBUsv0PcLEZG2/IFrbkcS18YUL0LNxZOOVYlFYliXfEcp/ITYpR2s5Cr7jgD2XBjiK6kjHsq92vGyZIkUZ2XssWm7uhJ99nFXAvSEgnfVUFu7zGYfTcgoGR/Q/cwJtH0B5rksX4knuStgDjqOYqyDOV8INK64R/LhN6XyvkNkZBtAszGCHx8YG2KSy308wvng5J/J9SvhCAsQhIVriMvEAgtirPlNS1v8IOohtm+Wg7Qm1gUBhN9BGOPD0M+xfFeSNehgWXyNjdygJSMMVKQYNsX508In4jK3dR4SJgWBaqj6fMYJPn6xQR/1y6mikrYA5j0vmW7SPfJzholDc/WBnElNNWFb4tvcEJodfBhl1mcMNe/cMfdY1rhHrnhUlwlYF/bI1fHMsLMdKmuN8Nvhmm0CLzGVE60pKoBDyulS1D9P4sUwj1GW66w/JjW5WWgpLk9x/mLFv/HxWzHb3gZ0LwMpMgdax4riU7pOy2sjIt5bnfqbvt40pe2xIWfbRqLSZX1lSfG6LK2LO1Vyou+jneLTm1qpvGxGuGrQIvxXcvXtT37zs29bZmm2Sq7vtL1zXOdVb+mC7s++f7Bx0OpeuguUaM+MFZa9PWxPTLMzHpxKbDvF4rMKfEoxLsUllvHSmhjm/WZn9OEZDk6c49PeJi4PtDoX6U29VOB8NgOdlqJAP+Pq1hIRfrd5ig/TT3zKyp1eNUtrSrb1Zfje0jYIWt3UD3bCs0BkRK0tmuDdx7YtYI9KQHj4fYbzKSZ+gf8MRt82mKdFQ/v5WXkdY5vi4wnPetC2wNJgSEgkMvLakJF+LuMNW1rb9lOcF49fO+zyrCEx7SsnawKtbio8nvpOJ215g9/Oe9y3DbnHukkkmVm+xccTlTG4PYPcAGjebHQwybaWtWYOi+zbFhARtjA7aefU7Js2xLDeAi8JNJsKwADISXjeg3Q5FZFFiAm/WOjN/9i3LQHNY5HBuMeiB23zoHlPadkRbZ5FlWOf7jPoxX25eZo3Pbp9V0tf2Csc2t+3DVZE7NBM4dD+t2iebr1vG2CPdhbx6LDHAv4/XTD170tYl0z5vdJWrKmYzPpEezvYI+C/o63DNApg3TvKfb62oeS6jqho8Rho/neJvm0INJuveayxJyNbAFrukAz7Jzv8fdYDt/mYxi4vd8jIlIDq8hfKfRH5EomIN4FyQUSk639/9iBtkIhMyfrW/ZeRPWgraJxwF8Qe+1i2paAFB7Teyq6Ie7T/0dw/crCm9n9S3ciW3d/KtAAAAABJRU5ErkJggg==");mask-image:url("data:image/png;base64,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")}
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{background:var(--card,#fff);-webkit-mask-image:url("data:image/png;base64,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");mask-image:url("data:image/png;base64,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")}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.l::after,.dg-bb.l::after{left:-7.64px;right:auto}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{right:-7.64px;left:auto;transform:scaleX(-1)}
+
+/* 꼬리: 글자·Q/A 라벨 뒤에 깔리도록, 잡티 제거한 윤곽 */
+.bk-bub,.dg-bb{isolation:isolate}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before,
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{z-index:-1;width:39.68px;height:29.48px;top:-1.09px}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{-webkit-mask-image:url("data:image/png;base64,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");mask-image:url("data:image/png;base64,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")}
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAABRCAYAAADYQCiAAAADpUlEQVR42u2dS0/UUBiGn2EQjYpkgpeIJkZduNAYFyw08Q/511wYY7zEIKKIlxg0KEy8ozBeQEcRFREZwEXfhsYoyjDttOV9kklhMe35ztPzne+cNhkwxhjzBwoxnXfJXRsfLe4CSzOWZizN0oylGUvLMYut7oPMMANMASOWln5Rs8AHYAgYBIbikvYS6AI2ut/rlvVEnzIwpr/Hgcm4trFOAYckrgs4AnTYxYrMScoLiSpL1BjwlsjWYFzSNkeEHdLnsI777eePssrASETY8N++UEigUW1ACTgmcd06HgS2rOcqEHgfmasGJWsc+LnSFwsJN3SbRls3sA84qf+3rzNZ4Rw1CtyQsBf859ORQpMa3gYc0Og7DpzQ6Mv7yJuIFBeDwG3g8WpPUmxS4xeAqhr/BZgGaqo2SzkV9hC4C/QAvcAAUKnnRMUUBFNRmnimO/GzRmJnTmRNS1gPcB7oU8ExW+8JCykLsDNSaXYrdR7NqKyqbsaw0LgjWWt+ql9MWaCzGnkjCvg9MA/sBjZlbHE8oJF1VsfJRp28mNKgFyTsKfAa+ApsVXs3pTBD/J4K+yTrDPC80RcppvyOnSPYEhsl2H8L9+L2plDcI5XvPcBp4Mpa5q0sSwv5pJQZppgWYIcKljSMrnsaVWFl+DTOC2ZFWpgyK1oifNeo29rkJcKEUuElySo3cu7Kg7RoR03qOKUYOhIuVCaABxFZNzW6viVx8SxKQ2u5N5rnPmhhXiLYJktqkXwWuKBS/p0yAZa2MvO6499oXgHYFaO4Gc2rvcA5zV+v1I5EybK0aGe+1LJgUeLaGlikLErOfQm7DPQnlQrzKi0sUl6pSPlKsPHciHlukWCDdxC4pqLjdpKpMM/SQioEjz1agfYGLAueq8i4BtxSdbjQ7CDzJi1apMxopNS7+fxIwi4B1yVwIQ0B5lFaVNwP7Uq0EDxobV2FsIsqNu7qXKkhr9LCAmVca7maqso9//hOFbgqWf2ay96lLbA8S4Ng73JMi/EwVZb+UqBMaN7qVUq8JfFYWnOoqrKsKVVukMAlialI0oAqxOE0B7Oe3jAejsRbI3i9b57gncJRlfJlYniUYmlrYygS806CpwdvWX7v8GMWgiiw/iiw/CJtTdKm+Me7hsYYY4wxxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcaYLFJwF8RHXL/q1O6uzZ40k0FpG9y1To8mAWn+XbYMSpt11zo9Ghcilub0mDC/AJ0f+S/EzWmWAAAAAElFTkSuQmCC");mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAABRCAYAAADYQCiAAAADpUlEQVR42u2dS0/UUBiGn2EQjYpkgpeIJkZduNAYFyw08Q/511wYY7zEIKKIlxg0KEy8ozBeQEcRFREZwEXfhsYoyjDttOV9kklhMe35ztPzne+cNhkwxhjzBwoxnXfJXRsfLe4CSzOWZizN0oylGUvLMYut7oPMMANMASOWln5Rs8AHYAgYBIbikvYS6AI2ut/rlvVEnzIwpr/Hgcm4trFOAYckrgs4AnTYxYrMScoLiSpL1BjwlsjWYFzSNkeEHdLnsI777eePssrASETY8N++UEigUW1ACTgmcd06HgS2rOcqEHgfmasGJWsc+LnSFwsJN3SbRls3sA84qf+3rzNZ4Rw1CtyQsBf859ORQpMa3gYc0Og7DpzQ6Mv7yJuIFBeDwG3g8WpPUmxS4xeAqhr/BZgGaqo2SzkV9hC4C/QAvcAAUKnnRMUUBFNRmnimO/GzRmJnTmRNS1gPcB7oU8ExW+8JCykLsDNSaXYrdR7NqKyqbsaw0LgjWWt+ql9MWaCzGnkjCvg9MA/sBjZlbHE8oJF1VsfJRp28mNKgFyTsKfAa+ApsVXs3pTBD/J4K+yTrDPC80RcppvyOnSPYEhsl2H8L9+L2plDcI5XvPcBp4Mpa5q0sSwv5pJQZppgWYIcKljSMrnsaVWFl+DTOC2ZFWpgyK1oifNeo29rkJcKEUuElySo3cu7Kg7RoR03qOKUYOhIuVCaABxFZNzW6viVx8SxKQ2u5N5rnPmhhXiLYJktqkXwWuKBS/p0yAZa2MvO6499oXgHYFaO4Gc2rvcA5zV+v1I5EybK0aGe+1LJgUeLaGlikLErOfQm7DPQnlQrzKi0sUl6pSPlKsPHciHlukWCDdxC4pqLjdpKpMM/SQioEjz1agfYGLAueq8i4BtxSdbjQ7CDzJi1apMxopNS7+fxIwi4B1yVwIQ0B5lFaVNwP7Uq0EDxobV2FsIsqNu7qXKkhr9LCAmVca7maqso9//hOFbgqWf2ay96lLbA8S4Ng73JMi/EwVZb+UqBMaN7qVUq8JfFYWnOoqrKsKVVukMAlialI0oAqxOE0B7Oe3jAejsRbI3i9b57gncJRlfJlYniUYmlrYygS806CpwdvWX7v8GMWgiiw/iiw/CJtTdKm+Me7hsYYY4wxxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcaYLFJwF8RHXL/q1O6uzZ40k0FpG9y1To8mAWn+XbYMSpt11zo9Ghcilub0mDC/AJ0f+S/EzWmWAAAAAElFTkSuQmCC")}
+
+/* 꼬리 최종: 윤곽이 풍선 윗면까지 끊김 없이 이어지게 */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before,
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{width:54.96px;height:29.48px;top:-1.09px}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{-webkit-mask-image:url("data:image/png;base64,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");mask-image:url("data:image/png;base64,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")}
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJcAAABRCAYAAADfLjTQAAAEXElEQVR42u2cXW9UVRSGn5mWQhQkDX5ENDHqBRcaw0UvNPEP+de8MMSgxNQKIoIhxSBtg0Va2hkZpkOhtnVaStvBi/1u2CGYKp0zPR/vk0w2TEJnn91n1lpn7X0AY4wxxohaRj/3iZe2kGwB68AK0AFa+vOK3t/U2AEe6P0usKHXFrAL9ACGvZ6VpidZWsBiIlVD77UkVJRrR+P2fwkglqtaIm1LjvtJZGoBsxrTqNXZbwayXNVIdQ295iRPlGoukWmj3x9sucrLn5JnRuOsBHuoCLWW9QQsV7kK8UdJ/fQbMA3MJynv8SAnZbmKXUN1FJVaz9VP8xLrQO/aLVcxpVpUuptNXo2saifLVX66Kr6nlfLOS6qFvE7YcuVfqE21Dq4Dkxpngbt5n3xWct0BTgKH7cdLSxXT3YzSYEx9S0W5iKy2f74ATkmwk8DHwHE7s+cdXyNpH8SaalGFeuG21LKS65VErFN6faTxfXv0QqlmVE9FsaaKfmG1AXzGCDAKnJZgYxo/BF51K+FpLTUpqRoMuB9VZLlSXlP0GgPeAz7X31+vYCsh9qN+klhzlOw0Se2APncE+EDR7FPgM0WzskeydlKkTwJXgN/LerFDB/S5u8CyFnkNWCUc5zisFFpGbgBXgXFgArgENMv8TRrKwRyaSg9/6Jv9lyLbiZKs8arEGgfOEpqf04T+Vamp5Ww+J5I7yzGlzE8KurbL+tLEgv0XcrDfV7XIlbKpSBZ38zuEA25vA0cKtK5dpb2zwBmNS1SMoZzOa1di3SKcS1oHjmq+R3IYcZ9Pgecl1VfAbSrKUM7nt0XYSpon7K/FvbZ3cyjYTbUVxoEvge+rUFcVWa7IQ6XKmFrqwBsq/PMQra4pSsU7wVuYwsgVU2VTrYsNRbGjB9y6aCsFnpNUM1WsrcogV/oLXdK4oms4PuCCv004UxWl+lnR6m8rVWy5IPTC7qoOu09owI4StpeyJjZDzwDfqMVwT5HVlEAu1KJoS7JVvfdWhoJ1VfdNAF+rvlrQPEzJ5Ep/6XfUruhJsJE+Fvs9SfSrxPoOuOgUWA25YrG/oGJ/nbAB3o86rEfYaJ4ELqh4v+IUWC25Ik3CcZZh4Fgf2hW3VaxfAC7rbtBiVVSutNjvKvK87Cb4TYl1DvhRolmsisuVCvaI0CWvEw4kDv8Psb5V0X6VAjxpY7kGX+g3CL2wHd1FvrPHv1kGfpBUF1Vr3bMmlutFbKkGW0pS5Oi/FPpt1VUTSoWXJaixXHtGpDVFsDpwSKI9kUBNyXRJd4RTVmP/VOmJ66nkencIj71tE54JnFeLYYYKH5GxXPvjenLNbxJOW7R49tzgAyvRP2oVveb4wO4Oz/5T2cfWwRhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY4ypOjUvgaln9HOPeWlN3UtgiibXIS+tcVo0hZNr2EtrspJr00trnBaNC3pjuZwWzVP+AXnIWF1WVFisAAAAAElFTkSuQmCC");mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJcAAABRCAYAAADfLjTQAAAEXElEQVR42u2cXW9UVRSGn5mWQhQkDX5ENDHqBRcaw0UvNPEP+de8MMSgxNQKIoIhxSBtg0Va2hkZpkOhtnVaStvBi/1u2CGYKp0zPR/vk0w2TEJnn91n1lpn7X0AY4wxxohaRj/3iZe2kGwB68AK0AFa+vOK3t/U2AEe6P0usKHXFrAL9ACGvZ6VpidZWsBiIlVD77UkVJRrR+P2fwkglqtaIm1LjvtJZGoBsxrTqNXZbwayXNVIdQ295iRPlGoukWmj3x9sucrLn5JnRuOsBHuoCLWW9QQsV7kK8UdJ/fQbMA3MJynv8SAnZbmKXUN1FJVaz9VP8xLrQO/aLVcxpVpUuptNXo2saifLVX66Kr6nlfLOS6qFvE7YcuVfqE21Dq4Dkxpngbt5n3xWct0BTgKH7cdLSxXT3YzSYEx9S0W5iKy2f74ATkmwk8DHwHE7s+cdXyNpH8SaalGFeuG21LKS65VErFN6faTxfXv0QqlmVE9FsaaKfmG1AXzGCDAKnJZgYxo/BF51K+FpLTUpqRoMuB9VZLlSXlP0GgPeAz7X31+vYCsh9qN+klhzlOw0Se2APncE+EDR7FPgM0WzskeydlKkTwJXgN/LerFDB/S5u8CyFnkNWCUc5zisFFpGbgBXgXFgArgENMv8TRrKwRyaSg9/6Jv9lyLbiZKs8arEGgfOEpqf04T+Vamp5Ww+J5I7yzGlzE8KurbL+tLEgv0XcrDfV7XIlbKpSBZ38zuEA25vA0cKtK5dpb2zwBmNS1SMoZzOa1di3SKcS1oHjmq+R3IYcZ9Pgecl1VfAbSrKUM7nt0XYSpon7K/FvbZ3cyjYTbUVxoEvge+rUFcVWa7IQ6XKmFrqwBsq/PMQra4pSsU7wVuYwsgVU2VTrYsNRbGjB9y6aCsFnpNUM1WsrcogV/oLXdK4oms4PuCCv004UxWl+lnR6m8rVWy5IPTC7qoOu09owI4StpeyJjZDzwDfqMVwT5HVlEAu1KJoS7JVvfdWhoJ1VfdNAF+rvlrQPEzJ5Ep/6XfUruhJsJE+Fvs9SfSrxPoOuOgUWA25YrG/oGJ/nbAB3o86rEfYaJ4ELqh4v+IUWC25Ik3CcZZh4Fgf2hW3VaxfAC7rbtBiVVSutNjvKvK87Cb4TYl1DvhRolmsisuVCvaI0CWvEw4kDv8Psb5V0X6VAjxpY7kGX+g3CL2wHd1FvrPHv1kGfpBUF1Vr3bMmlutFbKkGW0pS5Oi/FPpt1VUTSoWXJaixXHtGpDVFsDpwSKI9kUBNyXRJd4RTVmP/VOmJ66nkencIj71tE54JnFeLYYYKH5GxXPvjenLNbxJOW7R49tzgAyvRP2oVveb4wO4Oz/5T2cfWwRhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY4ypOjUvgaln9HOPeWlN3UtgiibXIS+tcVo0hZNr2EtrspJr00trnBaNC3pjuZwWzVP+AXnIWF1WVFisAAAAAElFTkSuQmCC")}
+
+/* 꼬리 크기: 글자 크기에 맞춰 카톡 비율로 (이전보다 약 40% 작게) */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before,
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{width:33.22px;height:17.82px;top:-0.66px}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.l::after,.dg-bb.l::after{left:-4.62px}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{right:-4.62px}
+
+/* 꼬리 수정: 윗면은 평평하게 끝까지, 왼쪽(오른쪽) 바깥 곡선만 뿔처럼 — 둥근 모서리가 파이지 않음 */
+.bk-bub.l::after,.dg-bb.l::after,.bk-bub.r::after,.dg-bb.r:not(.hint)::after{display:none}
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{width:6.16px;height:15.4px;top:0;-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAABGCAYAAADfGPQFAAABaklEQVR42u2YzStEURiHH3dKPqaUyBYbH+WjrCRrm7GUf8O/Rlbs7KXJlFiJEkYsGIp0bebomDSMufeZ0jx1F7e7eHrv+zvvuefCV0pAmvP1yZYgS5NIuIBALCwbwp6G+0egaFUIsEkHOLBSGpjMU1j4RvgATAFzRmhinoDBrIWFJs/ugHU7QHtGaGIWjdDEXAO9wKoRmkCxPoFyD03gFRgCls3wjFo9DDwD88CM8UoDKbBhhKZRqlUIMACsZLkf/sRuJ/bLGyOlMe/AmlnhsF3hCzBRH+waS3ltT82otPvl/ZfNWWXMCk2gBoy3Gp6kzSp38h7ebQ/0JAPhti2s2MJze3mMWJMm5siYNDGHZg/DIVZl2u4hQNXs4a/XYyFDYV/915nGrN1DgEuzhwD71joMnNjCU1t41omzR80MDcC9+UoB+m3hsS0s28KqLbywhTVb+GYLr2zh7b/vYZr3ca0laYJMV9gVtswH2OJOmnyT/F8AAAAASUVORK5CYII=");mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAABGCAYAAADfGPQFAAABaklEQVR42u2YzStEURiHH3dKPqaUyBYbH+WjrCRrm7GUf8O/Rlbs7KXJlFiJEkYsGIp0bebomDSMufeZ0jx1F7e7eHrv+zvvuefCV0pAmvP1yZYgS5NIuIBALCwbwp6G+0egaFUIsEkHOLBSGpjMU1j4RvgATAFzRmhinoDBrIWFJs/ugHU7QHtGaGIWjdDEXAO9wKoRmkCxPoFyD03gFRgCls3wjFo9DDwD88CM8UoDKbBhhKZRqlUIMACsZLkf/sRuJ/bLGyOlMe/AmlnhsF3hCzBRH+waS3ltT82otPvl/ZfNWWXMCk2gBoy3Gp6kzSp38h7ebQ/0JAPhti2s2MJze3mMWJMm5siYNDGHZg/DIVZl2u4hQNXs4a/XYyFDYV/915nGrN1DgEuzhwD71joMnNjCU1t41omzR80MDcC9+UoB+m3hsS0s28KqLbywhTVb+GYLr2zh7b/vYZr3ca0laYJMV9gVtswH2OJOmnyT/F8AAAAASUVORK5CYII=")}
+.bk-bub.l::before,.dg-bb.l::before{left:-4.62px;right:auto}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before{right:-4.62px;left:auto}
+
+/* 뿔 크기 한 단계 키움 */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{width:8.4px;height:21.0px}
+.bk-bub.l::before,.dg-bb.l::before{left:-6.3px}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before{right:-6.3px}
+
+/* 꼬리 끝을 윗면보다 살짝 위로 */
+.bk-bub.l::before,.dg-bb.l::before,.bk-bub.r::before,.dg-bb.r:not(.hint)::before{width:8.4px;height:24.0px;top:-3.0px;-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAABQCAYAAAAKlxWDAAABuElEQVR42u2YO0vDUBiGHxMQLwVBFEcvixfwAk4i0tFFcRJH/4L/wJ/S36A46VBwl1IsiC6KglgrdtAoKBIHc+QQats0yRuQPvANJcPDyfee7+QUfsgDBWAREXnAD6oIbCmFpq6B3TSl/h9VB/aBIZXQrgIwrhTafc4rhaZKcfpc7FBqAha5z3GEdsDa7nMSwnDAWvZ5I2Fpo/plTyDzHUsomaO2sKwQ9oR+vwA51QoBdsiAU1VKDVNpCt0GwjowDcwrQmPzCgwmLXSbPHsCNtUBOlaExmZJERqbB6AXWFOExpALJlDqoTF8BCf5ijI8o6oeGt6ABWBW8Urtr7ptRWjCUtkKAQaA1STPw1YcZXFeVhUptfkC1pUrHFav8B2YDAa7jOW0jqdmVOJ+eXdyOEsZU4XG4AETUcPjxFzlYdrDO/ZAdxIQHqiFFbXwRr09RlSTxqakmDQ2Z8oemkuslBl1DwFqyh62vR/dBIV9wV9nMubUPQS4U/YQ4ES1Dw0XauGlWniVxd3DU4YG4Fn5SgH61cJztbCsFtbUwlu10FMLP9XCe7Xw8d/30E/7uhZJ6iCmK+wKI/MNYCG6ryWmQzwAAAAASUVORK5CYII=");mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAABQCAYAAAAKlxWDAAABuElEQVR42u2YO0vDUBiGHxMQLwVBFEcvixfwAk4i0tFFcRJH/4L/wJ/S36A46VBwl1IsiC6KglgrdtAoKBIHc+QQats0yRuQPvANJcPDyfee7+QUfsgDBWAREXnAD6oIbCmFpq6B3TSl/h9VB/aBIZXQrgIwrhTafc4rhaZKcfpc7FBqAha5z3GEdsDa7nMSwnDAWvZ5I2Fpo/plTyDzHUsomaO2sKwQ9oR+vwA51QoBdsiAU1VKDVNpCt0GwjowDcwrQmPzCgwmLXSbPHsCNtUBOlaExmZJERqbB6AXWFOExpALJlDqoTF8BCf5ijI8o6oeGt6ABWBW8Urtr7ptRWjCUtkKAQaA1STPw1YcZXFeVhUptfkC1pUrHFav8B2YDAa7jOW0jqdmVOJ+eXdyOEsZU4XG4AETUcPjxFzlYdrDO/ZAdxIQHqiFFbXwRr09RlSTxqakmDQ2Z8oemkuslBl1DwFqyh62vR/dBIV9wV9nMubUPQS4U/YQ4ES1Dw0XauGlWniVxd3DU4YG4Fn5SgH61cJztbCsFtbUwlu10FMLP9XCe7Xw8d/30E/7uhZJ6iCmK+wKI/MNYCG6ryWmQzwAAAAASUVORK5CYII=")}
+.bk-bub.l::before,.dg-bb.l::before{left:-6.3px}
+.bk-bub.r::before,.dg-bb.r:not(.hint)::before{right:-6.3px}
+
+/* ===== 방식 스위치(왼쪽) + 역할 토글(오른쪽) 한 줄 — 시안과 동일 ===== */
+.mr4{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.sw4{position:relative;display:flex;flex:none;width:152px;height:38px;border-radius:19px;background:#20306F;padding:3px}
+.sw4 button{position:relative;z-index:1;flex:1;height:32px;margin:0;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center;font:800 12.5px "Noto Sans KR",sans-serif;color:rgba(255,255,255,.72);cursor:pointer;white-space:nowrap}
+.sw4 button.on{color:#20306F}
+.sw4::before{content:"";position:absolute;top:3px;bottom:3px;width:calc(50% - 3px);border-radius:16px;background:#fff}
+.sw4.l::before{left:3px}.sw4.r::before{left:50%}
+.rt4{display:flex;flex:none;height:38px;border-radius:19px;background:#EEF1F7;overflow:hidden}
+.rt4 button{margin:0;padding:0 12px;border:0;background:none;display:flex;align-items:center;font:800 13px "Noto Sans KR",sans-serif;color:#5A6482;cursor:pointer;white-space:nowrap}
+.rt4 button.on{background:#20306F;color:#fff;border-radius:19px}
+.rt4.off{opacity:.38}.rt4.off button{cursor:default}
+
+/* 방식 스위치 색: 보라 */
+.sw4{background:#4A3FB8}
+.sw4 button{color:rgba(255,255,255,.78)}
+.sw4 button.on{color:#4A3FB8}
+
+/* 역할 토글: 보내 주신 기준 이미지 그대로 — 선택된 칸은 모서리가 각진 남색 칸(트랙 끝만 둥글게), 칸 좌우 여백 14px, 글자 14px */
+.rt4{height:38px;border-radius:19px;overflow:hidden;background:#EEF1F7}
+.rt4 button{padding:0 14px;font:800 14px "Noto Sans KR",sans-serif;color:#5A6482;border-radius:0}
+.rt4 button.on{background:#20306F;color:#fff;border-radius:0}
+@media (max-width:380px){.sw4{width:140px}.sw4 button{font-size:12px}.rt4 button{padding:0 11px;font-size:13px}}
+
+/* 역할 토글을 스위치(대화) 바로 옆에 붙임 */
+.mr4{justify-content:flex-start;gap:10px}
+
+/* 역할 토글: 오른쪽 끝이 아니라 대화 스위치 바로 옆 */
+.mr4{justify-content:flex-start;gap:10px}
+
+/* 스위치 + 토글 분리: 역할 토글 글자는 「대화」와 같은 12.5px (칸 여백 13px) */
+.rt4 button{padding:0 13px;font-size:12.5px}
+@media (max-width:380px){.rt4 button{padding:0 10px;font-size:12.5px}}
+
+/* 역할 토글: 바깥에 얇은 흰색 선, 선택 칸은 보라색 */
+.rt4{box-sizing:border-box;border:1.5px solid #fff}
+.rt4 button.on{background:#4A3FB8;color:#fff}
+
+/* 「따라 읽기」 → 「읽기」 : 글자가 짧아져서 스위치 폭도 줄임 */
+.sw4{width:124px}
+@media (max-width:380px){.sw4{width:116px}}
+
+/* 역할 토글: 채워진 바탕은 흰색, 얇은 테두리와 선택 칸은 보라색 */
+.rt4{background:#fff;border:1.5px solid #4A3FB8}
+.rt4 button.on{background:#4A3FB8;color:#fff}
+
+/* 역할 토글: 세 칸 너비 동일 */
+.rt4 button{flex:none;width:62px;padding:0;justify-content:center}
+@media (max-width:380px){.rt4 button{width:56px;padding:0}}
 </style>
 </head>
 <body>
@@ -2809,10 +3047,10 @@ function tilesHtml(us,lab,cls,scale){
   return `<div class="tiles">${html}</div>`;
 }
 function quizPrompt(w){
-  if(w.c==='문장')return `<div class="qz"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>`;
+  if(w.c==='문장')return `<div class="qz${w.l4?' qs':''}"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>`;
   return `<div class="qz"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>${tilesHtml(units(w.k).map(()=>'?'),u=>u,'')}`;
 }
-function boxes(w,cls,scale){if(w.c==='문장')return `<div class="sentbox" lang="ja">${w.sd}</div>`;return tilesHtml(units(w.k),u=>u,cls,scale);}
+function boxes(w,cls,scale){if(w.l4)return `<div class="sentbox s4 s4b" lang="ja">${s4Html(w)}</div>`;if(w.c==='문장')return `<div class="sentbox" lang="ja">${w.sd}</div>`;return tilesHtml(units(w.k),u=>u,cls,scale);}
 
 /* ---- 한글 발음 표기 (외래어 표기법 일본어 기준: 어두/어중, 촉음 ㅅ, 발음 ㄴ, 장음 생략) ---- */
 const HG_BASE={'あ':'아','い':'이','う':'우','え':'에','お':'오','か':'카','き':'키','く':'쿠','け':'케','こ':'코','さ':'사','し':'시','す':'스','せ':'세','そ':'소','た':'타','ち':'치','つ':'쓰','て':'테','と':'토','な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호','ま':'마','み':'미','む':'무','め':'메','も':'모','や':'야','ゆ':'유','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','を':'오','が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고','ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조','だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도','ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보','ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포','ゔ':'부'};
@@ -2966,6 +3204,9 @@ function mlPhrases(html){
     }
     let j=i;const run=[];while(j<info.length&&info[j].k==='k'){run.push(info[j]);j++;}
     const l=phs[phs.length-1];
+    if(l&&l.k==='c'&&run.length&&/[一-龥々][ぁ-ん]{0,2}$/.test(l.t)&&run.map(x=>x.t).join('').length<=6){   /* 存+じますので · 閲覧+したり · 松下+さんは: 한자와 뒤의 짧은 말은 쪼개지 않음 */
+      run.forEach(x=>{l.h+=x.h;l.t+=x.t;});run.length=0;
+    }
     if(l&&l.k==='c'&&run.length&&/^[がをはにでとものへ]$/.test(run[0].t)&&!(run[0].t==='で'&&run[1]&&/^し/.test(run[1].t))){l.h+=run[0].h;l.t+=run[0].t;run.shift();}   /* 한 글자 조사는 앞 말에 붙임 */
     if(run.length){
       const S=run.map(x=>x.t).join(''),cut=new Set(),re=/(ました|ません|でした|ます|です)(?!ので|から|けど|が|か|ね|よ|し|で(?!し)|の)/g;let m;
@@ -3614,6 +3855,7 @@ function audFit(){   /* 단어 글자 수·화면 크기에 맞춰 크기 조절
   {const e0=$a('apExJa');if(e0)e0.style.fontSize='';}   /* 이전 글자에서 줄였던 예문 크기 되돌림 */
   let fs=Math.max(36,Math.min(48,Math.floor(mw/(Math.max(n,3)*0.9))));   /* 짧은 단어도 긴 단어도 36~48px 안에서 비슷하게 */
   const SENT=w.c==='문장';if(SENT)fs=Math.max(22,Math.min(40,Math.floor((mw*2.1)/Math.max(n,8))));
+  if(w.kana)fs=Math.max(120,Math.min(190,Math.floor(Math.min(mw*0.78,(main.clientHeight||380)*0.62))));   /* 글자(1음)는 아주 크게 */
   hira.style.fontSize=fs+'px';hira.style.letterSpacing=SENT?'0':'';
   const rbe=$a('apRb');
   if(w.rb){   /* 긴 문장도 두 줄 안에 들어오게 글자 크기 자동 조절 */
@@ -3626,7 +3868,7 @@ function audFit(){   /* 단어 글자 수·화면 크기에 맞춰 크기 조절
   /* 별 버튼 자리는 항상 비워 둠(글자 영역 위쪽 50px) — 글자가 아무리 커도 별과 겹치지 않음 */
   $a('apA').style.paddingTop='';
   /* 아주 낮은 화면에서 두 줄짜리 인사말이 잘릴 때만 조금 줄임 */
-  for(let i=0;i<6&&main.scrollHeight>main.clientHeight+1&&fs>(SENT?22:48);i++){fs-=3;hira.style.fontSize=fs+'px';}
+  for(let i=0;i<6&&main.scrollHeight>main.clientHeight+1&&fs>(SENT?22:(w.kana?100:48));i++){fs-=3;hira.style.fontSize=fs+'px';}
   if(w.rb){for(let i=0;i<10&&main.scrollHeight>main.clientHeight+1&&parseInt(rbe.style.fontSize)>22;i++)rbe.style.fontSize=(parseInt(rbe.style.fontSize)-3)+'px';}
   /* 그래도 넘치면: 히라가나(최소 30px) → 예문(최소 18px) 순서로 더 줄임 */
   if(!$a('apA').hidden){
@@ -3656,9 +3898,9 @@ function audRender(){
     $a('apCtxW').textContent=w.k;$a('apCtxK').textContent=disp!==w.k?disp:'';$a('apCtxM').textContent=w.m;
     $a('apSent').innerHTML=audRuby(ex[0],hl);$a('apSentKo').textContent=ex[1];
   }else{
-    $a('apHira').textContent=w.c==='문장'?w.sd:w.k;$a('apKanji').textContent=disp!==w.k?disp:'';$a('apPron').textContent=pronOf(w);
+    $a('apHira').textContent=w.c==='문장'?w.sd:w.k;$a('apKanji').textContent=disp!==w.k?disp:'';$a('apPron').textContent=w.kana?'':pronOf(w);$a('apPron').style.display=w.kana?'none':'';   /* 글자(1음)는 한글 발음을 보여 주지 않음 */
     $a('apRb').innerHTML=w.rb?audRuby(w.rb,[],false):'';$a('apA').classList.toggle('rbmode',!!w.rb);
-    const mn=$a('apMean');mn.textContent=w.m;mn.style.visibility='';mn.className='ap-mean'+((AUD.step>=1||w.once)?'':' dim');   /* 쭉 1번 듣기에서도 한국어 뜻은 화면에 보임(소리는 안 읽음) */
+    const mn=$a('apMean');mn.textContent=w.kana?'':w.m;mn.style.display=w.kana?'none':'';mn.style.visibility='';mn.className='ap-mean'+((AUD.step>=1||w.once)?'':' dim');   /* 쭉 1번 듣기에서도 한국어 뜻은 화면에 보임(소리는 안 읽음) */
     const show=AUD.opts.sent&&!!ex,exb=$a('apEx');exb.style.display=show?'':'none';
     if(show){$a('apExJa').innerHTML=audRuby(ex[0],hl,false);$a('apExKo').textContent=ex[1];exb.className='ap-ex'+(AUD.step>=2?'':' dim');$a('apExKo').className='ko'+(AUD.step>=3?'':' dim');}
   }
@@ -3678,7 +3920,7 @@ function audRenderList(){
   if(!AUD.player)return;
   const l=$a('apList');l.hidden=!AUD.listOpen;if(!AUD.listOpen)return;
   $a('apListSub').textContent=AUD.label+' · '+AUD.order.length+'개 · 눌러서 그 단어부터 듣기';
-  $a('apListBody').innerHTML=AUD.order.map((w,i)=>`<button class="ap-li${i===AUD.pos?' on':''}" data-aud="jump" data-i="${i}"><span class="n">${i+1}</span><span class="w">${w.k}${audDisp(w)!==w.k?` <small>${audDisp(w)}</small>`:''}</span><span class="m">${w.m}</span></button>`).join('');
+  $a('apListBody').innerHTML=AUD.order.map((w,i)=>`<button class="ap-li${i===AUD.pos?' on':''}" data-aud="jump" data-i="${i}"><span class="n">${i+1}</span><span class="w">${w.k}${audDisp(w)!==w.k?` <small>${audDisp(w)}</small>`:''}</span><span class="m">${w.kana?'':w.m}</span></button>`).join('');
   const on=l.querySelector('.on');if(on&&on.scrollIntoView)on.scrollIntoView({block:'center'});
 }
 /* ---- 열기: 오디오 버튼을 누르면 바로 재생 ---- */
@@ -3790,15 +4032,19 @@ function renderNotes(m){
 
 /* ===== 교재 페이지 (Lesson 4~) ===== */
 var BK={open:{pt:true,pat:true,ex:false,dlg:false,word:false,rev:false}};
-function s4Html(w){return mlPhrases(audRuby(w.rb||w.k,[],false));}
+function s4Html(w){return bkPh(w.rb||w.k);}
 const BK_NUMS=[['0','ぜろ'],['1','いち'],['2','に'],['3','さん'],['4','よん'],['5','ご'],['6','ろく'],['7','なな'],['8','はち'],['9','きゅう'],['10','じゅう']];
 const BK_FORM=[['A は B です。','A는 B입니다.','「は」는 조사로 쓰일 때 「わ」로 읽어요.'],['A は B じゃ ありません。','A는 B가 아닙니다.','「では ありません」이라고도 해요.'],['A は B ですか。','A는 B입니까?','문장 끝에 「か」를 붙이면 질문이 돼요. 대답은 「はい / いいえ」.'],['A も B です。','A도 B입니다.','「も」는 「~도」라는 뜻이에요.']];
 const BK_WORDS=[['わたし'],['あなた'],['〜さん','님 / 씨','이름 뒤에 붙여요'],['〜は','는','조사 (わ로 읽음)'],['〜も','도','조사'],['かいしゃいん'],['しゃちょう'],['ししゃちょう'],['りーだー'],['にほんじん'],['かんこくじん'],['だれ'],['あのひと'],['〜さい','~살','나이를 셀 때'],['なんさい'],['はい'],['いいえ']];
 const bkW=k=>W.find(x=>x.k===k)||{};
 const bkQ=t=>String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-const bkJp=w=>`<span class="bk-jp" lang="ja">${w.c==='문장'?mlPhrases(audRuby(w.rb||w.k,[],false)):mlRubyFix(audRuby(w.rb||w.k,[],false))}</span>`;
+function bkPh(rb){   /* 띄어쓰기·쉼표·마침표 뒤에서만 줄을 바꾸고, 한 문절은 절대 쪼개지 않음 */
+  return String(rb||'').replace(/([、。！？])/g,'$1 ').split(/\s+/).filter(Boolean).map(c=>`<span class="ph">${mlRubyFix(audRuby(c,[],false))}</span>`).join('');
+}
+const bkJp=w=>`<span class="bk-jp" lang="ja">${w.c==='문장'?bkPh(w.rb||w.k):mlRubyFix(audRuby(w.rb||w.k,[],false))}</span>`;
 const bkSp=t=>`<button class="bk-sp" type="button" data-bk="sp" data-t="${bkQ(t)}" aria-label="듣기">${ui('volume',20)}</button>`;
-const bkLine=(w,who)=>`<div class="bk-row">${who?`<span class="bk-who">${who}</span>`:''}<div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
+const bkLine=(w)=>`<div class="bk-row"><div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
+const bkBub=(w,side,label)=>`<div class="bk-bub ${side}"><span class="bk-lb">${label}</span><div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
 function renderBook(m){
   const n=(LV(level)||{n:4}).n,o=BK.open;
   const sec=(id,title,sub,body,chip)=>`<section class="bk-sec${o[id]?' open':''}"><button class="bk-h" type="button" data-bk="tog" data-id="${id}" aria-expanded="${!!o[id]}"><b>${title}</b><span>${sub||''}</span><i>${ic('down')}</i></button><div class="bk-b">${body}${chip?`<button class="bk-go" type="button" data-bk="go" data-chip="${chip}">연습하기 ${ic('next')}</button>`:''}</div></section>`;
@@ -3806,9 +4052,10 @@ function renderBook(m){
     <div class="bk-form">${BK_FORM.map(([a,b,c])=>`<div class="bk-f"><div class="bk-fa" lang="ja">${a}</div><div class="bk-fb">${b}</div><div class="bk-fc">${c}</div></div>`).join('')}</div>`;
   const pat=BOOK4.pat.map(k=>bkLine(bkW(k))).join('');
   const exs=[];for(let i=0;i<BOOK4.ex.length;i+=2)exs.push([bkW(BOOK4.ex[i]),bkW(BOOK4.ex[i+1])]);
-  const ex=exs.map((pr,i)=>`<div class="bk-pair"><span class="bk-no">${i+1}</span>${bkLine(pr[0],'Q')}${bkLine(pr[1],'A')}</div>`).join('');
+  const O=(w,who)=>({who,sd:w.sd,rb:w.rb,m:w.m,t:w.sp||w.k});
+  const ex=exs.map((pr,i)=>`<div class="bk-pair"><div class="bk-no">${i+1}</div>${bkBub(pr[0],'l','Q')}${bkBub(pr[1],'r','A')}</div>`).join('');
   const names=['ヘイリー','チョン','ヘイリー','チョン'];
-  const dlg=BOOK4.dlg.map((k,i)=>bkLine(bkW(k),names[i])).join('');
+  const dlg=`<div class="bk-pair">${BOOK4.dlg.map((k,i)=>bkBub(bkW(k),i%2?'r':'l',names[i])).join('')}</div>`;
   const words=BK_WORDS.map(([k,mm,note])=>{const w=bkW(k);const kata={'りーだー':'リーダー'}[k];const jp=kata||(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
   const rev=BOOK4.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${w.k}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
   m.innerHTML=`<div class="bk">${sec('pt','오늘의 포인트','숫자 0~10 · 문형',pts,'숫자')}${sec('pat','문형','4개',pat,'문형')}${sec('ex','예문','질문과 대답 '+exs.length+'쌍',ex,'예문')}${sec('dlg','회화','도쿄 사무실에서',dlg,'회화')}${sec('word','단어',BK_WORDS.length+'개',words,'단어')}${sec('rev','복습 읽기','5개',rev,'복습')}</div>`;
@@ -3821,13 +4068,16 @@ function buildDlg(){
   for(let i=0;i+1<keys.length;i+=2){
     const q=bkW(keys[i]),a=bkW(keys[i+1]),no=i/2;
     const meQ=role==='q'||(role==='alt'&&no%2===0);
-    const line=w=>({t:w.sp||w.k,sd:w.sd,m:w.m});
+    const line=w=>({t:w.sp||w.k,sd:w.sd,rb:w.rb,m:w.m});
     if(meQ)out.push(Object.assign({},q,{qmode:'k2j',qpref:null,dgWho:names[0],dgAfter:Object.assign(line(a),{who:names[1]})}));
     else out.push(Object.assign({},a,{qmode:'k2j',qpref:null,dgWho:names[1],dgBefore:Object.assign(line(q),{who:names[0]})}));
   }
   return out;
 }
-const dgBub=(o,cls)=>`<div class="dg-b ${cls}">${o.who?`<span class="dg-w">${o.who}</span>`:`<span class="dg-w">${cls==='l'?'상대':'나'}</span>`}<div class="dg-t" lang="ja">${o.sd}</div><div class="dg-m">${o.m}</div><button class="dg-s" type="button" data-speak="${bkQ(o.t)}" aria-label="듣기">${ui('volume',18)}</button></div>`;
+const dgL=o=>`<div class="dg-row l"><div class="dg-col">${o.who?`<div class="dg-n">${o.who}</div>`:''}<div class="dg-bb l"><div class="dg-t" lang="ja">${bkPh(o.rb||o.sd)}</div><div class="dg-m">${o.m}</div><button class="dg-s" type="button" data-speak="${bkQ(o.t)}" aria-label="듣기">${ui('volume',17)}</button></div></div></div>`;
+const dgR=(w,st)=>`<div class="dg-row r"><div class="dg-col"><div class="dg-n">${w.dgWho||'나'}</div><div class="dg-bb r ${st||''}"><div class="dg-t" lang="ja">${bkPh(w.rb||w.sd)}</div><div class="dg-m">${w.m}</div></div></div></div>`;
+const dgH=w=>`<div class="dg-row r"><div class="dg-col"><div class="dg-n">${w.dgWho||'내 차례'}</div><div class="dg-bb r hint"><div class="dg-m">${w.m}</div></div></div></div>`;
+const dgThread=(w,ph)=>`<div class="dg-th">${w.dgBefore?dgL(w.dgBefore):''}${ph==='ask'?dgH(w):''}${ph==='reveal'?dgR(w,'ans'):''}${ph==='result'?dgR(w,verdict?'ok':'ng'):''}${ph==='result'&&w.dgAfter&&verdict?dgL(w.dgAfter):''}</div>`;
 function dlgAuto(){
   const w=queue[idx];if(!w||!dlgQ)return;
   if(phase==='ask'&&w.dgBefore){const key=level+idx+'b';if(dlgSpoken!==key){dlgSpoken=key;setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speak(w.dgBefore.t);},300);}}
@@ -3838,6 +4088,34 @@ function l4Auto(){   /* 학습: 문장 카드가 나오면 먼저 한 번 들려
   const w=queue[idx];if(!w||!w.l4||phase!=='ask'||!isLessonLevel(level))return;
   const key=level+'|'+idx+'|'+w.k;if(key===l4Said)return;l4Said=key;
   setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},250);
+}
+
+/* ===== 대화: 카카오톡 모양 (좌우 꽉 차게) ===== */
+const KK_AV={'ヘイリー':'👩‍💻','チョン':'👩‍💼'};
+const kkAv=n=>KK_AV[n]||'🧑‍💼';
+function kkL(o,anim){const nm=o.who||'상대';return `<div class="kk-m l${anim?' in':''}"><div class="kk-av">${kkAv(nm)}</div><div class="kk-c"><div class="kk-nm">${nm}</div><div class="kk-r"><div class="kk-b l"><div class="kk-t" lang="ja">${bkPh(o.rb||o.sd)}</div><div class="kk-k">${o.m}</div></div><button class="kk-sp" type="button" data-speak="${bkQ(o.t)}" aria-label="듣기">${ui('volume',17)}</button></div></div></div>`;}
+function kkR(w,st,lab){return `<div class="kk-m r"><div class="kk-r">${lab?`<span class="kk-lb ${st}">${lab}</span>`:''}<div class="kk-b r ${st}"><div class="kk-t" lang="ja">${bkPh(w.rb||w.sd)}</div><div class="kk-k">${w.m}</div></div></div></div>`;}
+function kkR2(o,name){return `<div class="kk-m r"><div class="kk-c rc">${name?`<div class="kk-nm r">${name}</div>`:''}<div class="kk-r"><button class="kk-sp" type="button" data-speak="${bkQ(o.t)}" aria-label="듣기">${ui('volume',17)}</button><div class="kk-b r"><div class="kk-t" lang="ja">${bkPh(o.rb||o.sd)}</div><div class="kk-k">${o.m}</div></div></div></div></div>`;}
+function kkHint(w){return `<div class="kk-m r"><div class="kk-r"><div class="kk-b r hint"><div class="kk-k">${w.m}</div></div></div></div>`;}
+function kkHtml(){
+  const w=queue[idx],n=queue.length,last=idx+1>=n,role=P.dlgRole||'alt';
+  const roleLb={q:'내가 질문',a:'내가 대답',alt:'번갈아'}[role];
+  const nextAct=phase==='result'?'next':'skip';
+  const head=`<div class="kk-hd"><button class="kk-nv" type="button" data-act="prev"${idx===0?' disabled':''} aria-label="이전">${ic('prev')}</button><div class="kk-ti"><b>${P.chip4==='회화'?'회화 · 도쿄 사무실':'예문 대화'}</b><span>${roleLb} · ${idx+1} / ${n}</span></div><button class="kk-nv" type="button" data-act="${nextAct}" aria-label="다음">${ic('next')}</button></div><div class="kk-pg"><i style="width:${(idx/n)*100}%"></i></div>`;
+  let th=`<div class="kk-day">${P.chip4==='회화'?'도쿄 사무실에서':'오늘의 대화'}</div>`;
+  if(w.dgBefore)th+=kkL(w.dgBefore,false);
+  if(phase==='reveal')th+=kkR(w,'ans','정답');
+  else if(phase==='result')th+=kkR(w,verdict?'ok':'ng',verdict?'✓ 정답':'✗ 다시');
+  else th+=kkHint(w);
+  if(phase==='result'&&!verdict&&heard)th+=`<div class="kk-hr">내 답: ${heard}</div>`;
+  if(phase==='result'&&verdict&&w.dgAfter)th+=kkL(w.dgAfter,true);
+  let bar;
+  if(phase==='listening')bar=`<div class="kk-ph live">듣고 있어요 · 다 말했으면 탭하세요</div><button class="kk-mic live" type="button" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',26)}</button>`;
+  else if(phase==='reveal'||phase==='nomic')bar=`<div class="kk-ph">${phase==='reveal'?'맞게 말했나요?':(msg||'')}</div><button class="kk-gr ng" type="button" data-act="mng">${ui('x',18)}틀렸어요</button><button class="kk-gr ok" type="button" data-act="mok">${ui('check',18)}맞았어요</button>`;
+  else if(phase==='result'&&verdict)bar=`<button class="kk-i" type="button" data-act="listen" aria-label="다시 말하기">${ui('refresh',20)}</button><div class="kk-ph ok">정답이에요 · 다음으로</div><button class="kk-mic next" type="button" data-act="next" aria-label="${last?'결과 보기':'다음'}">${ic(last?'check':'next')}</button>`;
+  else if(phase==='result')bar=`<div class="kk-ph">다시 말해 볼까요?</div><button class="kk-gr" type="button" data-act="skip">넘어가기</button><button class="kk-mic" type="button" data-act="listen" aria-label="다시 말하기">${ui('mic',26)}</button>`;
+  else bar=`<button class="kk-i" type="button" data-act="reveal" aria-label="정답 보기">${ui('eye',20)}</button><div class="kk-ph">${msg||'내 차례 · 마이크를 눌러 말하세요'}</div><button class="kk-mic" type="button" data-act="listen" aria-label="말하기">${ui('mic',26)}</button>`;
+  return `<div class="kk">${head}<div class="kk-th">${th}</div><div class="kk-bar">${bar}</div></div>`;
 }
 function bkAct(b){
   const a=b.dataset.bk;
@@ -3885,8 +4163,15 @@ function renderChips(){
   const bt=(t,lb)=>`<button class="tab" data-level="${t}${curN}" aria-pressed="${curT===t}">${lb}</button>`;
   const segHtml=`<div class="lsn-seg${bookL?' five':''}">${bookL?bt('B','교재'):''}${bt('L','학습')}${bt('M','뜻')}${bt('S','말하기')}${bt('Q','퀴즈')}</div>`;
   const chipsHtml=(bookL&&curT!=='B')?`<div class="lsn-chips" role="group" aria-label="연습할 내용">${CHIPS4.map(c=>`<button class="chip4" type="button" data-chip4="${c}" aria-pressed="${(P.chip4||'전체')===c}">${c}</button>`).join('')}</div>`:'';
-  const dlgChips=(bookL&&curT==='S'&&['예문','회화'].includes(P.chip4))?`<div class="lsn-seg dm"><button class="tab" type="button" data-dmode="follow" aria-pressed="${(P.dlgMode||'dialog')==='follow'}">따라 읽기</button><button class="tab" type="button" data-dmode="dialog" aria-pressed="${(P.dlgMode||'dialog')==='dialog'}">대화</button></div>${(P.dlgMode||'dialog')==='dialog'?`<div class="lsn-chips">${[['q','내가 질문'],['a','내가 대답'],['alt','번갈아']].map(([v,lb])=>`<button class="chip4" type="button" data-drole="${v}" aria-pressed="${(P.dlgRole||'alt')===v}">${lb}</button>`).join('')}</div>`:''}`:'';
+  const dlgChips=(bookL&&curT==='S'&&['예문','회화'].includes(P.chip4))?(()=>{const dm=P.dlgMode||'dialog',role=P.dlgRole||'alt',dl=dm==='dialog';
+    return `<div class="mr4"><div class="sw4 ${dl?'r':'l'}" role="group" aria-label="연습 방식"><button type="button" data-dmode="follow" class="${dl?'':'on'}" aria-pressed="${!dl}">읽기</button><button type="button" data-dmode="dialog" class="${dl?'on':''}" aria-pressed="${dl}">대화</button></div>${dl?`<div class="rt4" role="group" aria-label="역할">${[['q','질문'],['a','대답'],['alt','번갈아']].map(([v,l])=>`<button type="button" data-drole="${v}" class="${role===v?'on':''}" aria-pressed="${role===v}">${l}</button>`).join('')}</div>`:''}</div>`;})():'';
+  const prevSc=[...tabsEl.querySelectorAll('.lsn-chips')].map(e=>e.scrollLeft);
   tabsEl.innerHTML=`<div class="lsn-top">${rowHtml}</div>`+segHtml+chipsHtml+dlgChips+hintHtml;
+  tabsEl.querySelectorAll('.lsn-chips').forEach((e,i)=>{
+    if(prevSc[i])e.scrollLeft=prevSc[i];
+    const on=e.querySelector('[aria-pressed="true"]');
+    if(on){const l=on.offsetLeft,r=l+on.offsetWidth;if(l<e.scrollLeft+8)e.scrollLeft=Math.max(0,l-16);else if(r>e.scrollLeft+e.clientWidth-8)e.scrollLeft=r-e.clientWidth+16;}
+  });
 }
 
 /* ===== 단어장: 모든 단어를 히라가나(あいうえお) 순서로, 사전처럼 ===== */
@@ -4205,11 +4490,11 @@ function render(){
   const hot=phase==='nomic'||(noSound.i===idx&&noSound.c>=2);
   const eyeB=sb('reveal','eye','정답 보기',hot?'hot':'');
   const micMain=`<button class="mic" data-act="listen" aria-label="${(Q&&qm==='k2j')||JS?'말하기 (마이크)':'읽기 (마이크)'}">${ui('mic',36)}</button>`;
-  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${ja?((W.find(x=>x.k===o)||{}).sd||o):o}</span><span class="sp"></span></button>`).join('')}</div>`;
+  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}${w.c==='문장'?' sm':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${ja?((W.find(x=>x.k===o)||{}).sd||o):o}</span><span class="sp"></span></button>`).join('')}</div>`;
   const instr=w.kana?['같은 글자를 3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n<=2?['3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n===3?['2번 이어서 읽어보세요',`${w.k}　${w.k}`]:['소리 내어 읽어보세요',''];
   let body='';
   if(BL&&phase==='ask'){
-    body=`<div class="qz"><div class="mean">${w.m}</div></div><div class="sentbox s4" lang="ja">${w.bl.t}</div><div class="status" id="status">알맞은 말을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
+    body=`<div class="qz qs"><div class="mean">${w.m}</div></div><div class="sentbox s4" lang="ja">${w.bl.t}</div><div class="status" id="status">알맞은 말을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
   }else if(J&&!JS&&phase==='ask'){
     body=`${boxes(w,'',.8)}<div class="status" id="status">뜻을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
   }else if(PR&&phase==='ask'){
@@ -4219,7 +4504,7 @@ function render(){
   }else if(JS&&(phase==='ask'||phase==='nomic')){
     body=`${boxes(w)}<div class="status" id="status">${msg||'뜻을 한국어로 말해보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(Q&&qm==='k2j'&&(phase==='ask'||phase==='nomic')){
-    body=`${w.dgBefore&&phase==='ask'?dgBub(w.dgBefore,'l'):''}${quizPrompt(w)}<div class="status" id="status">${msg||(dlgQ?'뜻을 보고 내 차례의 말을 해보세요':'뜻을 보고 일본어로 말해보세요')}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
+    body=`${dlgQ?dgThread(w,'ask'):quizPrompt(w)}<div class="status" id="status">${msg||(dlgQ?'내 차례예요. 말해 보세요':'뜻을 보고 일본어로 말해보세요')}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(w.l4&&!Q&&(phase==='ask'||phase==='nomic')){
     body=`<div class="sentbox s4" lang="ja">${s4Html(w)}</div><div class="s4m">${w.m}</div><div class="status" id="status">${msg||'듣고 따라 읽어보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(sb('speak','volume','듣기'))}`;
   }else if(phase==='ask'||phase==='nomic'){
@@ -4227,10 +4512,10 @@ function render(){
   }else if(phase==='listening'){
     body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>${rowA(`<button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button>`)}<div class="mic-cap">다 말했으면 탭하세요</div>${rowB(eyeB)}`;
   }else if(phase==='reveal'){
-    body=`${answer(w)}${exPanel(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
+    body=`${dlgQ?dgThread(w,'reveal'):answer(w)+exPanel(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }else if(phase==='result'){
     const hd=heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 「${String(heardRaw||'').replace(/[<>&]/g,'')}」(으)로 인식됐어요. 히라가나로 바꿀 수 없는 글자예요`:'');
-    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${exPanel(w)}${w.dgAfter&&verdict?dgBub(w.dgAfter,'l'):''}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
+    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${dlgQ?dgThread(w,'result'):answer(w)+exPanel(w)}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }
   const seqbar='';   /* 단어로 바로 가는 목차·번호 이동은 없앰 */
   m.innerHTML=`${seqbar}<div class="card${Q?((J||PR||KC)?' j2k':' k2j'):''}">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${body}</div>`;
