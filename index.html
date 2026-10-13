@@ -1307,6 +1307,64 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 .ch-icon.ml-ok svg{width:24px;height:24px}
 
 .mp-w .j .u .a{font-size:13px;letter-spacing:0}
+
+/* ===== Lesson 4 교재 메뉴 · 내용 칩 · 교재 페이지 ===== */
+.lsn-seg.five .tab{font-size:14.5px;padding-left:2px;padding-right:2px}
+.lsn-chips{display:flex;gap:7px;margin-top:11px;overflow-x:auto;padding:1px 1px 3px;scrollbar-width:none}
+.lsn-chips::-webkit-scrollbar{display:none}
+.chip4{flex:none;height:34px;margin:0;padding:0 14px;border-radius:17px;border:1px solid var(--line);background:var(--card);color:#5A6482;font:700 13.5px "Noto Sans KR",sans-serif;cursor:pointer;white-space:nowrap}
+.chip4[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.bk{margin-top:12px}
+.bk-sec{margin-top:8px;background:var(--card);border-radius:22px;box-shadow:0 1px 2px rgba(20,33,74,.06);overflow:hidden}
+.bk-h{display:flex;align-items:center;gap:10px;width:100%;margin:0;padding:0 18px;height:54px;border:0;background:transparent;text-align:left;font:inherit;cursor:pointer;color:var(--ink)}
+.bk-h b{font:800 16px "Noto Sans KR",sans-serif}
+.bk-h span{margin-left:auto;font:600 13px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-h i{display:flex;width:20px;height:20px;color:var(--sub);transition:transform .2s}
+.bk-h i svg{width:20px;height:20px}
+.bk-sec.open .bk-h i{transform:rotate(180deg)}
+.bk-b{display:none;padding:0 18px 16px}
+.bk-sec.open .bk-b{display:block}
+.bk-nums{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.bk-nums button{margin:0;padding:6px 0 7px;border:0;border-radius:12px;background:#F2F5F9;color:var(--ink);cursor:pointer;font-family:inherit}
+.bk-nums b{display:block;font:800 20px "Noto Sans KR",sans-serif}
+.bk-nums small{font:600 11.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-form{margin-top:14px}
+.bk-f{padding:11px 0;border-top:1px solid var(--line)}
+.bk-fa{font:700 18px "Noto Sans JP","Noto Sans KR",sans-serif;color:var(--navy)}
+.bk-fb{margin-top:2px;font:700 14.5px "Noto Sans KR",sans-serif}
+.bk-fc{margin-top:2px;font:500 13px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.bk-b>.bk-row:first-child{border-top:0}
+.bk-t{flex:1;min-width:0}
+.bk-jp{font:500 22px/1.1 "Noto Sans JP","Noto Sans KR",sans-serif;color:var(--ink)}
+.bk-jp .u .a{font-size:11px;min-height:13px;line-height:13px}
+.bk-kj{margin-left:8px;font:500 15px "Noto Sans JP",sans-serif;color:var(--sub)}
+.bk-m{margin-top:3px;font:500 13.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-m small{color:#8A93A8}
+.bk-sp{flex:none;width:38px;height:38px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.bk-sp svg{width:20px;height:20px}
+.bk-who{flex:none;min-width:30px;font:800 12px "Noto Sans KR",sans-serif;color:#4A3FB8;background:rgba(90,79,207,.12);border-radius:10px;padding:3px 8px;text-align:center}
+.bk-pair{position:relative;padding-left:26px;border-top:1px solid var(--line)}
+.bk-pair:first-child{border-top:0}
+.bk-pair .bk-row{border-top:0;padding:6px 0}
+.bk-no{position:absolute;left:0;top:14px;font:800 14px "Noto Sans KR",sans-serif;color:var(--sub)}
+.bk-go{display:flex;align-items:center;gap:4px;margin:12px 0 0 auto;height:34px;padding:0 10px 0 14px;border:1px solid var(--line);border-radius:17px;background:var(--card);color:var(--navy);font:700 13.5px "Noto Sans KR",sans-serif;cursor:pointer}
+.bk-go .ic{display:flex;width:16px;height:16px;line-height:0}.bk-go svg{width:16px;height:16px}
+
+/* ===== 대화 · 빈칸 · 교재 문장 카드 ===== */
+.lsn-seg.dm{height:40px;margin-top:10px}
+.lsn-seg.dm .tab{font-size:14px}
+.dg-b{position:relative;margin:12px 0 4px;padding:10px 46px 10px 14px;border-radius:18px;border-top-left-radius:6px;background:#EEF1F7;text-align:left}
+.dg-w{display:inline-block;margin-bottom:3px;font:800 11.5px "Noto Sans KR",sans-serif;color:#4A3FB8;background:rgba(90,79,207,.12);border-radius:9px;padding:2px 8px}
+.dg-t{font:500 19px/1.35 "Noto Sans JP","Noto Sans KR",sans-serif;color:var(--ink)}
+.dg-m{margin-top:2px;font:500 12.5px "Noto Sans KR",sans-serif;color:var(--sub)}
+.dg-s{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;margin:0;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.dg-s svg{width:18px;height:18px}
+.sentbox.s4{font-size:29px;line-height:1.35;margin:16px 0 4px}
+.sentbox.s4 .ph{display:inline-block;white-space:nowrap}
+.s4m{text-align:center;color:var(--sub);font:500 15px "Noto Sans KR",sans-serif;margin:2px 0 6px}
+.bk-jp .ph{display:inline-block;white-space:nowrap}
+.bk-jp{font-size:19px}
 </style>
 </head>
 <body>
@@ -1365,7 +1423,7 @@ const RAW = `# 동물
 えび|海老|새우|🦐
 むし|虫|벌레|🐛
 ちょうちょう|蝶々/蝶/ちょうちょ|나비|🦋
-はち|蜂|벌|🐝
+はち|蜂/八|벌 · 8 (팔)|🐝
 あり|蟻|개미|🐜
 はと|鳩|비둘기|🕊️
 ぺんぎん||펭귄|🐧
@@ -1961,7 +2019,20 @@ const RAW = `# 동물
 けってい|決定|결정|✅
 じゃっかん|若干|약간|🤏
 おつかれさまでした|お疲れ様でした/お疲れさまでした|수고하셨습니다|🙌
-しゅっぱつ|出発|출발|🚀`;
+しゅっぱつ|出発|출발|🚀
+ぜろ|零/0|0 (영)|0️⃣
+にー|二/2|2 (이)|2️⃣
+ごー|五/5|5 (오)|5️⃣
+あなた|貴方|당신|🫵
+かいしゃいん|会社員|회사원|🧑‍💼
+しゃちょう|社長|사장(님)|👔
+かんこくじん|韓国人|한국 사람|🇰🇷
+だれ|誰|누구|❓
+なんさい|何歳|몇 살|🎂
+りーだー||리더|🧭
+あのひと|あの人|저 사람|👉
+じけん|事件|사건|📰
+みょうじ|苗字|성(이름의 성)|🪪`;
 
 const RAWK = `# 청음
 あ|아|あり|개미|🐜
@@ -2117,7 +2188,33 @@ RAW.trim().split('\n').forEach(l=>{
   W.push({k,alts:kjf?kjf.split('/').filter(Boolean):[],m,e,c:curCat,n:units(k).length,au:!!kjf});
 });
 const RAWS=[{"k": "おはようございます。", "sd": "おはよう ございます。", "jp": "おはようございます。", "pr": "오하요ー고자이마스", "m": "안녕하세요(아침 인사)", "e": "🌅", "rb": "おはようございます。"}, {"k": "こんにちは。", "sd": "こんにちは。", "jp": "こんにちは。", "pr": "곤니치와", "m": "안녕하세요(낮 인사)", "e": "☀️", "rb": "こんにちは。"}, {"k": "こんばんは。", "sd": "こんばんは。", "jp": "こんばんは。", "pr": "곤반와", "m": "안녕하세요(저녁 인사)", "e": "🌙", "rb": "こんばんは。"}, {"k": "おやすみなさい。", "sd": "おやすみ なさい。", "jp": "おやすみなさい。", "pr": "오야스미나사이", "m": "안녕히 주무세요", "e": "😴", "rb": "おやすみなさい。"}, {"k": "さようなら。", "sd": "さようなら。", "jp": "さようなら。", "pr": "사요ー나라", "m": "안녕히 가세요", "e": "👋", "rb": "さようなら。"}, {"k": "またあした。", "sd": "また あした。", "jp": "また明日。", "pr": "마타 아시타", "m": "내일 또 만나요", "e": "📅", "rb": "また明日{あした}。"}, {"k": "はじめまして。", "sd": "はじめまして。", "jp": "はじめまして。", "pr": "하지메마시테", "m": "처음 뵙겠습니다", "e": "🤝", "rb": "はじめまして。"}, {"k": "どうぞよろしくおねがいします。", "sd": "どうぞ よろしく おねがいします。", "jp": "どうぞよろしくお願いします。", "pr": "도ー조 요로시쿠 오네가이시마스", "m": "잘 부탁드립니다", "e": "🙇", "rb": "どうぞよろしくお願{ねが}いします。"}, {"k": "おげんきですか？", "sd": "おげんきですか？", "jp": "お元気ですか？", "pr": "오겡키데스카", "m": "잘 지내세요?", "e": "🙂", "rb": "お元気{げんき}ですか？"}, {"k": "げんきです。", "sd": "げんきです。", "jp": "元気です。", "pr": "겡키데스", "m": "잘 지내요", "e": "😊", "rb": "元気{げんき}です。"}, {"k": "ありがとうございます。", "sd": "ありがとう ございます。", "jp": "ありがとうございます。", "pr": "아리가토ー고자이마스", "m": "감사합니다", "e": "🙏", "rb": "ありがとうございます。"}, {"k": "どういたしまして。", "sd": "どういたしまして。", "jp": "どういたしまして。", "pr": "도ー이타시마시테", "m": "천만에요", "e": "😊", "rb": "どういたしまして。"}, {"k": "すみません。", "sd": "すみません。", "jp": "すみません。", "pr": "스미마셍", "m": "죄송합니다 · 실례합니다", "e": "🙇", "rb": "すみません。"}, {"k": "ごめんなさい。", "sd": "ごめん なさい。", "jp": "ごめんなさい。", "pr": "고멘나사이", "m": "미안해요", "e": "😢", "rb": "ごめんなさい。"}, {"k": "おねがいします。", "sd": "おねがいします。", "jp": "お願いします。", "pr": "오네가이시마스", "m": "부탁합니다", "e": "🙏", "rb": "お願{ねが}いします。"}, {"k": "どうぞ。", "sd": "どうぞ。", "jp": "どうぞ。", "pr": "도ー조", "m": "여기 있어요 · 어서 하세요", "e": "🙌", "rb": "どうぞ。"}, {"k": "いただきます。", "sd": "いただきます。", "jp": "いただきます。", "pr": "이타다키마스", "m": "잘 먹겠습니다", "e": "🍽️", "rb": "いただきます。"}, {"k": "ごちそうさまでした。", "sd": "ごちそうさまでした。", "jp": "ご馳走様でした。", "pr": "고치소ー사마데시타", "m": "잘 먹었습니다", "e": "😋", "rb": "ご馳走様{ちそうさま}でした。"}, {"k": "おつかれさまです。", "sd": "おつかれさまです。", "jp": "お疲れ様です。", "pr": "오쓰카레사마데스", "m": "수고하셨습니다", "e": "🙌", "rb": "お疲{つか}れ様{さま}です。"}, {"k": "おめでとうございます。", "sd": "おめでとう ございます。", "jp": "おめでとうございます。", "pr": "오메데토ー고자이마스", "m": "축하합니다", "e": "🎉", "rb": "おめでとうございます。"}, {"k": "いってきます。", "sd": "いってきます。", "jp": "行ってきます。", "pr": "잇테키마스", "m": "다녀오겠습니다", "e": "🚪", "rb": "行{い}ってきます。"}, {"k": "いってらっしゃい。", "sd": "いってらっしゃい。", "jp": "行ってらっしゃい。", "pr": "잇테랏샤이", "m": "다녀오세요", "e": "👋", "rb": "行{い}ってらっしゃい。"}, {"k": "ただいま。", "sd": "ただいま。", "jp": "ただいま。", "pr": "타다이마", "m": "다녀왔어요", "e": "🏠", "rb": "ただいま。"}, {"k": "おかえりなさい。", "sd": "おかえり なさい。", "jp": "お帰りなさい。", "pr": "오카에리나사이", "m": "어서 와요", "e": "🏡", "rb": "お帰{かえ}りなさい。"}, {"k": "おひさしぶりです。", "sd": "おひさしぶりです。", "jp": "お久しぶりです。", "pr": "오히사시부리데스", "m": "오랜만이에요", "e": "🤗", "rb": "お久{ひさ}しぶりです。"}, {"k": "おだいじに。", "sd": "おだいじに。", "jp": "お大事に。", "pr": "오다이지니", "m": "몸조리 잘하세요", "e": "🍀", "rb": "お大事{だいじ}に。"}, {"k": "おまたせしました。", "sd": "おまたせ しました。", "jp": "お待たせしました。", "pr": "오마타세 시마시타", "m": "기다리셨죠", "e": "🙇", "rb": "お待{ま}たせしました。"}, {"k": "しつれいします。", "sd": "しつれい します。", "jp": "失礼します。", "pr": "시쓰레ー시마스", "m": "실례하겠습니다", "e": "🚪", "rb": "失礼{しつれい}します。"}, {"k": "いいですね。", "sd": "いいですね。", "jp": "いいですね。", "pr": "이ー데스네", "m": "좋네요", "e": "👍", "rb": "いいですね。"}, {"k": "すごいですね。", "sd": "すごいですね。", "jp": "すごいですね。", "pr": "스고이데스네", "m": "대단하네요", "e": "👏", "rb": "すごいですね。"}, {"k": "わたしはかんこくじんです。", "sd": "わたしは かんこくじんです。", "jp": "私は韓国人です。", "pr": "와타시와 캉코쿠진데스", "m": "저는 한국 사람이에요", "e": "🇰🇷", "rb": "私{わたし}は韓国人{かんこくじん}です。"}, {"k": "わたしのなまえはへらです。", "sd": "わたしの なまえは へらです。", "jp": "私の名前はヘラです。", "pr": "와타시노 나마에와 헤라데스", "m": "제 이름은 헤라예요", "e": "🏷️", "rb": "私{わたし}の名前{なまえ}はヘラです。"}, {"k": "おなまえはなんですか？", "sd": "おなまえは なんですか？", "jp": "お名前は何ですか？", "pr": "오나마에와 난데스카", "m": "이름이 뭐예요?", "e": "❓", "rb": "お名前{なまえ}は何{なん}ですか？"}, {"k": "どこからきましたか？", "sd": "どこから きましたか？", "jp": "どこから来ましたか？", "pr": "도코카라 키마시타카", "m": "어디에서 오셨어요?", "e": "🌏", "rb": "どこから来{き}ましたか？"}, {"k": "かんこくからきました。", "sd": "かんこくから きました。", "jp": "韓国から来ました。", "pr": "캉코쿠카라 키마시타", "m": "한국에서 왔어요", "e": "✈️", "rb": "韓国{かんこく}から来{き}ました。"}, {"k": "にほんごがすこしわかります。", "sd": "にほんごが すこし わかります。", "jp": "日本語が少し分かります。", "pr": "니혼고가 스코시 와카리마스", "m": "일본어를 조금 알아요", "e": "🗣️", "rb": "日本語{にほんご}が少{すこ}し分{わ}かります。"}, {"k": "にほんごをべんきょうしています。", "sd": "にほんごを べんきょう しています。", "jp": "日本語を勉強しています。", "pr": "니혼고오 벵쿄ー 시테 이마스", "m": "일본어를 공부하고 있어요", "e": "📖", "rb": "日本語{にほんご}を勉強{べんきょう}しています。"}, {"k": "わたしはかいしゃいんです。", "sd": "わたしは かいしゃいんです。", "jp": "私は会社員です。", "pr": "와타시와 카이샤인데스", "m": "저는 회사원이에요", "e": "💼", "rb": "私{わたし}は会社員{かいしゃいん}です。"}, {"k": "おあいできてうれしいです。", "sd": "おあいできて うれしいです。", "jp": "お会いできて嬉しいです。", "pr": "오아이데키테 우레시ー데스", "m": "만나서 기뻐요", "e": "😄", "rb": "お会{あ}いできて嬉{うれ}しいです。"}, {"k": "おなまえをおしえてください。", "sd": "おなまえを おしえて ください。", "jp": "お名前を教えてください。", "pr": "오나마에오 오시에테 쿠다사이", "m": "이름을 알려 주세요", "e": "📝", "rb": "お名前{なまえ}を教{おし}えてください。"}, {"k": "わかりました。", "sd": "わかりました。", "jp": "分かりました。", "pr": "와카리마시타", "m": "알겠습니다", "e": "👌", "rb": "分{わ}かりました。"}, {"k": "わかりません。", "sd": "わかりません。", "jp": "分かりません。", "pr": "와카리마셍", "m": "모르겠어요", "e": "❓", "rb": "分{わ}かりません。"}, {"k": "もういちどおねがいします。", "sd": "もう いちど おねがいします。", "jp": "もう一度お願いします。", "pr": "모ー 이치도 오네가이시마스", "m": "한 번 더 부탁해요", "e": "🔁", "rb": "もう一度{いちど}お願{ねが}いします。"}, {"k": "ゆっくりはなしてください。", "sd": "ゆっくり はなして ください。", "jp": "ゆっくり話してください。", "pr": "윳쿠리 하나시테 쿠다사이", "m": "천천히 말해 주세요", "e": "🐢", "rb": "ゆっくり話{はな}してください。"}, {"k": "ちょっとまってください。", "sd": "ちょっと まって ください。", "jp": "ちょっと待ってください。", "pr": "춋토 맛테 쿠다사이", "m": "잠깐만 기다려 주세요", "e": "⏳", "rb": "ちょっと待{ま}ってください。"}, {"k": "どういういみですか？", "sd": "どういう いみですか？", "jp": "どういう意味ですか？", "pr": "도ー이우 이미데스카", "m": "무슨 뜻이에요?", "e": "🤔", "rb": "どういう意味{いみ}ですか？"}, {"k": "いまなんといいましたか？", "sd": "いま なんと いいましたか？", "jp": "今何と言いましたか？", "pr": "이마 난토 이이마시타카", "m": "지금 뭐라고 하셨어요?", "e": "👂", "rb": "今何{いまなん}と言{い}いましたか？"}, {"k": "ええ、そうです。", "sd": "ええ、そうです。", "jp": "ええ、そうです。", "pr": "에ー 소ー데스", "m": "네, 맞아요", "e": "✅", "rb": "ええ、そうです。"}, {"k": "いいえ、ちがいます。", "sd": "いいえ、ちがいます。", "jp": "いいえ、違います。", "pr": "이ー에 치가이마스", "m": "아니요, 아니에요", "e": "❌", "rb": "いいえ、違{ちが}います。"}, {"k": "はい、だいじょうぶです。", "sd": "はい、だいじょうぶです。", "jp": "はい、大丈夫です。", "pr": "하이 다이조ー부데스", "m": "네, 괜찮아요", "e": "👌", "rb": "はい、大丈夫{だいじょうぶ}です。"}, {"k": "これはなんですか？", "sd": "これは なんですか？", "jp": "これは何ですか？", "pr": "코레와 난데스카", "m": "이건 뭐예요?", "e": "❓", "rb": "これは何{なん}ですか？"}, {"k": "あれはなんですか？", "sd": "あれは なんですか？", "jp": "あれは何ですか？", "pr": "아레와 난데스카", "m": "저건 뭐예요?", "e": "👉", "rb": "あれは何{なん}ですか？"}, {"k": "いくらですか？", "sd": "いくらですか？", "jp": "いくらですか？", "pr": "이쿠라데스카", "m": "얼마예요?", "e": "💴", "rb": "いくらですか？"}, {"k": "いまなんじですか？", "sd": "いま なんじですか？", "jp": "今何時ですか？", "pr": "이마 난지데스카", "m": "지금 몇 시예요?", "e": "⏰", "rb": "今何時{いまなんじ}ですか？"}, {"k": "きょうはなんようびですか？", "sd": "きょうは なんようびですか？", "jp": "今日は何曜日ですか？", "pr": "쿄ー와 난요ー비데스카", "m": "오늘은 무슨 요일이에요?", "e": "📅", "rb": "今日{きょう}は何曜日{なんようび}ですか？"}, {"k": "だれですか？", "sd": "だれですか？", "jp": "誰ですか？", "pr": "다레데스카", "m": "누구예요?", "e": "🧑", "rb": "誰{だれ}ですか？"}, {"k": "どこにいきますか？", "sd": "どこに いきますか？", "jp": "どこに行きますか？", "pr": "도코니 이키마스카", "m": "어디에 가요?", "e": "🚶", "rb": "どこに行{い}きますか？"}, {"k": "なにをたべますか？", "sd": "なにを たべますか？", "jp": "何を食べますか？", "pr": "나니오 타베마스카", "m": "뭐 먹을래요?", "e": "🍽️", "rb": "何{なに}を食{た}べますか？"}, {"k": "どうしてですか？", "sd": "どうして ですか？", "jp": "どうしてですか？", "pr": "도ー시테데스카", "m": "왜요?", "e": "🤷", "rb": "どうしてですか？"}, {"k": "いくつありますか？", "sd": "いくつ ありますか？", "jp": "いくつありますか？", "pr": "이쿠쓰 아리마스카", "m": "몇 개 있어요?", "e": "🔢", "rb": "いくつありますか？"}, {"k": "おなかがすきました。", "sd": "おなかが すきました。", "jp": "お腹がすきました。", "pr": "오나카가 스키마시타", "m": "배고파요", "e": "🍚", "rb": "お腹{なか}がすきました。"}, {"k": "のどがかわきました。", "sd": "のどが かわきました。", "jp": "喉が渇きました。", "pr": "노도가 카와키마시타", "m": "목말라요", "e": "🥤", "rb": "喉{のど}が渇{かわ}きました。"}, {"k": "めにゅーをおねがいします。", "sd": "めにゅーを おねがいします。", "jp": "メニューをお願いします。", "pr": "메뉴ー오 오네가이시마스", "m": "메뉴 부탁해요", "e": "📋", "rb": "メニューをお願{ねが}いします。"}, {"k": "これをください。", "sd": "これを ください。", "jp": "これをください。", "pr": "코레오 쿠다사이", "m": "이거 주세요", "e": "🛍️", "rb": "これをください。"}, {"k": "おみずをください。", "sd": "おみずを ください。", "jp": "お水をください。", "pr": "오미즈오 쿠다사이", "m": "물 주세요", "e": "💧", "rb": "お水{みず}をください。"}, {"k": "おいしいです。", "sd": "おいしいです。", "jp": "美味しいです。", "pr": "오이시ー데스", "m": "맛있어요", "e": "😋", "rb": "美味{おい}しいです。"}, {"k": "すこしからいです。", "sd": "すこし からいです。", "jp": "少し辛いです。", "pr": "스코시 카라이데스", "m": "조금 매워요", "e": "🌶️", "rb": "少{すこ}し辛{から}いです。"}, {"k": "もうすこしください。", "sd": "もう すこし ください。", "jp": "もう少しください。", "pr": "모ー 스코시 쿠다사이", "m": "조금 더 주세요", "e": "🙏", "rb": "もう少{すこ}しください。"}, {"k": "おかわりをおねがいします。", "sd": "おかわりを おねがいします。", "jp": "おかわりをお願いします。", "pr": "오카와리오 오네가이시마스", "m": "리필 부탁해요", "e": "🔄", "rb": "おかわりをお願{ねが}いします。"}, {"k": "おかいけいをおねがいします。", "sd": "おかいけいを おねがいします。", "jp": "お会計をお願いします。", "pr": "오카이케ー오 오네가이시마스", "m": "계산해 주세요", "e": "🧾", "rb": "お会計{かいけい}をお願{ねが}いします。"}, {"k": "これをみせてください。", "sd": "これを みせて ください。", "jp": "これを見せてください。", "pr": "코레오 미세테 쿠다사이", "m": "이거 보여 주세요", "e": "👀", "rb": "これを見{み}せてください。"}, {"k": "これがほしいです。", "sd": "これが ほしいです。", "jp": "これが欲しいです。", "pr": "코레가 호시ー데스", "m": "이게 갖고 싶어요", "e": "🎁", "rb": "これが欲{ほ}しいです。"}, {"k": "これはすこしたかいです。", "sd": "これは すこし たかいです。", "jp": "これは少し高いです。", "pr": "코레와 스코시 타카이데스", "m": "이건 조금 비싸요", "e": "💰", "rb": "これは少{すこ}し高{たか}いです。"}, {"k": "もうすこしやすくなりますか？", "sd": "もう すこし やすく なりますか？", "jp": "もう少し安くなりますか？", "pr": "모ー 스코시 야스쿠 나리마스카", "m": "조금 더 싸게 되나요?", "e": "🏷️", "rb": "もう少{すこ}し安{やす}くなりますか？"}, {"k": "ほかのいろはありますか？", "sd": "ほかの いろは ありますか？", "jp": "他の色はありますか？", "pr": "호카노 이로와 아리마스카", "m": "다른 색 있어요?", "e": "🎨", "rb": "他{ほか}の色{いろ}はありますか？"}, {"k": "もっとおおきいのはありますか？", "sd": "もっと おおきいのは ありますか？", "jp": "もっと大きいのはありますか？", "pr": "못토 오ー키ー노와 아리마스카", "m": "더 큰 건 있어요?", "e": "📏", "rb": "もっと大{おお}きいのはありますか？"}, {"k": "かーどではらえますか？", "sd": "かーどで はらえますか？", "jp": "カードで払えますか？", "pr": "카ー도데 하라에마스카", "m": "카드로 결제돼요?", "e": "💳", "rb": "カードで払{はら}えますか？"}, {"k": "ふくろはいりません。", "sd": "ふくろは いりません。", "jp": "袋はいりません。", "pr": "후쿠로와 이리마셍", "m": "봉투는 필요 없어요", "e": "🛍️", "rb": "袋{ふくろ}はいりません。"}, {"k": "これをみっつください。", "sd": "これを みっつ ください。", "jp": "これを三つください。", "pr": "코레오 밋쓰 쿠다사이", "m": "이거 세 개 주세요", "e": "3️⃣", "rb": "これを三{みっ}つください。"}, {"k": "れしーとをください。", "sd": "れしーとを ください。", "jp": "レシートをください。", "pr": "레시ー토오 쿠다사이", "m": "영수증 주세요", "e": "🧾", "rb": "レシートをください。"}, {"k": "といれはどこですか？", "sd": "といれは どこですか？", "jp": "トイレはどこですか？", "pr": "토이레와 도코데스카", "m": "화장실은 어디예요?", "e": "🚻", "rb": "トイレはどこですか？"}, {"k": "えきはどこですか？", "sd": "えきは どこですか？", "jp": "駅はどこですか？", "pr": "에키와 도코데스카", "m": "역은 어디예요?", "e": "🚉", "rb": "駅{えき}はどこですか？"}, {"k": "まっすぐいってください。", "sd": "まっすぐ いって ください。", "jp": "まっすぐ行ってください。", "pr": "맛스구 잇테 쿠다사이", "m": "쭉 가세요", "e": "➡️", "rb": "まっすぐ行{い}ってください。"}, {"k": "みぎにまがってください。", "sd": "みぎに まがって ください。", "jp": "右に曲がってください。", "pr": "미기니 마갓테 쿠다사이", "m": "오른쪽으로 도세요", "e": "↪️", "rb": "右{みぎ}に曲{ま}がってください。"}, {"k": "ひだりにまがってください。", "sd": "ひだりに まがって ください。", "jp": "左に曲がってください。", "pr": "히다리니 마갓테 쿠다사이", "m": "왼쪽으로 도세요", "e": "↩️", "rb": "左{ひだり}に曲{ま}がってください。"}, {"k": "ちかいですか？", "sd": "ちかいですか？", "jp": "近いですか？", "pr": "치카이데스카", "m": "가까워요?", "e": "📍", "rb": "近{ちか}いですか？"}, {"k": "とおいですか？", "sd": "とおいですか？", "jp": "遠いですか？", "pr": "토ー이데스카", "m": "멀어요?", "e": "🛣️", "rb": "遠{とお}いですか？"}, {"k": "なんぷんかかりますか？", "sd": "なんぷん かかりますか？", "jp": "何分かかりますか？", "pr": "난푼 카카리마스카", "m": "몇 분 걸려요?", "e": "⏱️", "rb": "何分{なんぷん}かかりますか？"}, {"k": "このでんしゃはとうきょうにいきますか？", "sd": "この でんしゃは とうきょうに いきますか？", "jp": "この電車は東京に行きますか？", "pr": "코노 덴샤와 토ー쿄ー니 이키마스카", "m": "이 전철은 도쿄에 가요?", "e": "🚃", "rb": "この電車{でんしゃ}は東京{とうきょう}に行{い}きますか？"}, {"k": "ここでおろしてください。", "sd": "ここで おろして ください。", "jp": "ここで降ろしてください。", "pr": "코코데 오로시테 쿠다사이", "m": "여기서 내려 주세요", "e": "🚕", "rb": "ここで降{お}ろしてください。"}, {"k": "すきです。", "sd": "すきです。", "jp": "好きです。", "pr": "스키데스", "m": "좋아해요", "e": "❤️", "rb": "好{す}きです。"}, {"k": "だいすきです。", "sd": "だいすきです。", "jp": "大好きです。", "pr": "다이스키데스", "m": "아주 좋아해요", "e": "😍", "rb": "大好{だいす}きです。"}, {"k": "きらいです。", "sd": "きらいです。", "jp": "嫌いです。", "pr": "키라이데스", "m": "싫어해요", "e": "😖", "rb": "嫌{きら}いです。"}, {"k": "たのしいです。", "sd": "たのしいです。", "jp": "楽しいです。", "pr": "타노시ー데스", "m": "즐거워요", "e": "😆", "rb": "楽{たの}しいです。"}, {"k": "うれしいです。", "sd": "うれしいです。", "jp": "嬉しいです。", "pr": "우레시ー데스", "m": "기뻐요", "e": "😊", "rb": "嬉{うれ}しいです。"}, {"k": "つかれました。", "sd": "つかれました。", "jp": "疲れました。", "pr": "쓰카레마시타", "m": "피곤해요", "e": "😮", "rb": "疲{つか}れました。"}, {"k": "ねむいです。", "sd": "ねむいです。", "jp": "眠いです。", "pr": "네무이데스", "m": "졸려요", "e": "😴", "rb": "眠{ねむ}いです。"}, {"k": "いそがしいです。", "sd": "いそがしいです。", "jp": "忙しいです。", "pr": "이소가시ー데스", "m": "바빠요", "e": "🏃", "rb": "忙{いそが}しいです。"}, {"k": "すこしさむいです。", "sd": "すこし さむいです。", "jp": "少し寒いです。", "pr": "스코시 사무이데스", "m": "조금 추워요", "e": "🥶", "rb": "少{すこ}し寒{さむ}いです。"}, {"k": "きょうはあついですね。", "sd": "きょうは あついですね。", "jp": "今日は暑いですね。", "pr": "쿄ー와 아쓰이데스네", "m": "오늘은 덥네요", "e": "🥵", "rb": "今日{きょう}は暑{あつ}いですね。"}];
-RAWS.forEach(o=>{if(SEEN.has(o.k))return;SEEN.add(o.k);if(!CATS.includes('문장'))CATS.push('문장');W.push({k:o.k,alts:[o.jp],m:o.m,e:o.e,c:'문장',n:units(o.k).length,au:true,sd:o.sd,sp:o.jp,pr:o.pr,rb:o.rb});});
+const L4SENT=[
+{l4:'pat',k:'わたしはちょんすじんです。',sd:'わたしは チョン スジンです。',jp:'わたしはチョンスジンです。',rb:'わたしは チョン スジンです。',pr:'와타시와 촌 스진데스',m:'저는 전수진입니다.',e:'🙋‍♀️'},
+{l4:'pat',k:'まつしたさんはかんこくじんじゃありません。',sd:'松下さんは かんこくじん じゃ ありません。',jp:'松下さんはかんこくじんじゃありません。',alts:['松下さんは韓国人じゃありません。','松下さんはかんこくじんではありません。'],rb:'松下{まつした}さんは かんこくじん じゃ ありません。',pr:'마쓰시타상와 캉코쿠징 쟈 아리마셍',m:'마츠시타 씨는 한국인이 아닙니다.',e:'🙅'},
+{l4:'pat',k:'はやかわさんはししゃちょうですか。',sd:'早川さんは ししゃちょう ですか。',jp:'早川さんはししゃちょうですか。',alts:['早川さんは支社長ですか。'],rb:'早川{はやかわ}さんは ししゃちょう ですか。',pr:'하야카와상와 시샤초ー 데스카',m:'하야카와 씨는 지사장입니까?',e:'👔'},
+{l4:'pat',k:'はやかわさんもにほんじんです。',sd:'早川さんも にほんじん です。',jp:'早川さんもにほんじんです。',alts:['早川さんも日本人です。'],rb:'早川{はやかわ}さんも にほんじん です。',pr:'하야카와상모 니혼징 데스',m:'하야카와 씨도 일본인입니다.',e:'🇯🇵'},
+{l4:'ex',k:'ちょんさんですか。',sd:'チョンさんですか。',jp:'チョンさんですか。',rb:'チョンさんですか。',pr:'촌상데스카',m:'(당신은) 전 씨입니까?',e:'🙋'},
+{l4:'ex',k:'はい、ちょんです。',sd:'はい、チョンです。',jp:'はい、チョンです。',rb:'はい、チョンです。',pr:'하이 촌데스',m:'네, (저는) 전입니다.',e:'🙆'},
+{l4:'ex',k:'まつしたさんはかんこくじんですか。',sd:'松下さんは かんこくじん ですか。',jp:'松下さんはかんこくじんですか。',alts:['松下さんは韓国人ですか。'],rb:'松下{まつした}さんは かんこくじん ですか。',pr:'마쓰시타상와 캉코쿠징 데스카',m:'마츠시타 씨는 한국인입니까?',e:'🇰🇷'},
+{l4:'ex',k:'いいえ、かんこくじんじゃありません。にほんじんです。',sd:'いいえ、かんこくじん じゃ ありません。にほんじん です。',jp:'いいえ、かんこくじんじゃありません。にほんじんです。',alts:['いいえ、韓国人じゃありません。日本人です。'],rb:'いいえ、かんこくじん じゃ ありません。にほんじん です。',pr:'이ー에 캉코쿠징 쟈 아리마셍 니혼징 데스',m:'아니요, 한국인이 아닙니다. 일본인입니다.',e:'🇯🇵'},
+{l4:'ex',k:'はやかわさんはしゃちょうですか。',sd:'早川さんは しゃちょう ですか。',jp:'早川さんはしゃちょうですか。',alts:['早川さんは社長ですか。'],rb:'早川{はやかわ}さんは しゃちょう ですか。',pr:'하야카와상와 샤초ー 데스카',m:'하야카와 씨는 사장입니까?',e:'🧑‍💼'},
+{l4:'ex',k:'いいえ、しゃちょうじゃありません。ししゃちょうです。',sd:'いいえ、しゃちょう じゃ ありません。ししゃちょう です。',jp:'いいえ、しゃちょうじゃありません。ししゃちょうです。',alts:['いいえ、社長じゃありません。支社長です。'],rb:'いいえ、しゃちょう じゃ ありません。ししゃちょう です。',pr:'이ー에 샤초ー 쟈 아리마셍 시샤초ー 데스',m:'아니요, 사장이 아닙니다. 지사장입니다.',e:'👔'},
+{l4:'ex',k:'あのひとはだれですか。',sd:'あの ひとは だれ ですか。',jp:'あの人は誰ですか。',alts:['あのひとはだれですか。'],rb:'あの 人{ひと}は 誰{だれ}ですか。',pr:'아노 히토와 다레데스카',m:'저 사람은 누구입니까?',e:'👉'},
+{l4:'ex',k:'まつしたさんです。りーだーです。',sd:'松下さん です。リーダー です。',jp:'松下さんです。リーダーです。',rb:'松下{まつした}さん です。リーダー です。',pr:'마쓰시타상데스 리ー다ー데스',m:'마츠시타 씨입니다. 리더입니다.',e:'🧭'},
+{l4:'ex',k:'まつしたさんはかいしゃいんですか。',sd:'松下さんは かいしゃいん ですか。',jp:'松下さんはかいしゃいんですか。',alts:['松下さんは会社員ですか。'],rb:'松下{まつした}さんは かいしゃいん ですか。',pr:'마쓰시타상와 카이샤인 데스카',m:'마츠시타 씨는 회사원입니까?',e:'🧑‍💼'},
+{l4:'ex',k:'はい、かいしゃいんです。',sd:'はい、かいしゃいん です。',jp:'はい、かいしゃいんです。',alts:['はい、会社員です。'],rb:'はい、かいしゃいん です。',pr:'하이 카이샤인 데스',m:'네, 회사원입니다.',e:'🙆'},
+{l4:'ex',k:'へいりーさんもかいしゃいんですか。',sd:'ヘイリーさんも かいしゃいん ですか。',jp:'ヘイリーさんもかいしゃいんですか。',alts:['ヘイリーさんも会社員ですか。'],rb:'ヘイリーさんも かいしゃいん ですか。',pr:'헤ー리ー상모 카이샤인 데스카',m:'헤일리 씨도 회사원입니까?',e:'🧑‍💼'},
+{l4:'ex',k:'はい、へいりーさんもかいしゃいんです。',sd:'はい、ヘイリーさんも かいしゃいん です。',jp:'はい、ヘイリーさんもかいしゃいんです。',alts:['はい、ヘイリーさんも会社員です。'],rb:'はい、ヘイリーさんも かいしゃいん です。',pr:'하이 헤ー리ー상모 카이샤인 데스',m:'네, 헤일리 씨도 회사원입니다.',e:'🙆'},
+{l4:'ex',k:'ねもちゃんはなんさいですか。',sd:'ネモちゃんは なんさい ですか。',jp:'ネモちゃんはなんさいですか。',alts:['ネモちゃんは何歳ですか。'],rb:'ネモちゃんは 何歳{なんさい}ですか。',pr:'네모챵와 난사이 데스카',m:'네모는 몇 살입니까?',e:'🎂'},
+{l4:'ex',k:'さんさいです。',sd:'3さい です。',jp:'さんさいです。',alts:['3歳です。','三歳です。'],rb:'3歳{さんさい}です。',pr:'산사이 데스',m:'3살입니다.',e:'3️⃣'},
+{l4:'dlg',k:'まつしたさんです。かんこくじんじゃありません。にほんじんです。',sd:'松下さん です。かんこくじん じゃ ありません。にほんじん です。',jp:'松下さんです。かんこくじんじゃありません。にほんじんです。',alts:['松下さんです。韓国人じゃありません。日本人です。'],rb:'松下{まつした}さん です。かんこくじん じゃ ありません。にほんじん です。',pr:'마쓰시타상데스 캉코쿠징 쟈 아리마셍 니혼징 데스',m:'마츠시타 씨입니다. 한국인이 아닙니다. 일본인입니다.',e:'🏢'},
+{l4:'dlg',k:'りーだーですか。',sd:'リーダー ですか。',jp:'リーダーですか。',rb:'リーダー ですか。',pr:'리ー다ー데스카',m:'리더입니까?',e:'🧭'},
+{l4:'dlg',k:'はい、りーだーです。はやかわさんもにほんじんです。',sd:'はい、リーダー です。早川さんも にほんじん です。',jp:'はい、リーダーです。早川さんもにほんじんです。',alts:['はい、リーダーです。早川さんも日本人です。'],rb:'はい、リーダー です。早川{はやかわ}さんも にほんじん です。',pr:'하이 리ー다ー데스 하야카와상모 니혼징 데스',m:'네, 리더입니다. 하야카와 씨도 일본인입니다.',e:'🙆'}
+];
+const L4BLANK={"わたしはちょんすじんです。": ["わたし＿ チョン スジンです。", "は", ["は", "も", "か", "の"]], "まつしたさんはかんこくじんじゃありません。": ["松下さんは ＿＿ じゃ ありません。", "かんこくじん", ["かんこくじん", "にほんじん", "かいしゃいん", "しゃちょう"]], "はやかわさんはししゃちょうですか。": ["早川さんは ＿＿ ですか。", "ししゃちょう", ["ししゃちょう", "しゃちょう", "かいしゃいん", "だれ"]], "はやかわさんもにほんじんです。": ["早川さん＿ にほんじん です。", "も", ["も", "は", "か", "の"]], "まつしたさんはかんこくじんですか。": ["松下さんは かんこくじん ＿＿。", "ですか", ["ですか", "です", "じゃ", "の"]], "あのひとはだれですか。": ["あの ひとは ＿＿ ですか。", "だれ", ["だれ", "なんさい", "かいしゃいん", "リーダー"]], "まつしたさんはかいしゃいんですか。": ["松下さんは かいしゃいん ＿＿。", "ですか", ["ですか", "です", "も", "は"]], "へいりーさんもかいしゃいんですか。": ["ヘイリーさん＿ かいしゃいん ですか。", "も", ["も", "は", "か", "の"]], "ねもちゃんはなんさいですか。": ["ネモちゃんは ＿＿ ですか。", "なんさい", ["なんさい", "だれ", "かいしゃいん", "にほんじん"]], "いいえ、しゃちょうじゃありません。ししゃちょうです。": ["いいえ、しゃちょう ＿＿ ありません。ししゃちょう です。", "じゃ", ["じゃ", "は", "も", "の"]]};
+L4SENT.forEach(o=>{const b=L4BLANK[o.k];if(b)o.bl={t:b[0],a:b[1],o:b[2]};});
+RAWS.push(...L4SENT);
+RAWS.forEach(o=>{if(SEEN.has(o.k))return;SEEN.add(o.k);if(!CATS.includes('문장'))CATS.push('문장');W.push({k:o.k,alts:[o.jp,...(o.alts||[])],m:o.m,e:o.e,c:'문장',n:units(o.k).length,au:true,sd:o.sd,sp:o.jp,pr:o.pr,rb:o.rb,l4:o.l4,bl:o.bl});});
 const HOMO_EXTRA={'せん':['先','戦','専','栓','宣','船','仙'],'いし':['意思','意志','医師'],'くに':['邦'],'みち':['未知'],'あさ':['麻','浅'],'のり':['乗り','法'],'とうし':['闘志','透視'],'きかく':['規格'],'にほん':['二本'],'つき':['突き'],'えき':['益']};
 const HOMO={'かみ':['紙','神','上'],'はな':['華'],'はし':['橋','端'],'なし':['無し'],'あし':['葦'],'かわ':['皮'],'もも':['腿'],'ふく':['福','吹く'],'しお':['潮'],'うた':['唄'],'えき':['液'],'うみ':['膿'],'かさ':['笠'],'くま':['隈'],'かめ':['瓶'],'つき':['付き'],'した':['下'],'ゆき':['行き'],'よる':['寄る'],'あき':['飽き'],'はる':['張る'],'みち':['未知'],'ひと':['一'],'いす':['意酢'],'きた':['来た'],'あさ':['麻'],'ひる':['蛭'],'くも':['雲'],'いぬ':['去ぬ'],'ほん':['本'],'いえ':['言え'],'くち':['朽ち'],'て':['手'],'きく':['菊','効く','利く'],'みる':['診る','観る'],'かく':['描く','掻く','角'],'はやい':['速い']};
 Object.keys(HOMO_EXTRA).forEach(k=>{HOMO[k]=[...new Set([...(HOMO[k]||[]),...HOMO_EXTRA[k]])];});
@@ -2288,11 +2385,25 @@ const LESSON = `
    Lesson 3 / Quiz 3 이 Lesson 탭에 자동으로 생겨요. 새 단어는 위 RAW 의 "# Lesson" 아래에도 한 줄씩 추가하세요. */
 const LESSONS=[];
 LESSON.trim().split('\n').forEach(l=>{l=l.trim();if(!l)return;const h=l.match(/^#\s*Lesson\s*(\d+)/i);if(h){LESSONS.push({n:+h[1],label:'Lesson '+h[1],keys:[]});return;}if(l.startsWith('#'))return;const cur=LESSONS[LESSONS.length-1];if(cur)l.split(/\s+/).forEach(k=>{if(k)cur.keys.push(k);});});
-const LV=l=>{const m=/^([LQSM])(\d+)$/.exec(l||'');return m?{t:m[1],n:+m[2]}:null;};
+/* ===== Lesson 4부터: 교재 (카이토 수업 + 책 구조, 인물은 우리 이름으로) ===== */
+const BOOK4={
+  rev:['ぎんこう','じけん','はっぱ','みょうじ','りょこう'],
+  word:['わたし','あなた','かいしゃいん','しゃちょう','ししゃちょう','りーだー','にほんじん','かんこくじん','だれ','あのひと','なんさい','はい','いいえ'],
+  num:['ぜろ','いち','にー','さん','よん','ごー','ろく','なな','はち','きゅう','じゅう'],
+  pat:L4SENT.filter(o=>o.l4==='pat').map(o=>o.k),
+  ex:L4SENT.filter(o=>o.l4==='ex').map(o=>o.k),
+  dlg:['あのひとはだれですか。',...L4SENT.filter(o=>o.l4==='dlg').map(o=>o.k)]
+};
+LESSONS.push({n:4,label:'Lesson 4',book:true,keys:[...BOOK4.rev,...BOOK4.word,...BOOK4.num,...BOOK4.pat,...BOOK4.ex,...BOOK4.dlg.filter(k=>!BOOK4.ex.includes(k))]});
+const CHIPS4=['전체','복습','단어','숫자','문형','예문','회화'];
+const CHIPKEY={'복습':'rev','단어':'word','숫자':'num','문형':'pat','예문':'ex','회화':'dlg'};
+const chipOk=(n,w)=>{const L=LESSONS.find(x=>x.n===n);if(!L||!L.book)return true;const c=P.chip4||'전체';if(c==='전체')return true;const set=BOOK4[CHIPKEY[c]];return !!set&&set.includes(w.k);};
+const LV=l=>{const m=/^([LQSMB])(\d+)$/.exec(l||'');return m?{t:m[1],n:+m[2]}:null;};
+const isBookLevel=l=>{const v=LV(l);if(!v||v.t!=='B')return false;const L=LESSONS.find(x=>x.n===v.n);return !!(L&&L.book);};
 const GROUPS=[['nemoz','Nemoz',100],['sent','문장',109],['1','1음',101],['2','2음',102],['3','3음',103],['4','4음',104],['5','5음',105],['6','6음+',106],['all','전체',107],['wrong','오답',108]];
 const groupOfN=n=>GROUPS.find(g=>g[2]===n)||null;
 const isGroupLevel=l=>{const v=LV(l);return !!v&&v.n>=100&&!!groupOfN(v.n);};
-const inChip=(w,l)=>l==='sent'?w.c==='문장':l==='all'?w.c!=='문장':l==='wrong'?isWrong(w):l==='nemoz'?w.c==='네모즈':(w.c==='네모즈'||w.c==='문장')?false:l==='6'?w.n>=6:w.n===+l;
+const inChip=(w,l)=>l==='sent'?(w.c==='문장'&&!w.l4):l==='all'?w.c!=='문장':l==='wrong'?isWrong(w):l==='nemoz'?w.c==='네모즈':(w.c==='네모즈'||w.c==='문장')?false:l==='6'?w.n>=6:w.n===+l;
 const lessonOf=l=>{const v=LV(l);if(!v)return null;if(v.n>=100){const g=groupOfN(v.n);return g?{n:g[2],label:g[1],keys:[],group:g[0]}:null;}if(v.n===0)return cloudEmail?{n:0,label:'나의 노트',keys:[]}:null;return LESSONS.find(x=>x.n===v.n)||null;};
 const isLessonLevel=l=>{const v=LV(l);return !!v&&v.t==='L'&&!!lessonOf(l);};
 const isQuizLevel=l=>{const v=LV(l);return !!v&&(v.t==='Q'||v.t==='S'||v.t==='M')&&!!lessonOf(l);};
@@ -2362,8 +2473,9 @@ let rec=null,timer=null;
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 const pronOf=w=>w.kana?w.m:(w.pr||toHangul(w.k));
 function makeOpts(w,mode){
+  if(mode==='blank'&&w.bl)return shuffle(w.bl.o);
   const kindS=w.c==='문장';
-  const words=W.filter(x=>!x.kana&&x.m&&((x.c==='문장')===kindS));
+  const words=W.filter(x=>!x.kana&&x.m&&((x.c==='문장')===kindS)&&(!(kindS&&w.l4)||x.l4));   /* 교재 문장은 같은 수업 문장끼리 보기를 만듦 */
   if(mode==='j2k'){
     const pool=[...new Set(words.map(x=>x.m))].filter(m=>m!==w.m);
     return shuffle([w.m,...shuffle(pool).slice(0,3)]);
@@ -2382,10 +2494,10 @@ function makeOpts(w,mode){
 function genQuiz(){
   if(!isQuizLevel(level)){qmodes=[];qopts=[];qsub=[];return;}
   qmodes=queue.map(w=>w.qmode||'k2j');
-  qsub=queue.map((w,i)=>qmodes[i]==='j2k'?(w.qpref||'choice'):(qmodes[i]==='pron'||qmodes[i]==='k2jc')?'choice':null);
+  qsub=queue.map((w,i)=>qmodes[i]==='j2k'?(w.qpref||'choice'):(qmodes[i]==='pron'||qmodes[i]==='k2jc'||qmodes[i]==='blank')?'choice':null);
   qopts=queue.map((w,i)=>qsub[i]==='choice'?makeOpts(w,qmodes[i]):null);
 }
-const qCorrect=(w,m)=>m==='pron'?pronOf(w):m==='k2jc'?w.k:w.m;
+const qCorrect=(w,m)=>m==='blank'?(w.bl&&w.bl.a):m==='pron'?pronOf(w):m==='k2jc'?w.k:w.m;
 const isKo=()=>isQuizLevel(level)&&qmodes[idx]==='j2k'&&qsub[idx]==='speak';
 const normKo=t=>(t||'').normalize('NFKC').toLowerCase().replace(/[\s·・,，.。!?！？~～\-()（）]/g,'');
 function koVariants(w){
@@ -2457,9 +2569,11 @@ function jumpTo(n){
   else{P.seq=P.seq||{};P.seq[level]=n-1;savePrg();start(level);}
 }
 function start(l){
+  dlgQ=false;dlgSpoken='';
   if(retryOnly&&(LV(l)||{}).n!==retryN)retryOnly=false;   /* 다른 회차로 가면 틀린 것만 모드 해제 */
   level=l;stopRec();resumed=false;tocOpen=false;lsnOpen=false;noSound={i:-1,c:0};
   if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();return;}
+  if(isBookLevel(l)){P.lessonLevel=l;queue=[];idx=0;results=[];qmodes=[];qopts=[];qsub=[];phase='book';msg='';heard='';verdict=null;savePrg();render();return;}   /* 교재: 읽는 페이지 */
   const GL=isGroupLevel(l);
   if(isLessonLevel(l)||isQuizLevel(l)){if(GL)P.groupLevel=l;else if((LV(l)||{}).n!==0)P.lessonLevel=l;}   /* 나의 노트(0)는 Lesson 탭의 마지막 회차로 기억하지 않음 */
   const isQ=isQuizLevel(l),isL=isLessonLevel(l);
@@ -2468,8 +2582,8 @@ function start(l){
     const RTG=retryOnly&&LV(l).n===retryN;   /* 오답풀기: 이 범위에서 오답인 단어만 10개씩 */
     const gl=RTG?lessonWords(LV(l).n).filter(w=>progStatus(w)==='ng'):lessonWords(LV(l).n);gn=gl.length;P.seq=P.seq||{};gst=RTG?0:(P.seq['g'+LV(l).n]||0);if(gst>=gn)gst=0;gchunk=gl.slice(gst,gst+10);
   }
-  const RT=retryOnly&&!GL&&(LV(l)||{}).n>0&&(LV(l)||{}).n===retryN,keepW=w=>!RT||(w.c==='문장'?true:progStatus(w)==='ng');
-  const pool=(GL?gchunk:W.filter(w=>inLevel(w,l)&&inCat(w))).filter(keepW);
+  const RT=retryOnly&&!GL&&(LV(l)||{}).n>0&&(LV(l)||{}).n===retryN,keepW=w=>!RT||(w.c==='문장'?false:progStatus(w)==='ng');
+  const pool=(GL?gchunk:W.filter(w=>inLevel(w,l)&&inCat(w))).filter(keepW).filter(w=>GL||chipOk(LV(l).n,w));
   const mk=(list,f)=>list.map((w,i)=>Object.assign({},w,f(w,i),{seqNo:(GL?gst:0)+i+1,seqTotal:GL?gn:list.length}));
   const base=()=>GL?gchunk:lessonWords(LV(l).n).filter(w=>pool.includes(w));
   if(isL){
@@ -2477,7 +2591,8 @@ function start(l){
   }else if(isMeaningLevel(l)){
     queue=mk(base(),()=>({qmode:'j2k',qpref:'choice'}));
   }else if(isSpeakLevel(l)){
-    queue=mk(base(),()=>({qmode:'k2j',qpref:null}));
+    if(dlgOn(l)){queue=mk(buildDlg(),()=>({}));dlgQ=true;}
+    else queue=mk(base(),()=>({qmode:'k2j',qpref:null}));
   }else if(isQ){
     // 한 라운드 = 그 수업 단어(글자 포함) × 2문제. 한 단어마다 [읽기·말하기·뜻 말하기] 중 하나 + [뜻 고르기·발음 고르기·일본어 고르기] 중 하나를 골라
     // 유형이 골고루 섞이게 하고, 같은 단어가 붙어 나오거나 같은 유형이 3번 연속 나오지 않게 함
@@ -2489,6 +2604,9 @@ function start(l){
     };
     const all=[];
     pool.forEach(w=>{
+      if(w.c==='문장'&&w.l4){   /* 교재 문장: 읽기 1 + 빈칸 고르기 1 (빈칸이 없는 문장은 뜻 고르기) */
+        all.push(Object.assign({},w,{qmode:'read',qpref:null}),Object.assign({},w,w.bl?{qmode:'blank',qpref:null}:{qmode:'j2k',qpref:'choice'}));return;
+      }
       const kind=w.kana?'K':'W';
       const a=pick(kind+'s',w.kana?[['read']]:[['read'],['k2j'],['j2k','speak']]);
       const b=pick(kind+'c',w.kana?[['pron'],['k2jc']]:[['j2k','choice'],['pron'],['k2jc']]);
@@ -2505,13 +2623,13 @@ function start(l){
   idx=0;results=[];phase=queue.length?'ask':'empty';msg='';heard='';verdict=null;
   if(!retryOnly&&(isLessonLevel(l)||isQuizLevel(l)))armHint((LV(l)||{}).n);   /* 오답이 있으면 아래에 잠깐 안내 */
   genQuiz();
-  persistSession();render();
+  persistSession();if(dlgQ){P.session=null;savePrg();}render();
 }
 function fixLevelForMode(){
-  const lsnOk=l=>(isLessonLevel(l)||isQuizLevel(l))&&!isGroupLevel(l)&&((LV(l)||{}).n!==0||!!noteReturn);   /* 나의 노트 학습 화면은 나의 노트에서 열었을 때만 */
+  const lsnOk=l=>(isLessonLevel(l)||isQuizLevel(l)||isBookLevel(l))&&!isGroupLevel(l)&&((LV(l)||{}).n!==0||!!noteReturn);   /* 나의 노트 학습 화면은 나의 노트에서 열었을 때만 */
   const grpOk=l=>(isLessonLevel(l)||isQuizLevel(l))&&isGroupLevel(l);
   if(P.mode==='lesson'){
-    if(!lsnOk(level)){const ll=P.lessonLevel;level=lsnOk(ll)&&(LV(ll)||{}).n!==0?ll:'L'+LESSONS[LESSONS.length-1].n;}
+    if(!lsnOk(level)){const ll=P.lessonLevel;level=lsnOk(ll)&&(LV(ll)||{}).n!==0?ll:((LESSONS[LESSONS.length-1].book?'B':'L')+LESSONS[LESSONS.length-1].n);}
   }else if(P.mode==='seq'){
     if(!grpOk(level)){const gl=P.groupLevel;level=grpOk(gl)?gl:'L100';}
   }
@@ -2613,7 +2731,7 @@ function listen(){
 
 function chooseOpt(i){
   const w=queue[idx];const pick=(qopts[idx]||[])[i];if(pick===undefined)return;
-  const ok=pick===qCorrect(w,qmodes[idx]);heard=pick;heardNoConv=false;verdict=ok;record(w,ok);phase='result';render();speakW(w);
+  const ok=pick===qCorrect(w,qmodes[idx]);heard=pick;heardNoConv=false;verdict=ok;record(w,ok);phase='result';render();if(!(dlgQ&&ok))speakW(w);
 }
 function record(w,ok){
   if(results[idx]===undefined){
@@ -2638,9 +2756,9 @@ function finish(alts,typed){
   const acc=isQuizLevel(level)?new Set(W.filter(x=>x===w||(!x.kana&&w.m&&x.m===w.m)).flatMap(x=>[...accepted(x)])):accepted(w);
   const cand=[];for(const a of alts){const t=toKanaText(a);cand.push(a,t);if(hasKanji(t)){const k=kanaCands(t);if(k)cand.push(...k.slice(0,24));}}
   const ok=cand.some(a=>looseHit(a,acc));
-  heard=ok?w.k:showHeard(alts);heardRaw=String(alts[0]||'').trim();if(typed&&!heard)heard=String(alts[0]||'');heardNoConv=!ok&&!heard;verdict=ok;record(w,ok);phase='result';render();speakW(w);
+  heard=ok?w.k:showHeard(alts);heardRaw=String(alts[0]||'').trim();if(typed&&!heard)heard=String(alts[0]||'');heardNoConv=!ok&&!heard;verdict=ok;record(w,ok);phase='result';render();if(!(dlgQ&&ok))speakW(w);
 }
-function isChoiceNow(){const Q=isQuizLevel(level);if(!Q)return false;const qm=qmodes[idx],J=qm==='j2k',JS=J&&qsub[idx]==='speak';return (J&&!JS)||qm==='pron'||qm==='k2jc';}
+function isChoiceNow(){const Q=isQuizLevel(level);if(!Q)return false;const qm=qmodes[idx],J=qm==='j2k',JS=J&&qsub[idx]==='speak';return (J&&!JS)||qm==='pron'||qm==='k2jc'||qm==='blank';}
 function giveUp(){const w=queue[idx];heard='';heardNoConv=false;verdict=false;record(w,false);phase='result';render();speakW(w);}
 function manual(ok){const w=queue[idx];heard='';verdict=ok;record(w,ok);phase='result';render();}
 function next(){
@@ -3348,7 +3466,7 @@ function audRunStep(){
   const nextWord=()=>at(1300,()=>audGo(1,true));
   const S=AUD.step;
   if(S===0){        /* 단어(일본어) ×3 */
-    audSay(w.sp||w.k,'ja-JP',(w.once?0.95:0.85)*sp,tk,()=>{if(w.once){at(600,()=>audGo(1,true));return;}if(AUD.rep<2){AUD.rep++;again(450);}else go(1,650);});
+    audSay(w.sp||w.k,'ja-JP',(w.once?0.95:0.85)*sp,tk,()=>{if(w.once){at(600,()=>audGo(1,true));return;}if(AUD.rep<2){AUD.rep++;again(450);}else if(w.kana){nextWord();}else go(1,650);});   /* 글자(1음)는 한국어 발음을 읽어 주지 않음 */
   }else if(S===1){  /* 뜻(한국어) ×1 */
     audSay(audKo(w.m),'ko-KR',1*sp,tk,()=>{if(audSentOn(w))go(2,800);else nextWord();});
   }else if(S===2){  /* 예문(일본어) ×3 */
@@ -3595,7 +3713,7 @@ function audOpen(){
     n=-2;list=dictList().slice();label=dictQ.trim()?'검색 결과':'단어장';
     if(!list.length){showToast('들을 단어가 없어요');return;}
     const vis=[...document.querySelectorAll('.dict-item')].find(d=>d.getBoundingClientRect().top>=54);startKey=vis?vis.dataset.dk:'';
-  }else if(isLessonLevel(level)||isQuizLevel(level)){
+  }else if(isLessonLevel(level)||isQuizLevel(level)||isBookLevel(level)){
     const v=LV(level);n=v?v.n:LESSONS[LESSONS.length-1].n;
     if(n===0&&!cloudEmail){promptLogin();return;}
     list=lessonWords(n);label=n===0?'나의 노트':n>=100?(groupOfN(n)||[0,'단어'])[1]:'Lesson '+n;
@@ -3669,6 +3787,64 @@ function renderNotes(m){
   <div class="nt-sort">최근에 담은 순</div>
   <div class="dict-list">${list.map(w=>dictItem(w)).join('')}</div></div>`;
 }
+
+/* ===== 교재 페이지 (Lesson 4~) ===== */
+var BK={open:{pt:true,pat:true,ex:false,dlg:false,word:false,rev:false}};
+function s4Html(w){return mlPhrases(audRuby(w.rb||w.k,[],false));}
+const BK_NUMS=[['0','ぜろ'],['1','いち'],['2','に'],['3','さん'],['4','よん'],['5','ご'],['6','ろく'],['7','なな'],['8','はち'],['9','きゅう'],['10','じゅう']];
+const BK_FORM=[['A は B です。','A는 B입니다.','「は」는 조사로 쓰일 때 「わ」로 읽어요.'],['A は B じゃ ありません。','A는 B가 아닙니다.','「では ありません」이라고도 해요.'],['A は B ですか。','A는 B입니까?','문장 끝에 「か」를 붙이면 질문이 돼요. 대답은 「はい / いいえ」.'],['A も B です。','A도 B입니다.','「も」는 「~도」라는 뜻이에요.']];
+const BK_WORDS=[['わたし'],['あなた'],['〜さん','님 / 씨','이름 뒤에 붙여요'],['〜は','는','조사 (わ로 읽음)'],['〜も','도','조사'],['かいしゃいん'],['しゃちょう'],['ししゃちょう'],['りーだー'],['にほんじん'],['かんこくじん'],['だれ'],['あのひと'],['〜さい','~살','나이를 셀 때'],['なんさい'],['はい'],['いいえ']];
+const bkW=k=>W.find(x=>x.k===k)||{};
+const bkQ=t=>String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const bkJp=w=>`<span class="bk-jp" lang="ja">${w.c==='문장'?mlPhrases(audRuby(w.rb||w.k,[],false)):mlRubyFix(audRuby(w.rb||w.k,[],false))}</span>`;
+const bkSp=t=>`<button class="bk-sp" type="button" data-bk="sp" data-t="${bkQ(t)}" aria-label="듣기">${ui('volume',20)}</button>`;
+const bkLine=(w,who)=>`<div class="bk-row">${who?`<span class="bk-who">${who}</span>`:''}<div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
+function renderBook(m){
+  const n=(LV(level)||{n:4}).n,o=BK.open;
+  const sec=(id,title,sub,body,chip)=>`<section class="bk-sec${o[id]?' open':''}"><button class="bk-h" type="button" data-bk="tog" data-id="${id}" aria-expanded="${!!o[id]}"><b>${title}</b><span>${sub||''}</span><i>${ic('down')}</i></button><div class="bk-b">${body}${chip?`<button class="bk-go" type="button" data-bk="go" data-chip="${chip}">연습하기 ${ic('next')}</button>`:''}</div></section>`;
+  const pts=`<div class="bk-nums">${BK_NUMS.map(([d,r])=>`<button type="button" data-bk="sp" data-t="${r}"><b>${d}</b><small>${r}</small></button>`).join('')}</div>
+    <div class="bk-form">${BK_FORM.map(([a,b,c])=>`<div class="bk-f"><div class="bk-fa" lang="ja">${a}</div><div class="bk-fb">${b}</div><div class="bk-fc">${c}</div></div>`).join('')}</div>`;
+  const pat=BOOK4.pat.map(k=>bkLine(bkW(k))).join('');
+  const exs=[];for(let i=0;i<BOOK4.ex.length;i+=2)exs.push([bkW(BOOK4.ex[i]),bkW(BOOK4.ex[i+1])]);
+  const ex=exs.map((pr,i)=>`<div class="bk-pair"><span class="bk-no">${i+1}</span>${bkLine(pr[0],'Q')}${bkLine(pr[1],'A')}</div>`).join('');
+  const names=['ヘイリー','チョン','ヘイリー','チョン'];
+  const dlg=BOOK4.dlg.map((k,i)=>bkLine(bkW(k),names[i])).join('');
+  const words=BK_WORDS.map(([k,mm,note])=>{const w=bkW(k);const kata={'りーだー':'リーダー'}[k];const jp=kata||(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
+  const rev=BOOK4.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${w.k}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
+  m.innerHTML=`<div class="bk">${sec('pt','오늘의 포인트','숫자 0~10 · 문형',pts,'숫자')}${sec('pat','문형','4개',pat,'문형')}${sec('ex','예문','질문과 대답 '+exs.length+'쌍',ex,'예문')}${sec('dlg','회화','도쿄 사무실에서',dlg,'회화')}${sec('word','단어',BK_WORDS.length+'개',words,'단어')}${sec('rev','복습 읽기','5개',rev,'복습')}</div>`;
+}
+var dlgQ=false,dlgSpoken='';
+const dlgOn=l=>{const v=LV(l);if(!v||v.t!=='S')return false;const L=LESSONS.find(x=>x.n===v.n);return !!(L&&L.book)&&['예문','회화'].includes(P.chip4)&&(P.dlgMode||'dialog')==='dialog';};
+function buildDlg(){
+  const keys=BOOK4[CHIPKEY[P.chip4]]||[],role=P.dlgRole||'alt',out=[];
+  const names=P.chip4==='회화'?['ヘイリー','チョン']:['',''];
+  for(let i=0;i+1<keys.length;i+=2){
+    const q=bkW(keys[i]),a=bkW(keys[i+1]),no=i/2;
+    const meQ=role==='q'||(role==='alt'&&no%2===0);
+    const line=w=>({t:w.sp||w.k,sd:w.sd,m:w.m});
+    if(meQ)out.push(Object.assign({},q,{qmode:'k2j',qpref:null,dgWho:names[0],dgAfter:Object.assign(line(a),{who:names[1]})}));
+    else out.push(Object.assign({},a,{qmode:'k2j',qpref:null,dgWho:names[1],dgBefore:Object.assign(line(q),{who:names[0]})}));
+  }
+  return out;
+}
+const dgBub=(o,cls)=>`<div class="dg-b ${cls}">${o.who?`<span class="dg-w">${o.who}</span>`:`<span class="dg-w">${cls==='l'?'상대':'나'}</span>`}<div class="dg-t" lang="ja">${o.sd}</div><div class="dg-m">${o.m}</div><button class="dg-s" type="button" data-speak="${bkQ(o.t)}" aria-label="듣기">${ui('volume',18)}</button></div>`;
+function dlgAuto(){
+  const w=queue[idx];if(!w||!dlgQ)return;
+  if(phase==='ask'&&w.dgBefore){const key=level+idx+'b';if(dlgSpoken!==key){dlgSpoken=key;setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speak(w.dgBefore.t);},300);}}
+  if(phase==='result'&&verdict&&w.dgAfter){const key=level+idx+'a';if(dlgSpoken!==key){dlgSpoken=key;setTimeout(()=>{if(phase==='result'&&queue[idx]===w)speak(w.dgAfter.t);},600);}}
+}
+var l4Said='';
+function l4Auto(){   /* 학습: 문장 카드가 나오면 먼저 한 번 들려줌 */
+  const w=queue[idx];if(!w||!w.l4||phase!=='ask'||!isLessonLevel(level))return;
+  const key=level+'|'+idx+'|'+w.k;if(key===l4Said)return;l4Said=key;
+  setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},250);
+}
+function bkAct(b){
+  const a=b.dataset.bk;
+  if(a==='tog'){BK.open[b.dataset.id]=!BK.open[b.dataset.id];renderBook($('#main'));return;}
+  if(a==='sp'){speak(b.dataset.t);return;}
+  if(a==='go'){const n=(LV(level)||{n:4}).n;P.chip4=b.dataset.chip;savePrg();retryOnly=false;start('L'+n);window.scrollTo(0,0);}
+}
 function renderChips(){
   updateNoteRow();
   const mode=P.mode||'lesson';
@@ -3705,8 +3881,12 @@ function renderChips(){
   const hintHtml=rtOn
     ?`<div class="lsn-hint on"><span class="l">${ic('refresh')}${rtLeft?`오답풀기 중 · <b>${rtLeft}개</b> 남음`:'오답을 모두 해결했어요'}</span><button type="button" data-retry="off">전체 보기</button></div>`
     :(hintOn?`<button class="lsn-hint tmp" type="button" data-retry="${curN}"><span class="l">${ic('refresh')}오답풀기</span><b>${rtLeft}개</b></button>`:'');
-  tabsEl.innerHTML=`<div class="lsn-top">${rowHtml}</div>`+
-    `<div class="lsn-seg"><button class="tab" data-level="L${curN}" aria-pressed="${curT==='L'}">학습</button><button class="tab" data-level="M${curN}" aria-pressed="${curT==='M'}">뜻</button><button class="tab" data-level="S${curN}" aria-pressed="${curT==='S'}">말하기</button><button class="tab" data-level="Q${curN}" aria-pressed="${curT==='Q'}">퀴즈</button></div>`+hintHtml;
+  const bookL=lessonTab&&curN>0&&!!(LESSONS.find(x=>x.n===curN)||{}).book;
+  const bt=(t,lb)=>`<button class="tab" data-level="${t}${curN}" aria-pressed="${curT===t}">${lb}</button>`;
+  const segHtml=`<div class="lsn-seg${bookL?' five':''}">${bookL?bt('B','교재'):''}${bt('L','학습')}${bt('M','뜻')}${bt('S','말하기')}${bt('Q','퀴즈')}</div>`;
+  const chipsHtml=(bookL&&curT!=='B')?`<div class="lsn-chips" role="group" aria-label="연습할 내용">${CHIPS4.map(c=>`<button class="chip4" type="button" data-chip4="${c}" aria-pressed="${(P.chip4||'전체')===c}">${c}</button>`).join('')}</div>`:'';
+  const dlgChips=(bookL&&curT==='S'&&['예문','회화'].includes(P.chip4))?`<div class="lsn-seg dm"><button class="tab" type="button" data-dmode="follow" aria-pressed="${(P.dlgMode||'dialog')==='follow'}">따라 읽기</button><button class="tab" type="button" data-dmode="dialog" aria-pressed="${(P.dlgMode||'dialog')==='dialog'}">대화</button></div>${(P.dlgMode||'dialog')==='dialog'?`<div class="lsn-chips">${[['q','내가 질문'],['a','내가 대답'],['alt','번갈아']].map(([v,lb])=>`<button class="chip4" type="button" data-drole="${v}" aria-pressed="${(P.dlgRole||'alt')===v}">${lb}</button>`).join('')}</div>`:''}`:'';
+  tabsEl.innerHTML=`<div class="lsn-top">${rowHtml}</div>`+segHtml+chipsHtml+dlgChips+hintHtml;
 }
 
 /* ===== 단어장: 모든 단어를 히라가나(あいうえお) 순서로, 사전처럼 ===== */
@@ -3990,6 +4170,7 @@ function render(){
   if(P.mode!=='dict'&&P.mode!=='notes'&&dictPage){stopWpRec();dictPage=null;}
   if(P.mode==='notes'){if(dictPage)renderDictPage(m);else renderNotes(m);return;}
   if(P.mode==='dict'){if(dictPage)renderDictPage(m);else renderDict(m);return;}
+  if(phase==='book'){renderBook(m);return;}
   if(phase==='empty'){m.innerHTML=`<div class="card"><p class="status">${(level==='star'||(LV(level)&&LV(level).n===0))?'나의 노트가 비어 있어요. 문제 카드 위쪽의 ☆를 눌러 잘 안 외워지는 단어를 담아보세요.':'이 범위에 단어가 없어요. 다른 글자 수나 분류를 골라보세요.'}</p></div>`;return;}
   if(phase==='done'){
     const total=queue.length,ok=results.filter(Boolean).length;
@@ -4010,7 +4191,7 @@ function render(){
   const qm=Q?qmodes[idx]:'';
   const J=Q&&qm==='j2k';
   const JS=J&&qsub[idx]==='speak';
-  const PR=Q&&qm==='pron',KC=Q&&qm==='k2jc',CH=(J&&!JS)||PR||KC;
+  const PR=Q&&qm==='pron',KC=Q&&qm==='k2jc',BL=Q&&qm==='blank',CH=(J&&!JS)||PR||KC||BL;
   CARDW=Math.max(200,(m.clientWidth||innerWidth)-40);
   const lastQ=idx+1>=queue.length;
   const head=`<div class="ch"><div class="ch-n"><b>${w.seqNo||idx+1}</b><span>/ ${w.seqTotal||queue.length}</span></div><div class="ch-r">${statePill(w)}<span class="ch-score">정답 ${okCnt}</span>${starBtn(w.k)}<button class="ch-icon" data-act="speak" aria-label="다시 듣기">${ui('volume',22)}</button></div></div><div class="bar"><i style="width:${(idx/queue.length)*100}%"></i></div>`;
@@ -4027,7 +4208,9 @@ function render(){
   const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${ja?((W.find(x=>x.k===o)||{}).sd||o):o}</span><span class="sp"></span></button>`).join('')}</div>`;
   const instr=w.kana?['같은 글자를 3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n<=2?['3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n===3?['2번 이어서 읽어보세요',`${w.k}　${w.k}`]:['소리 내어 읽어보세요',''];
   let body='';
-  if(J&&!JS&&phase==='ask'){
+  if(BL&&phase==='ask'){
+    body=`<div class="qz"><div class="mean">${w.m}</div></div><div class="sentbox s4" lang="ja">${w.bl.t}</div><div class="status" id="status">알맞은 말을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
+  }else if(J&&!JS&&phase==='ask'){
     body=`${boxes(w,'',.8)}<div class="status" id="status">뜻을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
   }else if(PR&&phase==='ask'){
     body=`${boxes(w,'',.8)}<div class="status" id="status">한글 발음을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
@@ -4036,7 +4219,9 @@ function render(){
   }else if(JS&&(phase==='ask'||phase==='nomic')){
     body=`${boxes(w)}<div class="status" id="status">${msg||'뜻을 한국어로 말해보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(Q&&qm==='k2j'&&(phase==='ask'||phase==='nomic')){
-    body=`${quizPrompt(w)}<div class="status" id="status">${msg||'뜻을 보고 일본어로 말해보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
+    body=`${w.dgBefore&&phase==='ask'?dgBub(w.dgBefore,'l'):''}${quizPrompt(w)}<div class="status" id="status">${msg||(dlgQ?'뜻을 보고 내 차례의 말을 해보세요':'뜻을 보고 일본어로 말해보세요')}</div>${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
+  }else if(w.l4&&!Q&&(phase==='ask'||phase==='nomic')){
+    body=`<div class="sentbox s4" lang="ja">${s4Html(w)}</div><div class="s4m">${w.m}</div><div class="status" id="status">${msg||'듣고 따라 읽어보세요'}</div>${phase==='ask'?rowA(micMain):''}${rowB(sb('speak','volume','듣기'))}`;
   }else if(phase==='ask'||phase==='nomic'){
     body=`${boxes(w)}<div class="status" id="status">${msg||instr[0]}</div>${msg||!instr[1]?'':`<div class="status2">${instr[1]}</div>`}${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(phase==='listening'){
@@ -4045,18 +4230,18 @@ function render(){
     body=`${answer(w)}${exPanel(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }else if(phase==='result'){
     const hd=heard?`${Q?'내 답':'내가 읽은 소리'}: <b>${heard}</b>`:(heardNoConv?`${Q?'내 답':'내가 읽은 소리'}: 「${String(heardRaw||'').replace(/[<>&]/g,'')}」(으)로 인식됐어요. 히라가나로 바꿀 수 없는 글자예요`:'');
-    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${exPanel(w)}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
+    body=`<div class="verdrow"><span class="verd ${verdict?'ok':'ng'}">${ui(verdict?'check':'x',18)}${verdict?'정답':'오답'}</span>${hd?`<span class="heardin">${hd}</span>`:''}</div>${answer(w)}${exPanel(w)}${w.dgAfter&&verdict?dgBub(w.dgAfter,'l'):''}${rowB(`<button class="mic rt" data-act="${SR&&!CH?'listen':'retryq'}" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }
   const seqbar='';   /* 단어로 바로 가는 목차·번호 이동은 없앰 */
   m.innerHTML=`${seqbar}<div class="card${Q?((J||PR||KC)?' j2k':' k2j'):''}">${resumed&&phase==='ask'?'<p class="resume">이전에 하던 라운드를 이어서 진행해요</p>':''}${head}${body}</div>`;
-  fitCard();autoSpeakMeaning();
+  fitCard();autoSpeakMeaning();dlgAuto();l4Auto();
 }
 
 
 document.addEventListener('change',e=>{
   if(e.target&&e.target.id==='mailSel'&&mailData){stopMlRec();mailLive=-1;mailRes={};mailIdx=+e.target.value||0;mailPage=mlFirstUnread(mailData[mailIdx]);render();return;}
   if(e.target&&e.target.id==='lvlSel'){const n=+e.target.value;const t=(LV(level)||{t:'L'}).t;start(t+n);return;}
-  if(e.target&&e.target.id==='lsnSel'){const n=+e.target.value;if(n===0&&!cloudEmail){promptLogin();renderChips();return;}const t=(LV(level)||{t:'L'}).t;start(t+n);}
+  if(e.target&&e.target.id==='lsnSel'){const n=+e.target.value;if(n===0&&!cloudEmail){promptLogin();renderChips();return;}let t=(LV(level)||{t:'L'}).t;const bk=!!((LESSONS.find(x=>x.n===n)||{}).book);if(t==='B'&&!bk)t='L';else if(bk&&n!==(LV(level)||{}).n&&t==='L')t='B';start(t+n);}   /* 교재가 있는 회차로 가면 교재부터 */
 });
 document.addEventListener('click',e=>{
   const stb=e.target.closest('[data-star]');
@@ -4087,6 +4272,10 @@ document.addEventListener('click',e=>{
   if(mlb){mlAct(mlb.dataset.ml,+mlb.dataset.i);return;}
   const mm=e.target.closest('[data-mode]');
   if(mm){retryOnly=false;const wasNotes=P.mode==='lesson'&&(LV(level)||{}).n===0;P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();if(P.mode==='lesson'&&wasNotes)level='L'+LESSONS[LESSONS.length-1].n;savePrg();if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();window.scrollTo(0,0);}else start(level);return;}
+  const dmd=e.target.closest('[data-dmode]');if(dmd){P.dlgMode=dmd.dataset.dmode;savePrg();start(level);return;}
+  const drl=e.target.closest('[data-drole]');if(drl){P.dlgRole=drl.dataset.drole;savePrg();start(level);return;}
+  const ch4=e.target.closest('[data-chip4]');if(ch4){P.chip4=ch4.dataset.chip4;savePrg();retryOnly=false;start(level);return;}
+  const bk=e.target.closest('[data-bk]');if(bk){bkAct(bk);return;}
   const c=e.target.closest('[data-level]');
   if(c){if(P.mode==='notes'){startNotes(c.dataset.level[0]);return;}start(c.dataset.level);return;}
   const sp=e.target.closest('[data-speak]');
