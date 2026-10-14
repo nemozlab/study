@@ -2864,7 +2864,7 @@ function start(l){
   if(retryOnly&&(LV(l)||{}).n!==retryN)retryOnly=false;   /* 다른 회차로 가면 틀린 것만 모드 해제 */
   level=l;stopRec();resumed=false;tocOpen=false;lsnOpen=false;noSound={i:-1,c:0};
   if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();return;}
-  if(isBookLevel(l)){P.lessonLevel=l;queue=[];idx=0;results=[];qmodes=[];qopts=[];qsub=[];phase='book';msg='';heard='';verdict=null;savePrg();render();return;}   /* 교재: 읽는 페이지 */
+  if(isBookLevel(l)){P.lessonLevel=l;P.level=l;P.session=null;P.ts=Date.now();queue=[];idx=0;results=[];qmodes=[];qopts=[];qsub=[];phase='book';msg='';heard='';verdict=null;savePrg();render();return;}   /* 교재: 읽는 페이지 */
   const GL=isGroupLevel(l);
   if(isLessonLevel(l)||isQuizLevel(l)){if(GL)P.groupLevel=l;else if((LV(l)||{}).n!==0)P.lessonLevel=l;}   /* 나의 노트(0)는 Lesson 탭의 마지막 회차로 기억하지 않음 */
   const isQ=isQuizLevel(l),isL=isLessonLevel(l);
