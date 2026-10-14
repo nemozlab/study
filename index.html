@@ -1603,6 +1603,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 /* 역할 토글: 세 칸 너비 동일 */
 .rt4 button{flex:none;width:62px;padding:0;justify-content:center}
 @media (max-width:380px){.rt4 button{width:56px;padding:0}}
+.mp.lock{text-align:center;padding:40px 20px 32px}.lock-ic{font-size:40px;line-height:1;margin-bottom:12px}.lock-t{font:800 18px "Noto Sans KR",sans-serif;color:var(--ink);margin:0 0 8px}
 </style>
 </head>
 <body>
@@ -2270,7 +2271,42 @@ const RAW = `# 동물
 りーだー||리더|🧭
 あのひと|あの人|저 사람|👉
 じけん|事件|사건|📰
-みょうじ|苗字|성(이름의 성)|🪪`;
+みょうじ|苗字|성(이름의 성)|🪪
+はじめまして|初めまして|처음 뵙겠습니다 · 반갑습니다|🤝
+よろしくおねがいします|よろしくお願いします/宜しくお願いします|잘 부탁드립니다|🙇
+がくせい|学生|학생|🎓
+ぎんこういん|銀行員|은행원|🏦
+しゃいん|社員|사원 · 직원|🪪
+あめりか|アメリカ|미국|🇺🇸
+あめりかじん|アメリカ人|미국 사람|🇺🇸
+ちゅうごく|中国|중국|🇨🇳
+ちゅうごくじん|中国人|중국 사람|🇨🇳
+なまえ|名前|이름|🏷️
+おなまえ|お名前|성함 (이름의 높임)|🏷️
+どなた|何方|누구 (정중)|🙋
+あのかた|あの方|저분|👉
+おいくつ|お幾つ|몇 살 (정중)|🎂
+ねもずらぼ|ネモズラボ|네모즈랩|🏢
+じゅうご|十五/15|15 (십오)|🔢
+さんじゅうはち|三十八/38|38 (삼십팔)|🔢
+よんじゅうろく|四十六/46|46 (사십육)|🔢
+はちじゅうろく|八十六/86|86 (팔십육)|🔢
+ひゃく|百/100|100 (백)|💯
+いちまん|一万/1万/10000|10,000 (만) · いち를 꼭 붙여요|🔢
+いちおく|一億/1億|1억|🔢
+ひゃくはち|百八/108|108 (백팔)|🔢
+ひゃくななじゅうに|百七十二/172|172 (백칠십이)|🔢
+さんびゃく|三百/300|300 (삼백) · 예외 발음|🔢
+ろっぴゃく|六百/600|600 (육백) · 예외 발음|🔢
+はっぴゃく|八百/800|800 (팔백) · 예외 발음|🔢
+さんぜん|三千/3000|3,000 (삼천) · 예외 발음|🔢
+ろくせん|六千/6000|6,000 (육천)|🔢
+はっせん|八千/8000|8,000 (팔천) · 예외 발음|🔢
+ごせんさんびゃく|五千三百/5300|5,300 (오천삼백)|🔢
+いちまんさんぜんきゅうひゃくにじゅういち|一万三千九百二十一/1万3921/13921|13,921 (만삼천구백이십일)|🔢
+こちら|此方|이쪽 (사람을 소개할 때)|👉
+きました|来ました|왔습니다|✈️
+どうぞよろしく|どうぞ宜しく|잘 부탁합니다|🙇`;
 
 const RAWK = `# 청음
 あ|아|あり|개미|🐜
@@ -2451,7 +2487,13 @@ const L4SENT=[
 ];
 const L4BLANK={"わたしはちょんすじんです。": ["わたし＿ チョン スジンです。", "は", ["は", "も", "か", "の"]], "まつしたさんはかんこくじんじゃありません。": ["松下さんは ＿＿ じゃ ありません。", "かんこくじん", ["かんこくじん", "にほんじん", "かいしゃいん", "しゃちょう"]], "はやかわさんはししゃちょうですか。": ["早川さんは ＿＿ ですか。", "ししゃちょう", ["ししゃちょう", "しゃちょう", "かいしゃいん", "だれ"]], "はやかわさんもにほんじんです。": ["早川さん＿ にほんじん です。", "も", ["も", "は", "か", "の"]], "まつしたさんはかんこくじんですか。": ["松下さんは かんこくじん ＿＿。", "ですか", ["ですか", "です", "じゃ", "の"]], "あのひとはだれですか。": ["あの ひとは ＿＿ ですか。", "だれ", ["だれ", "なんさい", "かいしゃいん", "リーダー"]], "まつしたさんはかいしゃいんですか。": ["松下さんは かいしゃいん ＿＿。", "ですか", ["ですか", "です", "も", "は"]], "へいりーさんもかいしゃいんですか。": ["ヘイリーさん＿ かいしゃいん ですか。", "も", ["も", "は", "か", "の"]], "ねもちゃんはなんさいですか。": ["ネモちゃんは ＿＿ ですか。", "なんさい", ["なんさい", "だれ", "かいしゃいん", "にほんじん"]], "いいえ、しゃちょうじゃありません。ししゃちょうです。": ["いいえ、しゃちょう ＿＿ ありません。ししゃちょう です。", "じゃ", ["じゃ", "は", "も", "の"]]};
 L4SENT.forEach(o=>{const b=L4BLANK[o.k];if(b)o.bl={t:b[0],a:b[1],o:b[2]};});
-RAWS.push(...L4SENT);
+/* ===== Lesson 5 교재 문장 (카이토 수업 + 책 1과 練習A·会話, 인물은 우리 이름으로) ===== */
+const L5SENT=[
+{"l4": "dlg", "k": "おはようございます。　", "sd": "おはよう ございます。", "jp": "おはようございます。", "alts": ["お早うございます。"], "rb": "おはよう ございます。", "pr": "오하요ー 고자이마스", "m": "안녕하세요. (아침 인사)", "e": "🌅"}, {"l4": "dlg", "k": "おはようございます。さとうさん、こちらはちょんすじんさんです。", "sd": "おはよう ございます。さとうさん、こちらは チョン スジンさんです。", "jp": "おはようございます。さとうさん、こちらはチョンスジンさんです。", "alts": ["おはようございます。佐藤さん、こちらはチョンスジンさんです。"], "rb": "おはよう ございます。佐藤{さとう}さん、こちらは チョン スジンさんです。", "pr": "오하요ー 고자이마스 사토ー상 코치라와 촌 스진상데스", "m": "안녕하세요. 사토 씨, 이쪽은 전수진 씨입니다.", "e": "🙋"}, {"l4": "dlg", "k": "はじめまして。ちょんすじんです。かんこくからきました。どうぞよろしく。", "sd": "はじめまして。チョン スジンです。かんこくから きました。どうぞ よろしく。", "jp": "はじめまして。チョンスジンです。かんこくからきました。どうぞよろしく。", "alts": ["初めまして。チョンスジンです。韓国から来ました。どうぞよろしく。"], "rb": "はじめまして。チョン スジンです。韓国{かんこく}から 来{き}ました。どうぞ よろしく。", "pr": "하지메마시테 촌 스진데스 캉코쿠카라 키마시타 도ー조 요로시쿠", "m": "처음 뵙겠습니다. 전수진입니다. 한국에서 왔습니다. 잘 부탁합니다.", "e": "🤝"}, {"l4": "dlg", "k": "さとうです。どうぞよろしく。", "sd": "さとうです。どうぞ よろしく。", "jp": "さとうです。どうぞよろしく。", "alts": ["佐藤です。どうぞよろしく。"], "rb": "佐藤{さとう}です。どうぞ よろしく。", "pr": "사토ー데스 도ー조 요로시쿠", "m": "사토입니다. 잘 부탁합니다.", "e": "🙇"},
+{"l4": "pat", "k": "わたしはねもずらぼのちょんです。", "sd": "わたしは ネモズラボの チョンです。", "jp": "わたしはネモズラボのチョンです。", "alts": ["私はネモズラボのチョンです。"], "rb": "わたしは ネモズラボの チョンです。", "pr": "와타시와 네모즈라보노 촌데스", "m": "저는 네모즈랩의 전입니다.", "e": "🏢"}, {"l4": "pat", "k": "わたしはがくせいではありません。", "sd": "わたしは がくせい では ありません。", "jp": "わたしはがくせいではありません。", "alts": ["私は学生ではありません。", "わたしはがくせいじゃありません。"], "rb": "わたしは 学生{がくせい} では ありません。", "pr": "와타시와 각세ー 데와 아리마셍", "m": "저는 학생이 아닙니다.", "e": "🙅"}, {"l4": "pat", "k": "あのかたはどなたですか。", "sd": "あの かたは どなた ですか。", "jp": "あの方はどなたですか。", "alts": ["あのかたはどなたですか。"], "rb": "あの 方{かた}は どなた ですか。", "pr": "아노 카타와 도나타 데스카", "m": "저분은 누구십니까?", "e": "👉"}, {"l4": "pat", "k": "はやかわさんもかいしゃいんです。", "sd": "早川さんも かいしゃいん です。", "jp": "早川さんもかいしゃいんです。", "alts": ["早川さんも会社員です。"], "rb": "早川{はやかわ}さんも かいしゃいん です。", "pr": "하야카와상모 카이샤인 데스", "m": "하야카와 씨도 회사원입니다.", "e": "🧑‍💼"}, {"l4": "ex", "k": "あなたはかんこくじんですか。", "sd": "あなたは かんこくじん ですか。", "jp": "あなたはかんこくじんですか。", "alts": ["あなたは韓国人ですか。"], "rb": "あなたは 韓国人{かんこくじん} ですか。", "pr": "아나타와 캉코쿠징 데스카", "m": "당신은 한국인입니까?", "e": "🇰🇷"}, {"l4": "ex", "k": "はい、わたしはかんこくじんです。", "sd": "はい、わたしは かんこくじん です。", "jp": "はい、わたしはかんこくじんです。", "alts": ["はい、私は韓国人です。"], "rb": "はい、わたしは 韓国人{かんこくじん} です。", "pr": "하이 와타시와 캉코쿠징 데스", "m": "네, 저는 한국인입니다.", "e": "🙆"}, {"l4": "ex", "k": "へいりーさんはがくせいですか。", "sd": "ヘイリーさんは がくせい ですか。", "jp": "ヘイリーさんはがくせいですか。", "alts": ["ヘイリーさんは学生ですか。"], "rb": "ヘイリーさんは 学生{がくせい} ですか。", "pr": "헤ー리ー상와 각세ー 데스카", "m": "헤일리 씨는 학생입니까?", "e": "🎓"}, {"l4": "ex", "k": "いいえ、がくせいではありません。かいしゃいんです。", "sd": "いいえ、がくせい では ありません。かいしゃいん です。", "jp": "いいえ、がくせいではありません。かいしゃいんです。", "alts": ["いいえ、学生ではありません。会社員です。", "いいえ、がくせいじゃありません。かいしゃいんです。"], "rb": "いいえ、学生{がくせい} では ありません。かいしゃいん です。", "pr": "이ー에 각세ー 데와 아리마셍 카이샤인 데스", "m": "아니요, 학생이 아닙니다. 회사원입니다.", "e": "🙅"}, {"l4": "ex", "k": "あのかたはまつしたさんですか。", "sd": "あの かたは 松下さん ですか。", "jp": "あの方は松下さんですか。", "alts": ["あのかたは松下さんですか。"], "rb": "あの 方{かた}は 松下{まつした}さん ですか。", "pr": "아노 카타와 마쓰시타상 데스카", "m": "저분은 마츠시타 씨입니까?", "e": "👉"}, {"l4": "ex", "k": "いいえ、まつしたさんではありません。はやかわさんです。", "sd": "いいえ、松下さん では ありません。早川さん です。", "jp": "いいえ、松下さんではありません。早川さんです。", "alts": ["いいえ、松下さんじゃありません。早川さんです。"], "rb": "いいえ、松下{まつした}さん では ありません。早川{はやかわ}さん です。", "pr": "이ー에 마쓰시타상 데와 아리마셍 하야카와상 데스", "m": "아니요, 마츠시타 씨가 아닙니다. 하야카와 씨입니다.", "e": "🙅"}, {"l4": "ex", "k": "はやかわさんはぎんこういんですか。", "sd": "早川さんは ぎんこういん ですか。", "jp": "早川さんはぎんこういんですか。", "alts": ["早川さんは銀行員ですか。"], "rb": "早川{はやかわ}さんは 銀行員{ぎんこういん} ですか。", "pr": "하야카와상와 깅코ー인 데스카", "m": "하야카와 씨는 은행원입니까?", "e": "🏦"}, {"l4": "ex", "k": "いいえ、ねもずらぼのししゃちょうです。", "sd": "いいえ、ネモズラボの ししゃちょう です。", "jp": "いいえ、ネモズラボのししゃちょうです。", "alts": ["いいえ、ネモズラボの支社長です。"], "rb": "いいえ、ネモズラボの 支社長{ししゃちょう} です。", "pr": "이ー에 네모즈라보노 시샤초ー 데스", "m": "아니요, 네모즈랩의 지사장입니다.", "e": "👔"}, {"l4": "ex", "k": "ちょんさんはおいくつですか。", "sd": "チョンさんは おいくつ ですか。", "jp": "チョンさんはおいくつですか。", "alts": ["チョンさんはお幾つですか。"], "rb": "チョンさんは おいくつ ですか。", "pr": "촌상와 오이쿠쓰 데스카", "m": "전 씨는 몇 살이세요?", "e": "🎂"}, {"l4": "ex", "k": "ごじゅっさいです。", "sd": "50さい です。", "jp": "ごじゅっさいです。", "alts": ["50歳です。", "五十歳です。", "ごじゅうさいです。"], "rb": "50歳{ごじゅっさい}です。", "pr": "고줏사이 데스", "m": "50살입니다.", "e": "5️⃣"}, {"l4": "dlg", "k": "はじめまして。わたしはえーびーしーめでぃあのさとうです。", "sd": "はじめまして。わたしは ABCメディアの さとうです。", "jp": "はじめまして。わたしはABCメディアのさとうです。", "alts": ["初めまして。私はABCメディアの佐藤です。"], "rb": "はじめまして。わたしは ABCメディアの 佐藤{さとう}です。", "pr": "하지메마시테 와타시와 에ー비ー시ー 메디아노 사토ー데스", "m": "처음 뵙겠습니다. 저는 ABC미디어의 사토입니다.", "e": "🤝"}, {"l4": "dlg", "k": "はじめまして。わたしはねもずらぼのちょんです。", "sd": "はじめまして。わたしは ネモズラボの チョンです。", "jp": "はじめまして。わたしはネモズラボのチョンです。", "alts": ["初めまして。私はネモズラボのチョンです。"], "rb": "はじめまして。わたしは ネモズラボの チョンです。", "pr": "하지메마시테 와타시와 네모즈라보노 촌데스", "m": "처음 뵙겠습니다. 저는 네모즈랩의 전입니다.", "e": "🤝"}, {"l4": "dlg", "k": "かんこくじんですか。", "sd": "かんこくじん ですか。", "jp": "かんこくじんですか。", "alts": ["韓国人ですか。"], "rb": "韓国人{かんこくじん} ですか。", "pr": "캉코쿠징 데스카", "m": "한국인이십니까?", "e": "🇰🇷"}, {"l4": "dlg", "k": "はい、かんこくじんです。さとうさんはにほんじんですか。", "sd": "はい、かんこくじん です。さとうさんは にほんじん ですか。", "jp": "はい、かんこくじんです。さとうさんはにほんじんですか。", "alts": ["はい、韓国人です。佐藤さんは日本人ですか。"], "rb": "はい、韓国人{かんこくじん} です。佐藤{さとう}さんは 日本人{にほんじん} ですか。", "pr": "하이 캉코쿠징 데스 사토ー상와 니혼징 데스카", "m": "네, 한국인입니다. 사토 씨는 일본인이십니까?", "e": "🇯🇵"}, {"l4": "dlg", "k": "はい、にほんじんです。わたしはしゃちょうです。", "sd": "はい、にほんじん です。わたしは しゃちょう です。", "jp": "はい、にほんじんです。わたしはしゃちょうです。", "alts": ["はい、日本人です。私は社長です。"], "rb": "はい、日本人{にほんじん} です。わたしは 社長{しゃちょう} です。", "pr": "하이 니혼징 데스 와타시와 샤초ー 데스", "m": "네, 일본인입니다. 저는 사장입니다.", "e": "👔"}, {"l4": "dlg", "k": "わたしもしゃちょうです。よろしくおねがいします。", "sd": "わたしも しゃちょう です。よろしく おねがいします。", "jp": "わたしもしゃちょうです。よろしくおねがいします。", "alts": ["私も社長です。よろしくお願いします。"], "rb": "わたしも 社長{しゃちょう} です。よろしく お願{ねが}いします。", "pr": "와타시모 샤초ー 데스 요로시쿠 오네가이시마스", "m": "저도 사장입니다. 잘 부탁드립니다.", "e": "🙇"}];
+const L5BLANK={"わたしはねもずらぼのちょんです。": ["わたしは ネモズラボ＿ チョンです。", "の", ["の", "は", "も", "か"]], "わたしはがくせいではありません。": ["わたしは がくせい ＿＿ ありません。", "では", ["では", "です", "も", "の"]], "あのかたはどなたですか。": ["あの かたは ＿＿ ですか。", "どなた", ["どなた", "おいくつ", "がくせい", "しゃいん"]], "はやかわさんもかいしゃいんです。": ["早川さん＿ かいしゃいん です。", "も", ["も", "は", "の", "か"]], "いいえ、がくせいではありません。かいしゃいんです。": ["いいえ、＿＿ では ありません。かいしゃいん です。", "がくせい", ["がくせい", "しゃちょう", "ぎんこういん", "にほんじん"]], "はやかわさんはぎんこういんですか。": ["早川さんは ＿＿ ですか。", "ぎんこういん", ["ぎんこういん", "がくせい", "しゃいん", "だれ"]], "いいえ、ねもずらぼのししゃちょうです。": ["いいえ、ネモズラボ＿ ししゃちょう です。", "の", ["の", "も", "は", "か"]], "ちょんさんはおいくつですか。": ["チョンさんは ＿＿ ですか。", "おいくつ", ["おいくつ", "どなた", "がくせい", "にほんじん"]]};
+L5SENT.forEach(o=>{const b=L5BLANK[o.k];if(b)o.bl={t:b[0],a:b[1],o:b[2]};});
+RAWS.push(...L4SENT,...L5SENT);
 RAWS.forEach(o=>{if(SEEN.has(o.k))return;SEEN.add(o.k);if(!CATS.includes('문장'))CATS.push('문장');W.push({k:o.k,alts:[o.jp,...(o.alts||[])],m:o.m,e:o.e,c:'문장',n:units(o.k).length,au:true,sd:o.sd,sp:o.jp,pr:o.pr,rb:o.rb,l4:o.l4,bl:o.bl});});
 const HOMO_EXTRA={'せん':['先','戦','専','栓','宣','船','仙'],'いし':['意思','意志','医師'],'くに':['邦'],'みち':['未知'],'あさ':['麻','浅'],'のり':['乗り','法'],'とうし':['闘志','透視'],'きかく':['規格'],'にほん':['二本'],'つき':['突き'],'えき':['益']};
 const HOMO={'かみ':['紙','神','上'],'はな':['華'],'はし':['橋','端'],'なし':['無し'],'あし':['葦'],'かわ':['皮'],'もも':['腿'],'ふく':['福','吹く'],'しお':['潮'],'うた':['唄'],'えき':['液'],'うみ':['膿'],'かさ':['笠'],'くま':['隈'],'かめ':['瓶'],'つき':['付き'],'した':['下'],'ゆき':['行き'],'よる':['寄る'],'あき':['飽き'],'はる':['張る'],'みち':['未知'],'ひと':['一'],'いす':['意酢'],'きた':['来た'],'あさ':['麻'],'ひる':['蛭'],'くも':['雲'],'いぬ':['去ぬ'],'ほん':['本'],'いえ':['言え'],'くち':['朽ち'],'て':['手'],'きく':['菊','効く','利く'],'みる':['診る','観る'],'かく':['描く','掻く','角'],'はやい':['速い']};
@@ -2633,9 +2675,20 @@ const BOOK4={
   dlg:['あのひとはだれですか。',...L4SENT.filter(o=>o.l4==='dlg').map(o=>o.k)]
 };
 LESSONS.push({n:4,label:'Lesson 4',book:true,keys:[...BOOK4.rev,...BOOK4.word,...BOOK4.num,...BOOK4.pat,...BOOK4.ex,...BOOK4.dlg.filter(k=>!BOOK4.ex.includes(k))]});
+const BOOK5={
+  rev:['わたし','あなた','かいしゃいん','しゃちょう','にほんじん','かんこくじん','だれ','なんさい'],
+  word:['はじめまして','よろしくおねがいします','どうぞよろしく','こちら','きました','がくせい','ぎんこういん','しゃいん','あめりか','あめりかじん','ちゅうごく','ちゅうごくじん','なまえ','おなまえ','どなた','あのかた','おいくつ','ねもずらぼ'],
+  num:['じゅうご','さんじゅうはち','よんじゅうろく','はちじゅうろく','ひゃく','せん','いちまん','いちおく','ひゃくはち','ひゃくななじゅうに','さんびゃく','ろっぴゃく','はっぴゃく','さんぜん','ろくせん','はっせん','ごせんさんびゃく','いちまんさんぜんきゅうひゃくにじゅういち'],
+  pat:L5SENT.filter(o=>o.l4==='pat').map(o=>o.k),
+  ex:L5SENT.filter(o=>o.l4==='ex').map(o=>o.k),
+  dlg:L5SENT.filter(o=>o.l4==='dlg').map(o=>o.k)
+};
+LESSONS.push({n:5,label:'Lesson 5',book:true,keys:[...BOOK5.rev,...BOOK5.word,...BOOK5.num,...BOOK5.pat,...BOOK5.ex,...BOOK5.dlg]});
+const BOOKS={4:BOOK4,5:BOOK5};
+const curBook=()=>BOOKS[(LV(level)||{n:4}).n]||BOOK4;
 const CHIPS4=['전체','복습','단어','숫자','문형','예문','회화'];
 const CHIPKEY={'복습':'rev','단어':'word','숫자':'num','문형':'pat','예문':'ex','회화':'dlg'};
-const chipOk=(n,w)=>{const L=LESSONS.find(x=>x.n===n);if(!L||!L.book)return true;const c=P.chip4||'전체';if(c==='전체')return true;const set=BOOK4[CHIPKEY[c]];return !!set&&set.includes(w.k);};
+const chipOk=(n,w)=>{const L=LESSONS.find(x=>x.n===n);if(!L||!L.book)return true;const c=P.chip4||'전체';if(c==='전체')return true;const set=(BOOKS[n]||BOOK4)[CHIPKEY[c]];return !!set&&set.includes(w.k);};
 const LV=l=>{const m=/^([LQSMB])(\d+)$/.exec(l||'');return m?{t:m[1],n:+m[2]}:null;};
 const isBookLevel=l=>{const v=LV(l);if(!v||v.t!=='B')return false;const L=LESSONS.find(x=>x.n===v.n);return !!(L&&L.book);};
 const GROUPS=[['nemoz','Nemoz',100],['sent','문장',109],['1','1음',101],['2','2음',102],['3','3음',103],['4','4음',104],['5','5음',105],['6','6음+',106],['all','전체',107],['wrong','오답',108]];
@@ -4020,6 +4073,12 @@ function noteBack(fromPop){
   if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();window.scrollTo(0,0);}
   else start(P.mode==='lesson'&&(LV(r.level)||{}).n===0?'L'+LESSONS[LESSONS.length-1].n:(r.level||level));
 }
+function renderLocked(m,kind){   /* 로그인 전: 메뉴는 보이고, 내용 자리에 로그인 안내 */
+  const mail=kind==='mail',other=mail&&!!cloudEmail;
+  const t=mail?(other?'메일은 @nemoz.io 이메일 전용이에요':'로그인하면 메일을 볼 수 있어요'):'로그인하면 나의 노트를 쓸 수 있어요';
+  const d=mail?(other?'지금 이메일로는 볼 수 없어요.<br>네모즈 이메일(@nemoz.io)로 로그인해 주세요.':'네모즈 이메일(@nemoz.io)로 로그인하면<br>매일 업무 메일 한 통을 따라 읽을 수 있어요.'):'단어의 ★를 누르면 나의 노트에 담겨요.<br>이메일로 로그인하면 담은 단어가 저장돼요.';
+  m.innerHTML=`<div class="mp lock"><div class="lock-ic" aria-hidden="true">${mail?'✉️':'⭐'}</div><p class="lock-t">${t}</p><p class="status">${d}</p><button class="mp-link" data-lock="login" type="button">이메일 입력하기</button></div>`;
+}
 function renderNotes(m){
   if(!cloudEmail){m.innerHTML='<div class="card"><p class="status">나의 노트는 로그인하면 쓸 수 있어요.</p></div>';return;}
   const list=lessonWords(0),n=list.length;
@@ -4036,6 +4095,11 @@ function s4Html(w){return bkPh(w.rb||w.k);}
 const BK_NUMS=[['0','ぜろ'],['1','いち'],['2','に'],['3','さん'],['4','よん'],['5','ご'],['6','ろく'],['7','なな'],['8','はち'],['9','きゅう'],['10','じゅう']];
 const BK_FORM=[['A は B です。','A는 B입니다.','「は」는 조사로 쓰일 때 「わ」로 읽어요.'],['A は B じゃ ありません。','A는 B가 아닙니다.','「では ありません」이라고도 해요.'],['A は B ですか。','A는 B입니까?','문장 끝에 「か」를 붙이면 질문이 돼요. 대답은 「はい / いいえ」.'],['A も B です。','A도 B입니다.','「も」는 「~도」라는 뜻이에요.']];
 const BK_WORDS=[['わたし'],['あなた'],['〜さん','님 / 씨','이름 뒤에 붙여요'],['〜は','는','조사 (わ로 읽음)'],['〜も','도','조사'],['かいしゃいん'],['しゃちょう'],['ししゃちょう'],['りーだー'],['にほんじん'],['かんこくじん'],['だれ'],['あのひと'],['〜さい','~살','나이를 셀 때'],['なんさい'],['はい'],['いいえ']];
+BOOK4.ui={nums:BK_NUMS,form:BK_FORM,words:BK_WORDS,names:['ヘイリー','チョン'],ptSub:'숫자 0~10 · 문형',dlgSub:'도쿄 사무실에서',kkTitle:'회화 · 도쿄 사무실',kata:{'りーだー':'リーダー'}};
+BOOK5.ui={nums:[['100','ひゃく'],['1,000','せん'],['10,000','いちまん'],['1억','いちおく']],numCols:4,
+  form:[['15 じゅうご · 38 さんじゅうはち','46 よんじゅうろく · 86 はちじゅうろく','한국어처럼 10 단위로 붙여 읽어요.'],['108 ひゃくはち · 172 ひゃくななじゅうに','5,300 ごせんさんびゃく · 13,921 いちまんさんぜんきゅうひゃくにじゅういち','만(万)은 앞에 いち를 꼭 붙여요 (いちまん).'],['300 さんびゃく · 600 ろっぴゃく · 800 はっぴゃく','예외 발음 (백)','3·6·8 뒤에서 소리가 바뀌어요.'],['3,000 さんぜん · 8,000 はっせん','예외 발음 (천)','6,000은 그대로 ろくせん.'],['A は B の C です。','A는 B의 C입니다.','「の」는 소속·소유. ネモズラボの チョンです。'],['A は B では ありません。','A는 B가 아닙니다.','「じゃ ありません」의 정중한 말이에요.'],['あの かたは どなたですか。','저분은 누구십니까?','「あの ひと / だれ」의 정중한 말이에요.'],['おいくつですか。','몇 살이세요?','「なんさい」의 정중한 말이에요.'],['こちらは 〜さんです。','이쪽은 ~씨입니다.','사람을 소개할 때 써요.'],['〜から きました。','~에서 왔습니다.','かんこくから きました。']],
+  words:[['はじめまして','처음 뵙겠습니다 · 반갑습니다','「반갑습니다」까지 포함된 인사'],['よろしくおねがいします'],['どうぞよろしく','잘 부탁합니다','よろしく おねがいします의 짧은 말'],['こちら','이쪽 · 이분','こちらは 〜さんです = 이쪽은 ~씨입니다'],['きました','왔습니다','かんこくから きました = 한국에서 왔습니다'],['がくせい'],['ぎんこういん'],['しゃいん'],['あめりか'],['あめりかじん'],['ちゅうごく'],['ちゅうごくじん'],['なまえ'],['おなまえ','성함','お를 붙이면 정중해져요'],['〜の','~의','네모즈랩의 전수진 → ネモズラボの チョン'],['ねもずらぼ','네모즈랩','랩(Lab)은 일본어로 ラボ'],['どなた'],['あのかた'],['おいくつ']],
+  names:['さとう','チョン'],who:['さとう','はやかわ','チョン','さとう','さとう','チョン','さとう','チョン','さとう','チョン'],scenes:[4],ptSub:'큰 숫자 · 예외 발음 · 문형',dlgSub:'소개받기 · 명함 교환',kkTitle:'회화 · 첫 만남',kata:{'あめりか':'アメリカ','あめりかじん':'アメリカじん','ねもずらぼ':'ネモズラボ'}};
 const bkW=k=>W.find(x=>x.k===k)||{};
 const bkQ=t=>String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 function bkPh(rb){   /* 띄어쓰기·쉼표·마침표 뒤에서만 줄을 바꾸고, 한 문절은 절대 쪼개지 않음 */
@@ -4046,31 +4110,35 @@ const bkSp=t=>`<button class="bk-sp" type="button" data-bk="sp" data-t="${bkQ(t)
 const bkLine=(w)=>`<div class="bk-row"><div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
 const bkBub=(w,side,label)=>`<div class="bk-bub ${side}"><span class="bk-lb">${label}</span><div class="bk-t">${bkJp(w)}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;
 function renderBook(m){
-  const n=(LV(level)||{n:4}).n,o=BK.open;
+  const n=(LV(level)||{n:4}).n,o=BK.open,B=BOOKS[n]||BOOK4,U=B.ui;
   const sec=(id,title,sub,body,chip)=>`<section class="bk-sec${o[id]?' open':''}"><button class="bk-h" type="button" data-bk="tog" data-id="${id}" aria-expanded="${!!o[id]}"><b>${title}</b><span>${sub||''}</span><i>${ic('down')}</i></button><div class="bk-b">${body}${chip?`<button class="bk-go" type="button" data-bk="go" data-chip="${chip}">연습하기 ${ic('next')}</button>`:''}</div></section>`;
-  const pts=`<div class="bk-nums">${BK_NUMS.map(([d,r])=>`<button type="button" data-bk="sp" data-t="${r}"><b>${d}</b><small>${r}</small></button>`).join('')}</div>
-    <div class="bk-form">${BK_FORM.map(([a,b,c])=>`<div class="bk-f"><div class="bk-fa" lang="ja">${a}</div><div class="bk-fb">${b}</div><div class="bk-fc">${c}</div></div>`).join('')}</div>`;
-  const pat=BOOK4.pat.map(k=>bkLine(bkW(k))).join('');
-  const exs=[];for(let i=0;i<BOOK4.ex.length;i+=2)exs.push([bkW(BOOK4.ex[i]),bkW(BOOK4.ex[i+1])]);
+  const pts=`<div class="bk-nums"${U.numCols?` style="grid-template-columns:repeat(${U.numCols},1fr)"`:''}>${U.nums.map(([d,r])=>`<button type="button" data-bk="sp" data-t="${r}"><b>${d}</b><small>${r}</small></button>`).join('')}</div>
+    <div class="bk-form">${U.form.map(([a,b,c])=>`<div class="bk-f"><div class="bk-fa" lang="ja">${a}</div><div class="bk-fb">${b}</div><div class="bk-fc">${c}</div></div>`).join('')}</div>`;
+  const pat=B.pat.map(k=>bkLine(bkW(k))).join('');
+  const exs=[];for(let i=0;i<B.ex.length;i+=2)exs.push([bkW(B.ex[i]),bkW(B.ex[i+1])]);
   const O=(w,who)=>({who,sd:w.sd,rb:w.rb,m:w.m,t:w.sp||w.k});
   const ex=exs.map((pr,i)=>`<div class="bk-pair"><div class="bk-no">${i+1}</div>${bkBub(pr[0],'l','Q')}${bkBub(pr[1],'r','A')}</div>`).join('');
-  const names=['ヘイリー','チョン','ヘイリー','チョン'];
-  const dlg=`<div class="bk-pair">${BOOK4.dlg.map((k,i)=>bkBub(bkW(k),i%2?'r':'l',names[i])).join('')}</div>`;
-  const words=BK_WORDS.map(([k,mm,note])=>{const w=bkW(k);const kata={'りーだー':'リーダー'}[k];const jp=kata||(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
-  const rev=BOOK4.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${w.k}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
-  m.innerHTML=`<div class="bk">${sec('pt','오늘의 포인트','숫자 0~10 · 문형',pts,'숫자')}${sec('pat','문형','4개',pat,'문형')}${sec('ex','예문','질문과 대답 '+exs.length+'쌍',ex,'예문')}${sec('dlg','회화','도쿄 사무실에서',dlg,'회화')}${sec('word','단어',BK_WORDS.length+'개',words,'단어')}${sec('rev','복습 읽기','5개',rev,'복습')}</div>`;
+  const names=U.names;
+  const who=i=>U.who?U.who[i]:names[i%2],side=i=>U.who?(U.who[i]==='チョン'?'r':'l'):(i%2?'r':'l');
+  const cuts=[0,...(U.scenes||[]),B.dlg.length];
+  const dlg=cuts.slice(1).map((e,j)=>`<div class="bk-pair">${B.dlg.slice(cuts[j],e).map((k,x)=>{const i=cuts[j]+x;return bkBub(bkW(k),side(i),who(i));}).join('')}</div>`).join('');
+  const words=U.words.map(([k,mm,note])=>{const w=bkW(k);const kata=(U.kata||{})[k];const jp=kata||(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
+  const rev=B.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${w.k}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
+  m.innerHTML=`<div class="bk">${sec('pt','오늘의 포인트',U.ptSub,pts,'숫자')}${sec('pat','문형',B.pat.length+'개',pat,'문형')}${sec('ex','예문','질문과 대답 '+exs.length+'쌍',ex,'예문')}${sec('dlg','회화',U.dlgSub,dlg,'회화')}${sec('word','단어',U.words.length+'개',words,'단어')}${sec('rev','복습 읽기',B.rev.length+'개',rev,'복습')}</div>`;
+  ensureDictTop();dictOnScroll();
 }
 var dlgQ=false,dlgSpoken='';
 const dlgOn=l=>{const v=LV(l);if(!v||v.t!=='S')return false;const L=LESSONS.find(x=>x.n===v.n);return !!(L&&L.book)&&['예문','회화'].includes(P.chip4)&&(P.dlgMode||'dialog')==='dialog';};
 function buildDlg(){
-  const keys=BOOK4[CHIPKEY[P.chip4]]||[],role=P.dlgRole||'alt',out=[];
-  const names=P.chip4==='회화'?['ヘイリー','チョン']:['',''];
+  const B=curBook(),keys=B[CHIPKEY[P.chip4]]||[],role=P.dlgRole||'alt',out=[];
+  const names=P.chip4==='회화'?B.ui.names:['',''];
   for(let i=0;i+1<keys.length;i+=2){
     const q=bkW(keys[i]),a=bkW(keys[i+1]),no=i/2;
     const meQ=role==='q'||(role==='alt'&&no%2===0);
     const line=w=>({t:w.sp||w.k,sd:w.sd,rb:w.rb,m:w.m});
-    if(meQ)out.push(Object.assign({},q,{qmode:'k2j',qpref:null,dgWho:names[0],dgAfter:Object.assign(line(a),{who:names[1]})}));
-    else out.push(Object.assign({},a,{qmode:'k2j',qpref:null,dgWho:names[1],dgBefore:Object.assign(line(q),{who:names[0]})}));
+    const wq=(P.chip4==='회화'&&B.ui.who)?B.ui.who[i]:names[0],wa=(P.chip4==='회화'&&B.ui.who)?B.ui.who[i+1]:names[1];
+    if(meQ)out.push(Object.assign({},q,{qmode:'k2j',qpref:null,dgWho:wq,dgAfter:Object.assign(line(a),{who:wa})}));
+    else out.push(Object.assign({},a,{qmode:'k2j',qpref:null,dgWho:wa,dgBefore:Object.assign(line(q),{who:wq})}));
   }
   return out;
 }
@@ -4101,8 +4169,8 @@ function kkHtml(){
   const w=queue[idx],n=queue.length,last=idx+1>=n,role=P.dlgRole||'alt';
   const roleLb={q:'내가 질문',a:'내가 대답',alt:'번갈아'}[role];
   const nextAct=phase==='result'?'next':'skip';
-  const head=`<div class="kk-hd"><button class="kk-nv" type="button" data-act="prev"${idx===0?' disabled':''} aria-label="이전">${ic('prev')}</button><div class="kk-ti"><b>${P.chip4==='회화'?'회화 · 도쿄 사무실':'예문 대화'}</b><span>${roleLb} · ${idx+1} / ${n}</span></div><button class="kk-nv" type="button" data-act="${nextAct}" aria-label="다음">${ic('next')}</button></div><div class="kk-pg"><i style="width:${(idx/n)*100}%"></i></div>`;
-  let th=`<div class="kk-day">${P.chip4==='회화'?'도쿄 사무실에서':'오늘의 대화'}</div>`;
+  const head=`<div class="kk-hd"><button class="kk-nv" type="button" data-act="prev"${idx===0?' disabled':''} aria-label="이전">${ic('prev')}</button><div class="kk-ti"><b>${P.chip4==='회화'?curBook().ui.kkTitle:'예문 대화'}</b><span>${roleLb} · ${idx+1} / ${n}</span></div><button class="kk-nv" type="button" data-act="${nextAct}" aria-label="다음">${ic('next')}</button></div><div class="kk-pg"><i style="width:${(idx/n)*100}%"></i></div>`;
+  let th=`<div class="kk-day">${P.chip4==='회화'?curBook().ui.dlgSub:'오늘의 대화'}</div>`;
   if(w.dgBefore)th+=kkL(w.dgBefore,false);
   if(phase==='reveal')th+=kkR(w,'ans','정답');
   else if(phase==='result')th+=kkR(w,verdict?'ok':'ng',verdict?'✓ 정답':'✗ 다시');
@@ -4131,7 +4199,7 @@ function renderChips(){
   const lessonTab=mode==='lesson',seqTab=mode==='seq';
   $('#chips').innerHTML='';
   const on=m=>mode===m;
-  $('#modes').innerHTML=`<button class="mode" data-mode="lesson" aria-pressed="${on('lesson')}"><b>Lesson</b></button><button class="mode" data-mode="seq" aria-pressed="${on('seq')}"><b>학습</b></button><button class="mode" data-mode="dict" aria-pressed="${on('dict')}"><b>단어장</b></button>${mailAllowed()?`<button class="mode" data-mode="mail" aria-pressed="${on('mail')}"><b>메일</b></button>`:''}${cloudEmail?`<button class="mode note" data-mode="notes" aria-pressed="${on('notes')}" aria-label="나의 노트"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.6 6.1 20.9l1.3-6.6L2.5 9.7l6.6-.8z"/></svg><span>노트</span></b></button>`:''}`;
+  $('#modes').innerHTML=`<button class="mode" data-mode="lesson" aria-pressed="${on('lesson')}"><b>Lesson</b></button><button class="mode" data-mode="seq" aria-pressed="${on('seq')}"><b>학습</b></button><button class="mode" data-mode="dict" aria-pressed="${on('dict')}"><b>단어장</b></button><button class="mode" data-mode="mail" aria-pressed="${on('mail')}"><b>메일</b></button>${`<button class="mode note" data-mode="notes" aria-pressed="${on('notes')}" aria-label="나의 노트"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.6 6.1 20.9l1.3-6.6L2.5 9.7l6.6-.8z"/></svg><span>노트</span></b></button>`}`;
   const tabsEl=$('#tabs');
   tabsEl.classList.toggle('picker',lessonTab||seqTab);
   if(!lessonTab&&!seqTab){tabsEl.innerHTML='';return;}
@@ -4233,6 +4301,7 @@ function ensureDictTop(){
 }
 function dictOnScroll(){
   const b=document.getElementById('dtop');
+  if((P.mode||'lesson')==='lesson'&&phase==='book'){if(b)b.classList.toggle('show',(window.scrollY||0)>500);return;}   /* 교재 페이지도 단어장과 같은 「맨 위로」 버튼 */
   if(P.mode!=='dict'||dictPage){if(b)b.classList.remove('show');return;}
   if(b)b.classList.toggle('show',(window.scrollY||0)>500);
   let cur='';
@@ -4446,10 +4515,10 @@ function autoSpeakMeaning(){
   setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},180);
 }
 function render(){
-  if(P.mode==='mail'&&!mailAllowed()){P.mode='lesson';fixLevelForMode();start(level);return;}
-  if(P.mode==='notes'&&!cloudEmail){P.mode='lesson';fixLevelForMode();start(level);return;}
   renderChips();renderScore();
   const m=$('#main');
+  if(P.mode==='mail'&&!mailAllowed()){renderLocked(m,'mail');return;}
+  if(P.mode==='notes'&&!cloudEmail){renderLocked(m,'notes');return;}
   if(P.mode!=='mail'&&mailLive>=0){stopMlRec();mailLive=-1;}
   if(P.mode==='mail'){renderMail(m);return;}
   if(P.mode!=='dict'&&P.mode!=='notes'&&dictPage){stopWpRec();dictPage=null;}
@@ -4555,8 +4624,9 @@ document.addEventListener('click',e=>{
   const nt2=e.target.closest('[data-nt]');if(nt2){startNotes(nt2.dataset.nt);return;}
   const mlb=e.target.closest('[data-ml]');
   if(mlb){mlAct(mlb.dataset.ml,+mlb.dataset.i);return;}
+  const lk=e.target.closest('[data-lock]');if(lk){const ac=document.getElementById('acct');if(ac){ac.classList.remove('nudge');void ac.offsetWidth;ac.classList.add('nudge');setTimeout(()=>ac.classList.remove('nudge'),2200);}const inp=document.getElementById('email');window.scrollTo({top:0,behavior:'smooth'});if(inp){if(inp.readOnly&&typeof acctEditing!=='undefined'){acctEditing=true;renderAcct();}setTimeout(()=>{const i2=document.getElementById('email');try{i2&&i2.focus({preventScroll:true});}catch(er){}},350);}return;}
   const mm=e.target.closest('[data-mode]');
-  if(mm){retryOnly=false;const wasNotes=P.mode==='lesson'&&(LV(level)||{}).n===0;P.mode=normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();if(P.mode==='lesson'&&wasNotes)level='L'+LESSONS[LESSONS.length-1].n;savePrg();if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();window.scrollTo(0,0);}else start(level);return;}
+  if(mm){retryOnly=false;const wasNotes=P.mode==='lesson'&&(LV(level)||{}).n===0;P.mode=(mm.dataset.mode==='mail'||mm.dataset.mode==='notes')?mm.dataset.mode:normMode(mm.dataset.mode);tocOpen=false;stopRec();try{speechSynthesis.cancel();}catch(er){}fixLevelForMode();if(P.mode==='lesson'&&wasNotes)level='L'+LESSONS[LESSONS.length-1].n;savePrg();if(P.mode==='dict'||P.mode==='mail'||P.mode==='notes'){render();window.scrollTo(0,0);}else start(level);return;}
   const dmd=e.target.closest('[data-dmode]');if(dmd){P.dlgMode=dmd.dataset.dmode;savePrg();start(level);return;}
   const drl=e.target.closest('[data-drole]');if(drl){P.dlgRole=drl.dataset.drole;savePrg();start(level);return;}
   const ch4=e.target.closest('[data-chip4]');if(ch4){P.chip4=ch4.dataset.chip4;savePrg();retryOnly=false;start(level);return;}
