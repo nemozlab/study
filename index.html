@@ -4147,12 +4147,14 @@ const dgR=(w,st)=>`<div class="dg-row r"><div class="dg-col"><div class="dg-n">$
 const dgH=w=>`<div class="dg-row r"><div class="dg-col"><div class="dg-n">${w.dgWho||'내 차례'}</div><div class="dg-bb r hint"><div class="dg-m">${w.m}</div></div></div></div>`;
 const dgThread=(w,ph)=>`<div class="dg-th">${w.dgBefore?dgL(w.dgBefore):''}${ph==='ask'?dgH(w):''}${ph==='reveal'?dgR(w,'ans'):''}${ph==='result'?dgR(w,verdict?'ok':'ng'):''}${ph==='result'&&w.dgAfter&&verdict?dgL(w.dgAfter):''}</div>`;
 function dlgAuto(){
+  if(!userTouched)return;
   const w=queue[idx];if(!w||!dlgQ)return;
   if(phase==='ask'&&w.dgBefore){const key=level+idx+'b';if(dlgSpoken!==key){dlgSpoken=key;setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speak(w.dgBefore.t);},300);}}
   if(phase==='result'&&verdict&&w.dgAfter){const key=level+idx+'a';if(dlgSpoken!==key){dlgSpoken=key;setTimeout(()=>{if(phase==='result'&&queue[idx]===w)speak(w.dgAfter.t);},600);}}
 }
 var l4Said='';
 function l4Auto(){   /* 학습: 문장 카드가 나오면 먼저 한 번 들려줌 */
+  if(!userTouched)return;
   const w=queue[idx];if(!w||!w.l4||phase!=='ask'||!isLessonLevel(level))return;
   const key=level+'|'+idx+'|'+w.k;if(key===l4Said)return;l4Said=key;
   setTimeout(()=>{if(phase==='ask'&&queue[idx]===w)speakW(w);},250);
@@ -4506,7 +4508,10 @@ function fitCard(){
 
 /* 뜻 탭: 새 문제가 나오면 일본어 단어를 자동으로 읽어줌(같은 문제에서 다시 그려져도 반복하지 않음) */
 let lastAutoKey='';
+var userTouched=false;   /* 앱을 연 직후(로딩 중)에는 자동으로 소리 내지 않음 — 화면을 한 번 누른 뒤부터 */
+['pointerdown','keydown'].forEach(t=>addEventListener(t,()=>{userTouched=true;},{capture:true,once:true}));
 function autoSpeakMeaning(){
+  if(!userTouched)return;
   if(phase!=='ask'||!isMeaningLevel(level)){return;}
   const w=queue[idx];if(!w)return;
   const key=level+'|'+idx+'|'+w.k;
@@ -4859,7 +4864,12 @@ document.addEventListener('input',e=>{
 if('speechSynthesis' in window){speechSynthesis.getVoices();}
 applyCustom();
 fixLevelForMode();
-if(!restore())start(level);else render();
+function bootBook(){   /* 앱을 열면 Lesson 탭은 항상 최신 레슨의 교재부터 (이어하던 학습 기록은 그대로 둠) */
+  if((P.mode||'lesson')!=='lesson')return false;
+  const L=[...LESSONS].reverse().find(x=>x.book);if(!L)return false;
+  const keep=P.session,lv=P.level;start('B'+L.n);P.session=keep;P.level=lv;savePrg();return true;
+}
+if(!bootBook()){if(!restore())start(level);else render();}
 renderAcct();
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 initCloud();
