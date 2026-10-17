@@ -1607,6 +1607,7 @@ html.splash-on #splash.out{opacity:0;pointer-events:none}
 @media (max-width:380px){.rt4 button{width:56px;padding:0}}
 .mp.lock{text-align:center;padding:40px 20px 32px}.lock-ic{font-size:40px;line-height:1;margin-bottom:12px}.lock-t{font:800 18px "Noto Sans KR",sans-serif;color:var(--ink);margin:0 0 8px}
 .logo-e{display:inline-block;height:.62em;width:auto;max-width:5em;vertical-align:middle;object-fit:contain}
+.mp-s .ph[style*="inline"] .tx,.mp-s .ph[style*="inline"] ruby{display:inline}   /* 너무 긴 덩어리를 줄바꿈할 때 글자가 세로로 쌓이지 않게 */
 </style>
 </head>
 <body>
@@ -2238,7 +2239,7 @@ const RAW = `# 동물
 あう|会う/合う/遭う|만나다|🤝
 ありがとうございます|有難うございます|감사합니다|🙏
 くうき|空気|공기|🌬️
-せん|線/千|선 · 천|📏
+せん|線/千/1000/1千/一千/戦/先/専/泉/銭/洗/選/鮮/宣/栓/旋/潜/染/扇/仙/セン/千円/1000円|선 · 천|📏
 いし|石|돌|🪨
 くに|国|나라|🗺️
 のり|海苔/糊|김 · 풀|🍙
@@ -2302,10 +2303,10 @@ const RAW = `# 동물
 さんびゃく|三百/300/さんばく/さんびゃっく/3百|300 (삼백) · 예외 발음|🔢
 ろっぴゃく|六百/600/ろくぱっく/ろっぱく/ろくぱく/ろっぴゃっく/ろっぱっく/6百|600 (육백) · 예외 발음|🔢
 はっぴゃく|八百/800/はっぱく/はっぱっく/はっぴゃっく/はぴゃく/8百|800 (팔백) · 예외 발음|🔢
-さんぜん|三千/3000/3千|3,000 (삼천) · 예외 발음|🔢
-ろくせん|六千/6000|6,000 (육천)|🔢
+さんぜん|三千/3000/3千/さんせん/参千/3000円|3,000 (삼천) · 예외 발음|🔢
+ろくせん|六千/6000/6千/ろくせん/6000円|6,000 (육천)|🔢
 はっせん|八千/8000/はせん/8千|8,000 (팔천) · 예외 발음|🔢
-ごせんさんびゃく|五千三百/5300|5,300 (오천삼백)|🔢
+ごせんさんびゃく|五千三百/5300/5千3百/5千300/ごせんさんばく/ごせんさんびゃっく/ごせんさんびゃくえん/午前3百/午前300/5300円/5,300|5,300 (오천삼백)|🔢
 いちまんさんぜんきゅうひゃくにじゅういち|一万三千九百二十一/1万3921/13921|13,921 (만삼천구백이십일)|🔢
 こちら|此方|이쪽 (사람을 소개할 때)|👉
 きました|来ました|왔습니다|✈️
@@ -2459,6 +2460,10 @@ const RAWK = `# 청음
 const KALT={'を':['お'],'ぢ':['じ'],'づ':['ず']};
 
 const SMALL='ゃゅょぁぃぅぇぉ';
+/* 레슨 4부터 카이토가 카타카나로 쓴 말은 카타카나로 보여주고 연습 (읽기·정답 판정은 히라가나와 똑같이 처리) */
+const KD_MAP={'のーと':'ノート','ぼーるぺん':'ボールペン','しゃーぷぺんしる':'シャープペンシル','こんぴゅーたー':'コンピューター','らじお':'ラジオ','こーひー':'コーヒー'};
+const kd=k=>KD_MAP[k]||k;
+function kdUnits(k){const us=units(k),d=KD_MAP[k];if(!d)return us;const c=[...d];let i=0;return us.map(u=>{const n=[...u].length,t=c.slice(i,i+n).join('');i+=n;return t;});}
 function units(s){const u=[];for(const ch of s){if((SMALL.includes(ch)||ch==='っ')&&u.length)u[u.length-1]+=ch;else u.push(ch);}return u;}
 const hasKanji=s=>/[\u4e00-\u9fff々]/.test(s);
 const showKanji=w=>(w.kana||w.au===false)?'':((w.alts||[]).find(hasKanji)||'');   /* 한자를 직접 적은 단어만 한자를 보여줌(외래어에 엉뚱한 동음 한자가 붙는 것 방지) */
@@ -2558,6 +2563,7 @@ const NEMOZLAB_LOGO='<img class="logo-e" src="data:image/png;base64,iVBORw0KGgoA
 RAWS.forEach(o=>{if(SEEN.has(o.k))return;SEEN.add(o.k);if(!CATS.includes('문장'))CATS.push('문장');W.push({k:o.k,alts:[o.jp,...(o.alts||[])],m:o.m,e:o.e,c:'문장',n:units(o.k).length,au:true,sd:o.sd,sp:o.jp,pr:o.pr,rb:o.rb,l4:o.l4,bl:o.bl});});
 W.forEach(w=>{if(w.k==='ねもずらぼ')w.e=NEMOZLAB_LOGO;});   /* 네모즈랩은 그림 대신 로고 */
 const HOMO_EXTRA={'せん':['先','戦','専','栓','宣','船','仙'],'いし':['意思','意志','医師'],'くに':['邦'],'みち':['未知'],'あさ':['麻','浅'],'のり':['乗り','法'],'とうし':['闘志','透視'],'きかく':['規格'],'にほん':['二本'],'つき':['突き'],'えき':['益']};
+const HOMO_EXTRA2={'あ': ['亜', '吾', '阿', 'ア'], 'い': ['胃', '位', '井', '威', '意', '異', '以', '医', '伊', 'イ'], 'う': ['卯', '鵜', '宇', '右', 'ウ'], 'え': ['絵', '柄', '江', '餌', '画', 'エ'], 'お': ['尾', '緒', '男', '雄', '汚', '御', 'オ'], 'か': ['蚊', '課', '科', '可', '日', '火', '化', '家', '歌', '香', 'カ'], 'き': ['木', '気', '機', '期', '来', '黄', '器', '奇', '季', 'キ'], 'く': ['九', '苦', '区', '句', '駆', 'ク'], 'け': ['毛', '卦', '家', 'ケ'], 'こ': ['子', '個', '故', '粉', '己', '小', '児', 'コ'], 'さ': ['差', '左', '座', '茶', 'サ'], 'し': ['四', '死', '市', '詩', '氏', '師', '紙', '士', '史', '私', '資', 'シ'], 'す': ['酢', '巣', '州', '素', 'ス'], 'せ': ['背', '瀬', '世', '畝', '施', 'セ'], 'そ': ['祖', '粗', '組', '素', 'ソ'], 'た': ['田', '他', '多', '太', 'タ'], 'ち': ['血', '地', '知', '治', '千', '乳', '智', '致', '質', 'チ'], 'つ': ['津', '都', '通', 'ツ'], 'と': ['戸', '都', '徒', '途', '度', '渡', '十', '所', 'ト'], 'な': ['名', '菜', '無', '七', 'ナ'], 'に': ['荷', '二', '煮', '似', '丹', '弐', '仁', 'ニ'], 'ぬ': ['沼', 'ヌ'], 'ね': ['根', '音', '値', '寝', '子', '嶺', 'ネ'], 'の': ['野', '能', '納', '農', '脳', '之', 'ノ'], 'は': ['葉', '歯', '派', '刃', '羽', '把', '端', '破', '覇', '場', '母', '馬', 'ハ'], 'ひ': ['日', '火', '灯', '比', '非', '費', '飛', '皮', '秘', '悲', '否', '碑', '緋', 'ヒ'], 'ふ': ['府', '婦', '負', '不', '符', '歩', '譜', '封', 'フ'], 'へ': ['辺', '戸', '屁', '経', '部', '平', 'ヘ'], 'ほ': ['穂', '帆', '歩', '保', '補', 'ホ'], 'ま': ['間', '魔', '真', '馬', 'マ'], 'み': ['身', '実', '見', '味', '巳', '三', '美', '箕', '御', 'ミ'], 'む': ['無', '六', '夢', '務', '武', 'ム'], 'め': ['目', '芽', '女', '雌', '眼', 'メ'], 'も': ['藻', '喪', '最', '持', 'モ'], 'や': ['矢', '屋', '野', '家', '八', '弥', 'ヤ'], 'ゆ': ['湯', '由', '油', 'ユ'], 'よ': ['世', '夜', '四', '代', '余', '善', 'ヨ'], 'ら': ['等', '良', 'ラ'], 'り': ['里', '利', '理', '裏', '李', '吏', '離', 'リ'], 'る': ['留', '流', 'ル'], 'れ': ['礼', '例', '令', '零', '霊', '齢', 'レ'], 'ろ': ['路', '炉', '櫓', '呂', '露', 'ロ'], 'わ': ['輪', '和', '我', '環', '羽', '話', '把', 'ワ'], 'を': ['尾', '緒', 'お', '雄'], 'ん': ['運', 'ン'], 'なん': ['何', '南', '難', '男', '軟', 'ナン'], 'ひめ': ['姫', '秘め'], 'ほね': ['骨', 'ホネ'], 'ゆび': ['指'], 'うで': ['腕', 'ウデ'], 'かお': ['顔', '顔', 'カオ'], 'つめ': ['爪', '詰め'], 'かぎ': ['鍵', '鉤'], 'まど': ['窓', '的'], 'そら': ['空', '宙'], 'やま': ['山', 'ヤマ'], 'みず': ['水', 'ミズ'], 'ほし': ['星', '干し'], 'あめ': ['雨', '飴'], 'にじ': ['虹', '二次'], 'くさ': ['草', '臭'], 'たね': ['種'], 'みせ': ['店'], 'あか': ['赤', '垢'], 'あお': ['青', '蒼'], 'しろ': ['白', '城', '代'], 'くろ': ['黒', '畦'], 'ゆめ': ['夢'], 'おと': ['音', '乙'], 'はこ': ['箱'], 'へや': ['部屋'], 'かべ': ['壁'], 'ふろ': ['風呂'], 'だれ': ['誰'], 'かず': ['数'], 'ぶん': ['文', '分', '聞'], 'はい': ['灰', '肺', '杯', '拝', '敗', '輩', '背', '蝿'], 'いち': ['一', '1', '位置', '市', '壱'], 'さん': ['三', '3', '賛', '酸', '参', '山'], 'よん': ['四', '4', '世', 'ヨン'], 'ろく': ['六', '6', '録', 'ロク'], 'なな': ['七', '7', 'ナナ'], 'にく': ['肉'], 'みみ': ['耳'], 'くち': ['口']};Object.keys(HOMO_EXTRA2).forEach(k=>{HOMO_EXTRA[k]=[...new Set([...(HOMO_EXTRA[k]||[]),...HOMO_EXTRA2[k]])];});
 const HOMO={'かみ':['紙','神','上'],'はな':['華'],'はし':['橋','端'],'なし':['無し'],'あし':['葦'],'かわ':['皮'],'もも':['腿'],'ふく':['福','吹く'],'しお':['潮'],'うた':['唄'],'えき':['液'],'うみ':['膿'],'かさ':['笠'],'くま':['隈'],'かめ':['瓶'],'つき':['付き'],'した':['下'],'ゆき':['行き'],'よる':['寄る'],'あき':['飽き'],'はる':['張る'],'みち':['未知'],'ひと':['一'],'いす':['意酢'],'きた':['来た'],'あさ':['麻'],'ひる':['蛭'],'くも':['雲'],'いぬ':['去ぬ'],'ほん':['本'],'いえ':['言え'],'くち':['朽ち'],'て':['手'],'きく':['菊','効く','利く'],'みる':['診る','観る'],'かく':['描く','掻く','角'],'はやい':['速い']};
 Object.keys(HOMO_EXTRA).forEach(k=>{HOMO[k]=[...new Set([...(HOMO[k]||[]),...HOMO_EXTRA[k]])];});
 /* 같은 읽기를 가진 다른 한자 표기(일본어 사전 JMdict 상용 표기): 엔진이 同意 대신 同位 처럼 돌려줘도 정답 */
@@ -3215,7 +3221,7 @@ function quizPrompt(w){
   if(w.c==='문장')return `<div class="qz${w.l4?' qs':''}"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>`;
   return `<div class="qz"><div class="pic" aria-hidden="true">${w.e}</div><div class="mean">${w.m}</div></div>${tilesHtml(units(w.k).map(()=>'?'),u=>u,'',1,w.k)}`;
 }
-function boxes(w,cls,scale){if(w.l4)return `<div class="sentbox s4 s4b" lang="ja">${s4Html(w)}</div>`;if(w.c==='문장')return `<div class="sentbox" lang="ja">${w.sd}</div>`;return tilesHtml(units(w.k),u=>u,cls,scale,w.k);}
+function boxes(w,cls,scale){if(w.l4)return `<div class="sentbox s4 s4b" lang="ja">${s4Html(w)}</div>`;if(w.c==='문장')return `<div class="sentbox" lang="ja">${w.sd}</div>`;return tilesHtml(kdUnits(w.k),u=>u,cls,scale,w.k);}
 
 /* ---- 한글 발음 표기 (외래어 표기법 일본어 기준: 어두/어중, 촉음 ㅅ, 발음 ㄴ, 장음 생략) ---- */
 const HG_BASE={'あ':'아','い':'이','う':'우','え':'에','お':'오','か':'카','き':'키','く':'쿠','け':'케','こ':'코','さ':'사','し':'시','す':'스','せ':'세','そ':'소','た':'타','ち':'치','つ':'쓰','て':'테','と':'토','な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호','ま':'마','み':'미','む':'무','め':'메','も':'모','や':'야','ゆ':'유','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','を':'오','が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고','ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조','だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도','ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보','ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포','ゔ':'부'};
@@ -3540,6 +3546,8 @@ function renderMail(m){
   m.innerHTML=`<div class="mp"><div class="lsn-row mp-row"><label class="lsn-pick"><select id="mailSel" aria-label="메일 선택">${opts}</select><span class="chev">${ic('down')}</span></label><button class="aud-btn" data-aud="open" aria-label="오디오로 듣기">${AUD_ICON.head}</button></div>
   <div class="card mp-card"><div class="ch"><div class="ch-n"><b>${Math.min(pg+1,n)}</b><span>/ ${n}</span></div><div class="ch-r">${streak?`<span class="ch-score mp-streak">연속 ${streak}일</span>`:''}${pg<n?`<button class="ml-spd" data-ml="spd" type="button" aria-label="문장 읽는 속도">${AUD.opts.mspeed===1?'1.0':AUD.opts.mspeed}x</button><button class="ch-icon ml-ok${done.includes(pg)?' on':''}" data-ml="check" type="button" aria-pressed="${done.includes(pg)}" aria-label="읽음 표시">${ic('check')}</button>`:''}</div></div>
   <div class="bar"><i style="width:${Math.round(Math.min(pg,n)/n*100)}%"></i></div>${inner}</div>${words}</div>`;
+  {const cd=m.querySelector('.mp-card');if(cd){if(pg<n){window.mlCardH=cd.offsetHeight;}else{   /* 마지막 화면: 앞·뒤 버튼이 다른 문장 화면과 같은 높이에 오도록 */
+    cd.style.minHeight=(window.mlCardH||0)+'px';cd.style.display='flex';cd.style.flexDirection='column';const rb=cd.querySelector('.rowb');if(rb)rb.style.marginTop='auto';}}}
   mlFitSent();mlSayMark();
   if(mailAlign){mailAlign=false;requestAnimationFrame(mlAlignTop);}
 }
@@ -3794,6 +3802,7 @@ const AUD_ICON={
 };
 /* 예문 표기: 漢字{よみ} → 한자 위에 히라가나(후리가나) */
 function audParse(mk){
+  mk=String(mk).replace(/\|/g,'');
   const out=[],re=/((?:[\u4e00-\u9fff々]+)|(?:[A-Za-z0-9][A-Za-z0-9 ]*))\{([^}]+)\}/y;let i=0;
   while(i<mk.length){re.lastIndex=i;const m=re.exec(mk);if(m){out.push({t:m[1],r:m[2]});i+=m[0].length;}else{out.push({t:mk[i]});i++;}}
   return out;
@@ -3804,6 +3813,9 @@ function audKata(a){   /* 가타카나 덩어리 위에 히라가나 읽기를 �
   o.forEach(x=>{if(x.kata)x.r=toHira(x.t);});return o;
 }
 function audRuby(mk,hl,mark){
+  /* 「|」로 직접 끊을 자리를 지정할 수 있음: お知{し}らせ|いただけます|でしょうか。 */
+  let hard=null;
+  if(String(mk).includes('|')){hard=new Set();let n=0;const ps=String(mk).split('|');ps.forEach((x,i)=>{if(i)hard.add(n);n+=audKata(audParse(x)).map(y=>y.t).join('').length;});mk=ps.join('');}
   const u=audKata(audParse(mk)),plain=u.map(x=>x.t).join('');let s=-1,e=-1;
   for(const c of (hl||[])){const k=plain.indexOf(c);if(k>=0){s=k;e=k+c.length;break;}}
   const hlOn=mark!==false;
@@ -3816,7 +3828,12 @@ function audRuby(mk,hl,mark){
   const KJ=/[\u4e00-\u9fff々]/,HI=/^[ぁ-ゖー]/,GLUE=/^[ゃゅょぁぃぅぇぉっんーゝゞ、。！？]/;
   const PART=/^(を|は|が|の|に|で|と|も|へ|や|から|まで|より|って|です|でした|ます|ました)$/;
   const glued=a=>{const prev=plain[a-1]||'',nx=plain.slice(a);return GLUE.test(nx)||PART.test(segAt[a]||'')||/^[をへ]/.test(nx)||(/^に/.test(nx)&&/[ぁ-ゖァ-ヶー\u4e00-\u9fff]/.test(prev)&&!/^(にほん|にち|にん|にゅう|にく)/.test(nx))||(KJ.test(prev)&&HI.test(nx)&&!/^[はがをにでとのもへや]/.test(nx));};   /* 한자 뒤 오쿠리가나(向け)·작은 글자·장음·문장부호 앞에서는 줄을 바꾸지 않음 */
-  const canBreak=a=>a>0&&(cuts.size?cuts.has(a):true)&&!(s>=0&&a>s&&a<e)&&!glued(a);
+  const segStart=Object.keys(segAt).map(Number).sort((x,y)=>x-y);
+  const prevSeg=a=>{let b=0;for(const x of segStart){if(x<a)b=x;else break;}return plain.slice(b,a);};
+  const HIR=/[ぁ-ゖ]/,JOSHI=/^(は|が|を|に|で|と|も|の|へ|や|から|まで|より|ね|よ|けど|ので|けれど)$/;
+  /* 히라가나끼리 이어진 곳은 앞 말이 조사일 때만 줄을 바꿈 (い|た|だけ 처럼 쪼개지지 않게). 「お/ご+한자」도 붙임 */
+  const softOk=a=>{const pc=plain[a-1]||'',nc=plain[a]||'';if(HIR.test(pc)&&HIR.test(nc))return JOSHI.test(prevSeg(a));if(/[おご]/.test(pc)&&KJ.test(nc)&&(a<2||!HIR.test(plain[a-2]||'')))return false;return true;};
+  const canBreak=a=>hard?(hard.has(a)&&!(s>=0&&a>s&&a<e)):a>0&&(cuts.size?cuts.has(a):true)&&!(s>=0&&a>s&&a<e)&&!glued(a)&&softOk(a);
   const groups=[];
   parts.forEach(p=>{if(!groups.length||canBreak(p.a))groups.push([]);groups[groups.length-1].push(p.h);});
   return groups.map(g=>`<span class="nw">${g.join('')}</span>`).join('');
@@ -4064,10 +4081,10 @@ function audRender(){
   $a('apA').hidden=sentOnly;$a('apB').hidden=!sentOnly;
   const hl=[...(w.alts||[]),w.k,toKata(w.k)];
   if(sentOnly){
-    $a('apCtxW').textContent=w.k;$a('apCtxK').textContent=disp!==w.k?disp:'';$a('apCtxM').textContent=w.m;
+    $a('apCtxW').textContent=kd(w.k);$a('apCtxK').textContent=disp!==w.k?disp:'';$a('apCtxM').textContent=w.m;
     $a('apSent').innerHTML=audRuby(ex[0],hl);$a('apSentKo').textContent=ex[1];
   }else{
-    $a('apHira').textContent=w.c==='문장'?w.sd:w.k;$a('apKanji').textContent=disp!==w.k?disp:'';$a('apPron').textContent=w.kana?'':pronOf(w);$a('apPron').style.display=w.kana?'none':'';   /* 글자(1음)는 한글 발음을 보여 주지 않음 */
+    $a('apHira').textContent=w.c==='문장'?w.sd:kd(w.k);$a('apKanji').textContent=disp!==w.k?disp:'';$a('apPron').textContent=w.kana?'':pronOf(w);$a('apPron').style.display=w.kana?'none':'';   /* 글자(1음)는 한글 발음을 보여 주지 않음 */
     $a('apRb').innerHTML=w.rb?audRuby(w.rb,[],false):'';$a('apA').classList.toggle('rbmode',!!w.rb);
     const mn=$a('apMean');mn.textContent=w.kana?'':w.m;mn.style.display=w.kana?'none':'';mn.style.visibility='';mn.className='ap-mean'+((AUD.step>=1||w.once)?'':' dim');   /* 쭉 1번 듣기에서도 한국어 뜻은 화면에 보임(소리는 안 읽음) */
     const show=AUD.opts.sent&&!!ex,exb=$a('apEx');exb.style.display=show?'':'none';
@@ -4089,7 +4106,7 @@ function audRenderList(){
   if(!AUD.player)return;
   const l=$a('apList');l.hidden=!AUD.listOpen;if(!AUD.listOpen)return;
   $a('apListSub').textContent=AUD.label+' · '+AUD.order.length+'개 · 눌러서 그 단어부터 듣기';
-  $a('apListBody').innerHTML=AUD.order.map((w,i)=>`<button class="ap-li${i===AUD.pos?' on':''}" data-aud="jump" data-i="${i}"><span class="n">${i+1}</span><span class="w">${w.k}${audDisp(w)!==w.k?` <small>${audDisp(w)}</small>`:''}</span><span class="m">${w.kana?'':w.m}</span></button>`).join('');
+  $a('apListBody').innerHTML=AUD.order.map((w,i)=>`<button class="ap-li${i===AUD.pos?' on':''}" data-aud="jump" data-i="${i}"><span class="n">${i+1}</span><span class="w">${kd(w.k)}${audDisp(w)!==w.k?` <small>${audDisp(w)}</small>`:''}</span><span class="m">${w.kana?'':w.m}</span></button>`).join('');
   const on=l.querySelector('.on');if(on&&on.scrollIntoView)on.scrollIntoView({block:'center'});
 }
 /* ---- 열기: 오디오 버튼을 누르면 바로 재생 ---- */
@@ -4242,8 +4259,8 @@ function renderBook(m){
   const who=i=>U.who?U.who[i]:names[i%2],side=i=>U.who?(U.who[i]==='チョン'?'r':'l'):(i%2?'r':'l');
   const cuts=[0,...(U.scenes||[]),B.dlg.length];
   const dlg=cuts.slice(1).map((e,j)=>`<div class="bk-pair">${B.dlg.slice(cuts[j],e).map((k,x)=>{const i=cuts[j]+x;return bkBub(bkW(k),side(i),who(i));}).join('')}</div>`).join('');
-  const words=U.words.map(([k,mm,note])=>{const w=bkW(k);const kata=(U.kata||{})[k];const jp=kata||(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
-  const rev=B.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${w.k}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
+  const words=U.words.map(([k,mm,note])=>{const w=bkW(k);const kata=(U.kata||{})[k];const jp=kata||kd(w.k?w.k:k);const meaning=mm||w.m;return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${jp}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${meaning}${note?` <small>· ${note}</small>`:''}</div></div>${bkSp(kata||(w.sp||k.replace('〜','')))}</div>`;}).join('');
+  const rev=B.rev.map(k=>{const w=bkW(k);return `<div class="bk-row"><div class="bk-t"><span class="bk-jp" lang="ja">${kd(w.k)}</span>${showKanji(w)?`<span class="bk-kj" lang="ja">${showKanji(w)}</span>`:''}<div class="bk-m">${w.m}</div></div>${bkSp(w.sp||w.k)}</div>`;}).join('');
   m.innerHTML=`<div class="bk">${sec('pt','오늘의 포인트',U.ptSub,pts,'숫자')}${sec('pat','문형',B.pat.length+'개',pat,'문형')}${sec('ex','예문','질문과 대답 '+exs.length+'쌍',ex,'예문')}${sec('dlg','회화',U.dlgSub,dlg,'회화')}${sec('word','단어',U.words.length+'개',words,'단어')}${sec('rev','복습 읽기',B.rev.length+'개',rev,'복습')}</div>`;
   ensureDictTop();dictOnScroll();
 }
@@ -4394,7 +4411,7 @@ function dictBase(){
 function dictList(noFav){const b=dictBase();return (dictFav&&!noFav)?b.filter(w=>isStar(w.k)):b;}
 function dictItem(w){
   const kj=showKanji(w),sub=kj||(w.kana?'':toKata(w.k)),on=isStar(w.k);
-  return `<div class="dict-item" data-dk="${w.k}"><button class="di-main" data-dopen="${w.k}" type="button"><span class="di-e" aria-hidden="true">${w.e||''}</span><span class="di-t"><span class="di-k">${w.k}</span>${sub?`<span class="di-s">${sub}</span>`:''}<span class="di-m">${w.m||''}</span></span></button><button class="di-star${on?' on':''}" data-dstar="${w.k}" aria-pressed="${on}" aria-label="즐겨찾기" type="button"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><span class="di-go" aria-hidden="true">${ic('next')}</span></div>`;
+  return `<div class="dict-item" data-dk="${w.k}"><button class="di-main" data-dopen="${w.k}" type="button"><span class="di-e" aria-hidden="true">${w.e||''}</span><span class="di-t"><span class="di-k">${kd(w.k)}</span>${sub?`<span class="di-s">${sub}</span>`:''}<span class="di-m">${w.m||''}</span></span></button><button class="di-star${on?' on':''}" data-dstar="${w.k}" aria-pressed="${on}" aria-label="즐겨찾기" type="button"><svg viewBox="0 0 24 24" aria-hidden="true">${STAR_P}</svg></button><span class="di-go" aria-hidden="true">${ic('next')}</span></div>`;
 }
 function dictChipsUpdate(all){
   const el=$('#dchips');if(!el)return;
@@ -4684,8 +4701,8 @@ function render(){
   const hot=phase==='nomic'||(noSound.i===idx&&noSound.c>=2);
   const eyeB=sb('reveal','eye','정답 보기',hot?'hot':'');
   const micMain=`<button class="mic" data-act="listen" aria-label="${(Q&&qm==='k2j')||JS?'말하기 (마이크)':'읽기 (마이크)'}">${ui('mic',36)}</button>`;
-  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}${w.c==='문장'?' sm':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${ja?((W.find(x=>x.k===o)||{}).sd||o):o}</span><span class="sp"></span></button>`).join('')}</div>`;
-  const instr=w.kana?['같은 글자를 3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n<=2?['3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n===3?['2번 이어서 읽어보세요',`${w.k}　${w.k}`]:['소리 내어 읽어보세요',''];
+  const optsHtml=(arr,ja)=>`<div class="opts${ja?' ja':''}${w.c==='문장'?' sm':''}">${(arr||[]).map((o,i)=>`<button class="opt" data-act="opt" data-i="${i}"><span class="n">${i+1}</span><span class="t">${ja?((W.find(x=>x.k===o)||{}).sd||kd(o)):o}</span><span class="sp"></span></button>`).join('')}</div>`;
+  const instr=w.kana?['같은 글자를 3번 이어서 읽어보세요',`${w.k}　${w.k}　${w.k}`]:w.n<=2?['3번 이어서 읽어보세요',`${kd(w.k)}　${kd(w.k)}　${kd(w.k)}`]:w.n===3?['2번 이어서 읽어보세요',`${kd(w.k)}　${kd(w.k)}`]:['소리 내어 읽어보세요',''];
   let body='';
   if(BL&&phase==='ask'){
     body=`<div class="qz qs"><div class="mean">${w.m}</div></div><div class="sentbox s4" lang="ja">${w.bl.t}</div><div class="status" id="status">알맞은 말을 골라주세요</div>${optsHtml(qopts[idx],false)}${rowB(eyeB)}`;
@@ -4704,7 +4721,11 @@ function render(){
   }else if(phase==='ask'||phase==='nomic'){
     body=`${boxes(w)}<div class="status" id="status">${msg||instr[0]}</div>${msg||!instr[1]?'':`<div class="status2">${instr[1]}</div>`}${phase==='ask'?rowA(micMain):''}${rowB(eyeB)}`;
   }else if(phase==='listening'){
-    body=`${Q&&qm==='k2j'?quizPrompt(w):boxes(w)}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>${rowA(`<button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button>`)}<div class="mic-cap">다 말했으면 탭하세요</div>${rowB(eyeB)}`;
+    /* 들려줄 때(ask)와 따라 읽을 때(listening)는 글자 모양·위치·버튼이 똑같아야 함 */
+    const l4s=w.l4&&!Q&&!JS&&!KC;
+    const lp=Q&&qm==='k2j'?(dlgQ?dgThread(w,'ask'):quizPrompt(w)):(l4s?`<div class="sentbox s4" lang="ja">${s4Html(w)}</div><div class="s4m">${w.m}</div>`:boxes(w));
+    const lx=(!JS&&!(Q&&qm==='k2j')&&!l4s&&!KC&&instr[1])?`<div class="status2">${instr[1]}</div>`:'';
+    body=`${lp}<div class="status" id="status">마이크를 켜는 중이에요… 켜지면 말해주세요</div>${lx}${rowA(`<button class="mic live" data-act="stop" aria-label="다 말했으면 탭하세요">${ui('mic',36)}</button>`)}<div class="mic-cap">다 말했으면 탭하세요</div>${rowB(l4s?sb('speak','volume','듣기'):eyeB)}`;
   }else if(phase==='reveal'){
     body=`${dlgQ?dgThread(w,'reveal'):answer(w)+exPanel(w)}<div class="ask-grade">${Q?'맞게 답했나요?':'맞게 읽었나요?'}</div><div class="gpair">${sb('mng','x','틀렸어요','ng')}${sb('mok','check','맞았어요','ok')}</div>${rowB(`<button class="mic rt" data-act="retryq" aria-label="다시 하기">${ui('refresh',32)}</button>`)}`;
   }else if(phase==='result'){
